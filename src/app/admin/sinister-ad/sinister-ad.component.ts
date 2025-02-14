@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
 import { SinistersService, Sinister } from 'src/app/services/sinisters.service'; // Adjust path as needed
 import * as $ from 'jquery';
 import 'datatables.net';
@@ -9,6 +8,7 @@ import 'datatables.net-buttons/js/buttons.print.min.js';
 import 'jszip';
 import 'pdfmake';
 import 'pdfmake/build/vfs_fonts';
+
 
 @Component({
   selector: 'app-sinister-ad',
@@ -20,7 +20,7 @@ export class SinisterADComponent implements AfterViewInit {
   dataTable: any;
   sinisters: Sinister[] = [];
 
-  constructor(private sinistersService: SinistersService, private router: Router) {}
+  constructor(private sinistersService: SinistersService) {}
 
   ngAfterViewInit() {
     this.loadSinisters();
@@ -42,28 +42,21 @@ export class SinisterADComponent implements AfterViewInit {
     if ($.fn.DataTable.isDataTable(this.table.nativeElement)) {
       $(this.table.nativeElement).DataTable().destroy();
     }
-  
+
     this.dataTable = $(this.table.nativeElement).DataTable({
       data: this.sinisters,
       columns: [
         { 
-          title: 'Date of Incident', 
-          data: 'dateOfIncident', 
-          render: (data: any) => new Date(data).toLocaleDateString() 
+          title: 'Date of Incident',
+          data: 'dateOfIncident',
+          render: (data: any) => {
+            return new Date(data).toLocaleDateString();
+          }
         },
         { title: 'Description', data: 'description' },
-        { title: 'Type Insurance', data: 'typeInsurance' },
-        { title: 'Location', data: 'location' },
         { title: 'Status', data: 'status' },
-        { 
-          title: 'Actions',
-          data: 'id',
-          render: (data: any) => `
-            <button class="btn btn-sm btn-primary btn-display" data-id="${data}">Display</button>
-            <button class="btn btn-sm btn-warning btn-update" data-id="${data}">Update</button>
-            <button class="btn btn-sm btn-danger btn-delete" data-id="${data}">Delete</button>
-          `
-        }
+        { title: 'Location', data: 'location' },
+        { title: 'Type Insurance', data: 'typeInsurance' }
       ],
       dom: 'Bfrtip',
       buttons: [
@@ -76,66 +69,16 @@ export class SinisterADComponent implements AfterViewInit {
       paging: false,
       searching: true,
       initComplete: () => {
-        $('.dt-search').remove();
+        $('.dt-search').remove(); // Remove default search box
         this.setupCustomSearch();
       }
     });
-  
-    this.setupButtonClickHandlers();
-    
   }
-  private setupButtonClickHandlers() {
-    const self = this;
-  
-    $(document).on('click', '.btn-display', function () {
-      const id = $(this).data('id');
-      self.router.navigate([`/admin/sinister/display`, id]);  // ✅ Fix here
-    });
-  
-    $(document).on('click', '.btn-update', function () {
-      const id = $(this).data('id');
-      self.router.navigate([`/admin/sinister/update`, id]);  // ✅ Fix here
-    });
-  
-    $(document).on('click', '.btn-delete', function () {
-      const id = $(this).data('id');
-      self.deleteSinister(id);
-    });
-  }
-  
-  
+
   private setupCustomSearch() {
-    $('#search').off('keyup').on('keyup', (event) => {
-      const searchValue = (event.target as HTMLInputElement).value;
+    $('#search').on('keyup', () => {
+      const searchValue = $('#search').val() as string;
       this.dataTable.search(searchValue).draw();
-    });
-  
-    // Ensure input is not disabled
-    $('#search').prop('disabled', false);
-  }
-  
-
-  // Navigation methods
-  navigateToCreate() {
-    this.router.navigate(['/sinister/create']);
-  }
-
-  navigateToDisplay(id: number) {
-    this.router.navigate(['/sinister/display', id]);
-  }
-
-  navigateToUpdate(id: number) {
-    this.router.navigate(['/sinister/update', id]);
-  }
-
-  deleteSinister(id: number) {
-    this.sinistersService.deleteSinister(id).subscribe({
-      next: () => {
-        this.loadSinisters(); // Refresh the table data
-      },
-      error: (error) => {
-        console.error('Delete error:', error);
-      }
     });
   }
 }

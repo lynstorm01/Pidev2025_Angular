@@ -10,20 +10,8 @@ export interface Sinister {
   location: string;
   evidenceFiles: string;
   typeInsurance: string;
-  
-  
 }
-export interface SinisterDetail {
-  id: number;
-  location: string;
-  agentID: string;
-  clientID: string;
-  description: string;
-  reportedDate: Date;
-  status: string;
-  evidenceFiles: string;
-  estimatedDamageCost: number;
-}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -32,14 +20,7 @@ export class SinistersService {
 
   constructor(private http: HttpClient) { }
 
-  // Existing methods
-  getSinisters(): Observable<Sinister[]> {
-    const headers = new HttpHeaders({
-      'Authorization': 'Basic YWRtaW46YWRtaW4xMjM='
-    });
-    return this.http.get<Sinister[]>(this.apiUrl, { headers });
-  }
-
+  // Existing create method
   createClaim(claim: any, file: File): Observable<any> {
     const formData = new FormData();
     formData.append('description', claim.description);
@@ -54,34 +35,12 @@ export class SinistersService {
     return this.http.post(`${this.apiUrl}/create`, formData, { headers, responseType: 'text' });
   }
 
-  // New methods
-  getSinisterById(id: number): Observable<Sinister> {
+  // New method to fetch all sinisters
+  getSinisters(): Observable<Sinister[]> {
     const headers = new HttpHeaders({
       'Authorization': 'Basic YWRtaW46YWRtaW4xMjM='
     });
-    return this.http.get<Sinister>(`${this.apiUrl}/${id}`, { headers });
-  }
 
-  updateSinister(id: number, sinister: Sinister): Observable<Sinister> {
-    const headers = new HttpHeaders({
-      'Authorization': 'Basic YWRtaW46YWRtaW4xMjM=',
-      'Content-Type': 'application/json' // Ensure JSON is sent
-    });
-  
-    return this.http.put<Sinister>(`${this.apiUrl}/${id}`, sinister, { headers });
-  }
-  
-
-  deleteSinister(id: number): Observable<any> {
-    const headers = new HttpHeaders({
-      'Authorization': 'Basic YWRtaW46YWRtaW4xMjM='
-    });
-    return this.http.delete(`${this.apiUrl}/${id}`, { headers });
-  }
-  getSinisterDetailsBySinisterId(id: number): Observable<SinisterDetail[]> {
-    const headers = new HttpHeaders({
-      'Authorization': 'Basic YWRtaW46YWRtaW4xMjM='
-    });
-    return this.http.get<SinisterDetail[]>(`${this.apiUrl}/${id}/details`, { headers });
+    return this.http.get<Sinister[]>(this.apiUrl, { headers });
   }
 }
