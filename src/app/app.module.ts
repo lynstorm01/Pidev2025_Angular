@@ -23,7 +23,7 @@ import { RouterLink } from '@angular/router';
 import { MatSelectModule } from '@angular/material/select'; // ✅ Import MatSelectModule
 import { MatOptionModule } from '@angular/material/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -34,7 +34,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     DashboardComponent,
     OffresComponent,
     HomeComponent,
-    HistorComponent
+    HistorComponent,
+    CreateSinComponent
   ],
   imports: [
     BrowserModule,
@@ -56,7 +57,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatIconModule,
     RouterLink,
     MatIconModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    HttpClientModule
+    
   ],
   providers: [],
   bootstrap: [AppComponent]
