@@ -10,6 +10,20 @@ import { OffresComponent } from './admin/offres/offres.component';
 import { FooterComponent } from './front/footer/footer.component';
 import { HeaderComponent } from './front/header/header.component';
 import { HomeComponent } from './front/home/home.component';
+import { CreateSinComponent } from './front/Sinister/create-sin/create-sin.component';
+import { HistorComponent } from './front/Sinister/histor/histor.component';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { MatSelectModule } from '@angular/material/select'; // ✅ Import MatSelectModule
+import { MatOptionModule } from '@angular/material/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
@@ -19,11 +33,30 @@ import { HomeComponent } from './front/home/home.component';
     AdminComponent,
     DashboardComponent,
     OffresComponent,
-    HomeComponent
+    HomeComponent,
+    HistorComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    CommonModule,
+    ReactiveFormsModule,
+    MatStepperModule,
+    MatInputModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    CommonModule,
+    ReactiveFormsModule,
+    MatStepperModule,
+    MatInputModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatSelectModule, // ✅ Add MatSelectModule
+    MatOptionModule, // ✅ Add MatOptionModule
+    MatIconModule,
+    RouterLink,
+    MatIconModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

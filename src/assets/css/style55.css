@@ -358,8 +358,7 @@ body {
 .w-100 { width: 100%; }
 
 [data-section] > * {
-  transform: translateY(100px);
-  opacity: 0;
+
   transition: var(--transition-3);
 }
 
