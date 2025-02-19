@@ -4,12 +4,19 @@ import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { HomeComponent } from './front/home/home.component';
 import { CreateSinComponent } from './front/Sinister/create-sin/create-sin.component';
 import { SinisterADComponent } from './admin/sinister-ad/sinister-ad.component';
+import { SinistercreateComponent } from './admin/sinister-ad/sinistercreate/sinistercreate.component';
+import { SinisterupdateComponent } from './admin/sinister-ad/sinisterupdate/sinisterupdate.component';
+import { SinisterdisplayComponent } from './admin/sinister-ad/sinisterdisplay/sinisterdisplay.component';
 
 const routes: Routes = [
 
   { path: 'create', component: CreateSinComponent },
   { path: 'admin', component: DashboardComponent, children: [
-    { path: 'sinister', component: SinisterADComponent}
+    { path: 'sinister', component: SinisterADComponent},
+    { path: 'sinister/create', component: SinistercreateComponent },
+    { path: 'sinister/update/:id', component: SinisterupdateComponent },
+    { path: 'sinister/display/:id', component: SinisterdisplayComponent },
+
     // Ajoute d'autres routes pour les autres composants CRUD ici
 ]},
 { path: 'home', component: HomeComponent, children: [
