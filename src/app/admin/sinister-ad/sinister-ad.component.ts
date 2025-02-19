@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { SinistersService, Sinister } from 'src/app/services/sinisters.service'; // Adjust path as needed
 import * as $ from 'jquery';
 import 'datatables.net';
 import 'datatables.net-buttons';
@@ -8,36 +9,55 @@ import 'jszip';
 import 'pdfmake';
 import 'pdfmake/build/vfs_fonts';
 
+
 @Component({
   selector: 'app-sinister-ad',
   templateUrl: './sinister-ad.component.html',
   styleUrls: ['./sinister-ad.component.css']
 })
 export class SinisterADComponent implements AfterViewInit {
- 
   @ViewChild('example23', { static: false }) table!: ElementRef;
   dataTable: any;
+  sinisters: Sinister[] = [];
+
+  constructor(private sinistersService: SinistersService) {}
 
   ngAfterViewInit() {
-    this.initializeDataTable();
+    this.loadSinisters();
+  }
 
-    // Ensure search binds after the table is initialized
-    setTimeout(() => {
-      this.setupCustomSearch();
-    }, 500);
-    
+  private loadSinisters() {
+    this.sinistersService.getSinisters().subscribe({
+      next: (data) => {
+        this.sinisters = data;
+        this.initializeDataTable();
+      },
+      error: (error) => {
+        console.error('Error fetching sinisters:', error);
+      }
+    });
   }
 
   private initializeDataTable() {
-    // Check if the DataTable is already initialized
     if ($.fn.DataTable.isDataTable(this.table.nativeElement)) {
-      // If already initialized, destroy it first to reinitialize
-      this.dataTable = $(this.table.nativeElement).DataTable();
-      this.dataTable.destroy(); // Destroy the previous instance
+      $(this.table.nativeElement).DataTable().destroy();
     }
-  
-    // Initialize the DataTable
+
     this.dataTable = $(this.table.nativeElement).DataTable({
+      data: this.sinisters,
+      columns: [
+        { 
+          title: 'Date of Incident',
+          data: 'dateOfIncident',
+          render: (data: any) => {
+            return new Date(data).toLocaleDateString();
+          }
+        },
+        { title: 'Description', data: 'description' },
+        { title: 'Status', data: 'status' },
+        { title: 'Location', data: 'location' },
+        { title: 'Type Insurance', data: 'typeInsurance' }
+      ],
       dom: 'Bfrtip',
       buttons: [
         { extend: 'copy', text: 'Copy', className: 'btn btn-primary' },
@@ -46,14 +66,15 @@ export class SinisterADComponent implements AfterViewInit {
         { extend: 'pdf', text: 'PDF', className: 'btn btn-primary' },
         { extend: 'print', text: 'Print', className: 'btn btn-primary' }
       ],
-      paging: false, // Disable pagination
-      searching: true, // Enable default search box
-      initComplete: function () {
-        $('.dt-search').remove(); // Remove search bar by ID
+      paging: false,
+      searching: true,
+      initComplete: () => {
+        $('.dt-search').remove(); // Remove default search box
+        this.setupCustomSearch();
       }
     });
   }
-  
+
   private setupCustomSearch() {
     $('#search').on('keyup', () => {
       const searchValue = $('#search').val() as string;
