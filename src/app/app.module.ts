@@ -40,6 +40,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { provideOAuthClient, OAuthService } from 'angular-oauth2-oidc';
 import { CookieService } from 'ngx-cookie-service';
+import { AppointmentsComponent } from './admin/appointments/appointments.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { CookieService } from 'ngx-cookie-service';
     SignUpComponent,
     SignInComponent,
     ArchivedComponent,
-    SinisterDetailsComponent
+    SinisterDetailsComponent,
+    AppointmentsComponent
   ],
   imports: [
     FormsModule,

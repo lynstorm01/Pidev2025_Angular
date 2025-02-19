@@ -18,11 +18,13 @@ import { HistorComponent } from './front/Sinister/histor/histor.component';
 import { ArchivedComponent } from './admin/sinister-ad/archived/archived.component';
 import { SinisterDetailsComponent } from './front/Sinister/sinister-details/sinister-details.component';
 
+import { AppointmentsComponent } from './admin/appointments/appointments.component'; // Vérifie le chemin
 const routes: Routes = [
   { path: 'view-file', component: FileViewerComponent },
   { path: 'sinister/:id', component: SinisterdisplayComponent },
   { path: 'signin', component: SignInComponent },
   { path: 'signup', component: SignUpComponent },
+
 
 
   { path: 'create', component: CreateSinComponent},
