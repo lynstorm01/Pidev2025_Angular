@@ -40,7 +40,11 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { provideOAuthClient, OAuthService } from 'angular-oauth2-oidc';
 import { CookieService } from 'ngx-cookie-service';
-import { AppointmentsComponent } from './admin/appointments/appointments.component';
+
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router'; // Correction ici
+import { AppointmentListComponent } from './components/appointment-list/appointment-list.component';
+import { AppointmentFormComponent } from './components/appointment-form/appointment-form.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +67,8 @@ import { AppointmentsComponent } from './admin/appointments/appointments.compone
     SignInComponent,
     ArchivedComponent,
     SinisterDetailsComponent,
-    AppointmentsComponent
+    AppointmentListComponent,
+    AppointmentFormComponent
   ],
   imports: [
     FormsModule,

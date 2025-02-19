@@ -1,3 +1,4 @@
+// src/app/app-routing.module.ts
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
@@ -18,7 +19,7 @@ import { HistorComponent } from './front/Sinister/histor/histor.component';
 import { ArchivedComponent } from './admin/sinister-ad/archived/archived.component';
 import { SinisterDetailsComponent } from './front/Sinister/sinister-details/sinister-details.component';
 
-import { AppointmentsComponent } from './admin/appointments/appointments.component'; // Vérifie le chemin
+
 const routes: Routes = [
   { path: 'view-file', component: FileViewerComponent },
   { path: 'sinister/:id', component: SinisterdisplayComponent },
