@@ -1,0 +1,18 @@
+<div class="card">
+    <div class="card-body">
+      <h2 class="card-title">Sinister Details</h2>
+      <div class="row">
+        <div class="col-md-6">
+          <p><strong>Date of Incident:</strong> {{ sinister.dateOfIncident | date }}</p>
+          <p><strong>Description:</strong> {{ sinister.description }}</p>
+          <p><strong>Status:</strong> {{ sinister.status }}</p>
+        </div>
+        <div class="col-md-6">
+          <p><strong>Location:</strong> {{ sinister.location }}</p>
+          <p><strong>Type Insurance:</strong> {{ sinister.typeInsurance }}</p>
+          <p><strong>Evidence File:</strong> {{ sinister.evidenceFiles }}</p>
+        </div>
+      </div>
+      <button class="btn btn-secondary" (click)="goBack()">Back to List</button>
+    </div>
+  </div>

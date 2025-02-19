@@ -20,7 +20,14 @@ export class SinistersService {
 
   constructor(private http: HttpClient) { }
 
-  // Existing create method
+  // Existing methods
+  getSinisters(): Observable<Sinister[]> {
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic YWRtaW46YWRtaW4xMjM='
+    });
+    return this.http.get<Sinister[]>(this.apiUrl, { headers });
+  }
+
   createClaim(claim: any, file: File): Observable<any> {
     const formData = new FormData();
     formData.append('description', claim.description);
@@ -35,12 +42,28 @@ export class SinistersService {
     return this.http.post(`${this.apiUrl}/create`, formData, { headers, responseType: 'text' });
   }
 
-  // New method to fetch all sinisters
-  getSinisters(): Observable<Sinister[]> {
+  // New methods
+  getSinisterById(id: number): Observable<Sinister> {
     const headers = new HttpHeaders({
       'Authorization': 'Basic YWRtaW46YWRtaW4xMjM='
     });
+    return this.http.get<Sinister>(`${this.apiUrl}/${id}`, { headers });
+  }
 
-    return this.http.get<Sinister[]>(this.apiUrl, { headers });
+  updateSinister(id: number, sinister: Sinister): Observable<Sinister> {
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic YWRtaW46YWRtaW4xMjM=',
+      'Content-Type': 'application/json' // Ensure JSON is sent
+    });
+  
+    return this.http.put<Sinister>(`${this.apiUrl}/${id}`, sinister, { headers });
+  }
+  
+
+  deleteSinister(id: number): Observable<void> {
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic YWRtaW46YWRtaW4xMjM='
+    });
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers });
   }
 }
