@@ -4,9 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { AdminComponent } from './admin/admin.component';
+
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
-import { OffresComponent } from './admin/offres/offres.component';
 import { FooterComponent } from './front/footer/footer.component';
 import { HeaderComponent } from './front/header/header.component';
 import { HomeComponent } from './front/home/home.component';
@@ -24,18 +23,18 @@ import { MatSelectModule } from '@angular/material/select'; // ✅ Import MatSel
 import { MatOptionModule } from '@angular/material/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { SinisterADComponent } from './admin/sinister-ad/sinister-ad.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FooterComponent,
     HeaderComponent,
-    AdminComponent,
     DashboardComponent,
-    OffresComponent,
     HomeComponent,
     HistorComponent,
-    CreateSinComponent
+    CreateSinComponent,
+    SinisterADComponent
   ],
   imports: [
     BrowserModule,
