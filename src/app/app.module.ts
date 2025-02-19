@@ -24,6 +24,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { SinisterADComponent } from './admin/sinister-ad/sinister-ad.component';
+import { AppointmentsComponent } from './admin/appointments/appointments.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { SinisterADComponent } from './admin/sinister-ad/sinister-ad.component';
     HomeComponent,
     HistorComponent,
     CreateSinComponent,
-    SinisterADComponent
+    SinisterADComponent,
+    AppointmentsComponent
   ],
   imports: [
     BrowserModule,
