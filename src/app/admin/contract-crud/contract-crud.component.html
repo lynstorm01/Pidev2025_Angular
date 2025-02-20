@@ -288,8 +288,11 @@
                         >
                           Delete
                         </button>
-                     
-                        
+                        <button
+                        class="btn btn-sm btn-info btn-fixed-size"
+                        (click)="downloadPDF(contract)">
+                        PDF
+                      </button>                        
                       </td>
                     </tr>
                     <tr *ngIf="contracts.length === 0">

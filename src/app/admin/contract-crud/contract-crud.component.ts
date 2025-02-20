@@ -2,6 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ContractService, Contract } from '../../services/contract.service';
 //import jsPDF from 'jspdf';
+import * as pdfMake from 'pdfmake/build/pdfmake';
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+import 'pdfmake';
+
+
+(pdfMake as any).vfs = pdfFonts.vfs;
 
 @Component({
   selector: 'app-contract-crud',
@@ -168,6 +174,97 @@ export class ContractCrudComponent implements OnInit {
     this.message = '';
   }
  
+// EXAMPLE: Generate PDF for a single contract
+downloadPDF(contract: Contract): void {
+  // Customize the document definition
+  const docDefinition: any = {
+    content: [
+      {
+        text: 'Contract Details',
+        style: 'header'
+      },
+      {
+        columns: [
+          {
+            width: '50%',
+            text: `Contract Number: ${contract.contractNumber}`
+          },
+          {
+            width: '50%',
+            text: `Status: ${contract.status}`,
+            alignment: 'right'
+          }
+        ],
+        margin: [0, 10, 0, 10]
+      },
+      {
+        text: 'Dates',
+        style: 'subheader'
+      },
+      {
+        columns: [
+          {
+            width: '50%',
+            text: `Start Date: ${contract.startDate}`
+          },
+          {
+            width: '50%',
+            text: `End Date: ${contract.endDate}`,
+            alignment: 'right'
+          }
+        ],
+        margin: [0, 0, 0, 10]
+      },
+      {
+        text: 'Property Details',
+        style: 'subheader'
+      },
+      {
+        table: {
+          headerRows: 1,
+          widths: ['*', '*'],
+          body: [
+            [{ text: 'Field', bold: true }, { text: 'Value', bold: true }],
+            ['Address', contract.property.address],
+            ['Area', contract.property.area.toString()],
+            ['Property Type', contract.property.propertyType],
+            ['Value', contract.property.value.toString()]
+          ]
+        },
+        layout: 'lightHorizontalLines',
+        margin: [0, 0, 0, 10]
+      },
+      // You can add more content here if needed...
+     
+      
+    ],
+    styles: {
+      header: {
+        fontSize: 22,
+        bold: true,
+        alignment: 'center',
+        margin: [0, 0, 0, 10]
+      },
+      subheader: {
+        fontSize: 16,
+        bold: true,
+        margin: [0, 10, 0, 5]
+      }
+    },
+    footer: (currentPage: number, pageCount: number) => {
+      return {
+        text: `Page ${currentPage} of ${pageCount}`,
+        alignment: 'center',
+        margin: [0, 10, 0, 0]
+      };
+    }
+  };
+
+  // Create and download the PDF
+  pdfMake.createPdf(docDefinition).download(`Contract_${contract.contractNumber}.pdf`);
+}
+
+
 
   // ... your remaining methods
 }
