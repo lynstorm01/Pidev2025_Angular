@@ -72,11 +72,11 @@ export class SinistersService {
   }
   
 
-  deleteSinister(id: number): Observable<void> {
+  deleteSinister(id: number): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': 'Basic YWRtaW46YWRtaW4xMjM='
     });
-    return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers });
+    return this.http.delete(`${this.apiUrl}/${id}`, { headers });
   }
   getSinisterDetailsBySinisterId(id: number): Observable<SinisterDetail[]> {
     const headers = new HttpHeaders({

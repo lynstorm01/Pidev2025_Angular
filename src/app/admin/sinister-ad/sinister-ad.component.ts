@@ -129,15 +129,13 @@ export class SinisterADComponent implements AfterViewInit {
   }
 
   deleteSinister(id: number) {
-    if (confirm('Are you sure you want to delete this sinister?')) {
-      this.sinistersService.deleteSinister(id).subscribe({
-        next: () => {
-          this.loadSinisters(); // Reload data after deletion
-        },
-        error: (error) => {
-          console.error('Error deleting sinister:', error);
-        }
-      });
-    }
+    this.sinistersService.deleteSinister(id).subscribe({
+      next: () => {
+        this.loadSinisters(); // Refresh the table data
+      },
+      error: (error) => {
+        console.error('Delete error:', error);
+      }
+    });
   }
 }
