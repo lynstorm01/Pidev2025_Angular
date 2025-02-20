@@ -1,1 +1,30 @@
-<p>sinister-ad works!</p>
+<div class="card">
+    <div class="card-body">
+      <h1 class="card-subtitle">Sinisters</h1>
+  
+      <!-- Create Button -->
+      <button class="btn btn-primary mb-3" routerLink="/create">Create New Sinister</button>
+  
+      <!-- Custom Search Box -->
+      <input type="text" id="search" class="form-control mb-3" placeholder="Search & enter">
+  
+      <!-- Data Table -->
+      <div class="table-responsive">
+        <table #example23 id="example23" class="display nowrap table table-hover table-striped table-bordered">
+          <thead>
+            <tr>
+              <th>Date of Incident</th>
+              <th>Description</th>
+              <th>Status</th>
+              <th>Location</th>
+              <th>Type Insurance</th>
+              <th>Actions</th> <!-- New column for actions -->
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Data will be populated by DataTables -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
