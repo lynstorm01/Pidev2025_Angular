@@ -42,9 +42,7 @@ import { provideOAuthClient, OAuthService } from 'angular-oauth2-oidc';
 import { CookieService } from 'ngx-cookie-service';
 
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router'; // Correction ici
-import { AppointmentListComponent } from './components/appointment-list/appointment-list.component';
-import { AppointmentFormComponent } from './components/appointment-form/appointment-form.component';
+import { RouterModule } from '@angular/router'; // Pour utiliser RouterLink
 
 @NgModule({
   declarations: [
@@ -66,9 +64,7 @@ import { AppointmentFormComponent } from './components/appointment-form/appointm
     SignUpComponent,
     SignInComponent,
     ArchivedComponent,
-    SinisterDetailsComponent,
-    AppointmentListComponent,
-    AppointmentFormComponent
+    SinisterDetailsComponent
   ],
   imports: [
     FormsModule,
