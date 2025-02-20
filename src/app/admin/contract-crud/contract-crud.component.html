@@ -16,14 +16,13 @@
                 </div>
               </div>
               <!-- Cancel Button (only shows in Edit mode) -->
-    <button
-*ngIf="selectedContract"
-type="button"
-class="cancel-btn"
-(click)="cancelEdit()"  
->
-Cancel
-</button>
+<div class="text-center">
+  <button *ngIf="selectedContract"
+  type="button" class="cancel-btn" (click)="cancelEdit()">
+    Cancel
+  </button>
+</div>
+
               <div class="card-body px-lg-5 py-lg-5">
                 <form [formGroup]="contractForm" (ngSubmit)="onSubmit()">
                   
@@ -33,7 +32,7 @@ Cancel
                     <div class="input-group input-group-alternative">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          <i class="ni ni-archive-2"></i>
+                          <i class="fa fa-id-card"></i>
                         </span>
                       </div>
                       <input
@@ -57,7 +56,7 @@ Cancel
                     <div class="input-group input-group-alternative">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          <i class="ni ni-calendar-grid-58"></i>
+                          <i class="fa fa-calendar"></i>
                         </span>
                       </div>
                       <input
@@ -80,7 +79,7 @@ Cancel
                     <div class="input-group input-group-alternative">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          <i class="ni ni-calendar-grid-58"></i>
+                          <i class="fa fa-calendar"></i>
                         </span>
                       </div>
                       <input
@@ -145,8 +144,8 @@ Cancel
                       <div class="input-group input-group-alternative">
                         <div class="input-group-prepend">
                           <span class="input-group-text">
-                            <i class="ni ni-building"></i>
-                          </span>
+                            <i class="fa fa-map-marker-alt"></i>
+                                                  </span>
                         </div>
                         <input
                           id="address"
@@ -165,6 +164,7 @@ Cancel
                     <!-- AREA -->
                     <div class="form-group">
                       <label for="area">Area</label>
+                      
                       <input
                         id="area"
                         formControlName="area"
@@ -229,21 +229,31 @@ Cancel
               </div>
             </div>
   <!-- Search Bar -->
-          <div class="form-group">
-                <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Search by Contract Number"
-                    [(ngModel)]="searchTerm"
-                    (ngModelChange)="onSearchChange()"
-    />
-          </div>
+  <div class="form-group">
+    <div class="input-group">
+      <!-- Icon Prepend -->
+      <div class="input-group-prepend">
+        <span class="input-group-text">
+          <i class="fa fa-search"></i>
+        </span>
+      </div>
+      <!-- Search Input -->
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Search by Contract Number"
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="onSearchChange()"
+      />
+    </div>
+  </div>
+  
   
   
             <!-- TABLE OF CONTRACTS -->
             <div class="card bg-secondary shadow border-0 mt-4">
-              <div class="card-header bg-white">
-                <h5 class="text-center">List of Contracts</h5>
+              <div class="my-header">
+                <h2 class="text-center">List of Contracts</h2>
               </div>
               <div class="card-body">
                 <div *ngIf="isLoading" class="text-center">
