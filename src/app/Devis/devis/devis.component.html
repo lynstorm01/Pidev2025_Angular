@@ -1,0 +1,54 @@
+<div class="devis-container">
+    <!-- Titre principal -->
+    <h2 class="container-title">Ajouter/Modifier Devis</h2>
+  
+    <div class="form-container">
+      <form [formGroup]="devisForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="nomClient">Nom du Client</label>
+          <input id="nomClient" formControlName="nomClient" class="form-control" />
+          <div *ngIf="devisForm.controls['nomClient'].invalid && devisForm.controls['nomClient'].touched" class="error-message">
+            Nom du Client is required (between 2 and 100 characters).
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label for="typeAssurance">Type d'Assurance</label>
+          <input id="typeAssurance" formControlName="typeAssurance" class="form-control" />
+        </div>
+  
+        <div class="form-group">
+          <label for="dateDebut">Date de Début</label>
+          <input id="dateDebut" type="date" formControlName="dateDebut" class="form-control" />
+        </div>
+  
+        <div class="form-group">
+          <label for="dateFin">Date de Fin</label>
+          <input id="dateFin" type="date" formControlName="dateFin" class="form-control" />
+        </div>
+  
+        <div class="form-group">
+          <label for="statut">Statut</label>
+          <input id="statut" formControlName="statut" class="form-control" />
+        </div>
+  
+        <button  type="submit" class="submit-button" [disabled]="devisForm.invalid">Submit</button>
+      </form>
+    </div>
+  
+    <!-- Devis List -->
+    <div class="list-container">
+      <h3>Liste des Devis</h3>
+      <ul class="devis-list">
+        <li *ngFor="let devis of devisList" class="devis-item">
+          <div class="devis-info">{{ devis.nomClient }} - {{ devis.typeAssurance }} - {{ devis.statut }}</div>
+          
+          <!-- Edit Button -->
+          <button (click)="editDevis(devis)" class="edit-button">Edit</button>
+          
+          <!-- Delete Button -->
+          <button (click)="deleteDevis(devis.id)" class="delete-button">Delete</button>
+        </li>
+      </ul>
+    </div>
+</div>
