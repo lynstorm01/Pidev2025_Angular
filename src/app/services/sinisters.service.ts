@@ -10,8 +10,20 @@ export interface Sinister {
   location: string;
   evidenceFiles: string;
   typeInsurance: string;
+  
+  
 }
-
+export interface SinisterDetail {
+  id: number;
+  location: string;
+  agentID: string;
+  clientID: string;
+  description: string;
+  reportedDate: Date;
+  status: string;
+  evidenceFiles: string;
+  estimatedDamageCost: number;
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -65,5 +77,11 @@ export class SinistersService {
       'Authorization': 'Basic YWRtaW46YWRtaW4xMjM='
     });
     return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers });
+  }
+  getSinisterDetailsBySinisterId(id: number): Observable<SinisterDetail[]> {
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic YWRtaW46YWRtaW4xMjM='
+    });
+    return this.http.get<SinisterDetail[]>(`${this.apiUrl}/${id}/details`, { headers });
   }
 }
