@@ -26,8 +26,8 @@ const routes: Routes = [
       { path: 'claim/add', component: ClaimFormComponent },
       { path: 'claim/edit/:id', component: ClaimFormComponent },
       // Redirection par défaut au sein de l'admin
-      { path: '', redirectTo: '/admin/claims', pathMatch: 'full' },
-      { path: '**', redirectTo: '/admin/claims' }
+     // { path: '', redirectTo: '/admin/claims', pathMatch: 'full' },
+      //{ path: '**', redirectTo: '/admin/claims' }
     ]
   },
   // Routes liées à la page d'accueil
