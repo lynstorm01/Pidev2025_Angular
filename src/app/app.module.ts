@@ -31,11 +31,9 @@ import { MatOptionModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router'; // Pour utiliser RouterLink
 
-import { SinisterADComponent } from './admin/sinister-ad/sinister-ad.component';
 import { SinistercreateComponent } from './admin/sinister-ad/sinistercreate/sinistercreate.component';
 import { SinisterupdateComponent } from './admin/sinister-ad/sinisterupdate/sinisterupdate.component';
 import { SinisterdisplayComponent } from './admin/sinister-ad/sinisterdisplay/sinisterdisplay.component';
-import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
