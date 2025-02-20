@@ -16,6 +16,7 @@ import { AppointmentFormComponent } from './components/appointment-form/appointm
 import { ClaimsListComponent } from './components/claims-list/claims-list.component';
 import { ClaimFormComponent } from './components/claim-form/claim-form.component';
 
+
 // Modules Angular & Angular Material
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -34,6 +35,7 @@ import { RouterModule } from '@angular/router'; // Pour utiliser RouterLink
 import { SinistercreateComponent } from './admin/sinister-ad/sinistercreate/sinistercreate.component';
 import { SinisterupdateComponent } from './admin/sinister-ad/sinisterupdate/sinisterupdate.component';
 import { SinisterdisplayComponent } from './admin/sinister-ad/sinisterdisplay/sinisterdisplay.component';
+import { ContractCrudComponent } from './admin/contract-crud/contract-crud.component';
 
 
 @NgModule({
@@ -54,7 +56,8 @@ import { SinisterdisplayComponent } from './admin/sinister-ad/sinisterdisplay/si
 
     SinistercreateComponent,
     SinisterupdateComponent,
-    SinisterdisplayComponent
+    SinisterdisplayComponent,
+    ContractCrudComponent
 
   ],
   imports: [

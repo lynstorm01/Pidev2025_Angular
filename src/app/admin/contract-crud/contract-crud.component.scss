@@ -1,0 +1,58 @@
+/* contract-crud.component.scss */
+.my-header {
+    font-size: 2rem;         /* Adjust as needed */
+    font-weight: 700;        /* Bold */
+    color: #5e72e4;          /* Argon's default primary color */
+    text-align: center;
+    margin-bottom: 1rem;     /* Spacing below the text */
+  }
+  
+  .form-control {
+    color: #000 !important; /* Force black text */
+    transition: border-color 0.3s ease;
+  }
+
+  .card {
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  
+  .form-control:focus {
+    border-color: #5e72e4;
+    box-shadow: 0 0 0 0.2rem rgba(94, 114, 228, 0.25);
+  }
+  .my-custom-btn {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .my-custom-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  body {
+    font-family: 'Open Sans', sans-serif;
+  }
+  
+  .card-header h2, .card-header h3 {
+    font-weight: 700;
+  }
+  .container {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  .invalid-feedback {
+    font-size: 0.9rem;
+    color: #e74c3c;
+    font-weight: 500;
+  }
+  .btn-fixed-size {
+    width: 100px; /* Adjust this width as needed */
+  }
+  .card.bg-secondary {
+    background-color: transparent !important; /* or your preferred color */
+  }

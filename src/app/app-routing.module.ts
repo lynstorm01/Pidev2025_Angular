@@ -12,6 +12,8 @@ import { AppointmentListComponent } from './components/appointment-list/appointm
 import { AppointmentFormComponent } from './components/appointment-form/appointment-form.component';
 import { ClaimsListComponent } from './components/claims-list/claims-list.component';
 import { ClaimFormComponent } from './components/claim-form/claim-form.component';
+import { ContractCrudComponent } from './admin/contract-crud/contract-crud.component';
+
 
 
 const routes: Routes = [
@@ -26,6 +28,7 @@ const routes: Routes = [
       { path: 'claims', component: ClaimsListComponent },
          { path: 'claim/add', component: ClaimFormComponent },
       { path: 'claim/edit/:id', component: ClaimFormComponent },
+      { path: 'admin/contract-crud', component: ContractCrudComponent }
 
     // Ajoute d'autres routes pour les autres composants CRUD ici
 ]},
