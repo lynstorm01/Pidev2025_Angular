@@ -19,7 +19,10 @@ export class SinisterADComponent implements AfterViewInit {
   @ViewChild('example23', { static: false }) table!: ElementRef;
   dataTable: any;
   sinisters: Sinister[] = [];
-
+  totalSinisters: number = 0;
+  totalAccepted: number = 0;
+  totalDeclined: number = 0;
+  totalPending: number = 0;
   constructor(private sinistersService: SinistersService, private router: Router) {}
 
   ngAfterViewInit() {
@@ -30,6 +33,11 @@ export class SinisterADComponent implements AfterViewInit {
     this.sinistersService.getSinisters().subscribe({
       next: (data) => {
         this.sinisters = data;
+        this.totalSinisters = data.length;
+        this.totalAccepted = data.filter(s => s.status.toUpperCase() === 'ACCEPTED').length;
+        this.totalDeclined = data.filter(s => s.status.toUpperCase() === 'DECLINED').length;
+        this.totalPending = data.filter(s => s.status.toUpperCase() === 'PENDING').length;
+        
         this.initializeDataTable();
       },
       error: (error) => {
@@ -59,7 +67,7 @@ export class SinisterADComponent implements AfterViewInit {
           title: 'Actions',
           data: 'id',
           render: (data: any) => `
-            <button class="btn btn-sm btn-primary btn-display" data-id="${data}">Display</button>
+            <button class="btn btn-sm btn-primary btn-display" data-id="${data}">History</button>
             <button class="btn btn-sm btn-warning btn-update" data-id="${data}">Update</button>
             <button class="btn btn-sm btn-danger btn-delete" data-id="${data}">Delete</button>
           `

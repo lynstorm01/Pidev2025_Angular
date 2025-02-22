@@ -1,10 +1,36 @@
+
 <div class="card">
     <div class="card-body">
       <h1 class="card-subtitle">Sinisters</h1>
+      <div class="status-cards d-flex justify-content-around mb-4">
+        <div class="card text-white bg-primary">
+          <div class="card-body text-center">
+            <h2>{{ totalSinisters }}</h2>
+            <p>Total Sinisters</p>
+          </div>
+        </div>
+        <div class="card text-white bg-warning">
+          <div class="card-body text-center">
+            <h2>{{ totalPending }}</h2>
+            <p>Pending</p>
+          </div>
+        </div>
+        <div class="card text-white bg-success ">
+          <div class="card-body text-center">
+            <h2>{{ totalAccepted }}</h2>
+            <p>Accepted</p>
+          </div>
+        </div>
+   
   
-      <!-- Create Button -->
-      <button class="btn btn-primary mb-3" routerLink="/create">Create New Sinister</button>
-  
+        <div class="card text-white bg-dark">
+          <div class="card-body text-center">
+            <h2>{{ totalDeclined }}</h2>
+            <p>Declined</p>
+          </div>
+        </div>
+      </div>
+      
       <!-- Custom Search Box -->
       <input type="text" id="search" class="form-control mb-3" placeholder="Search & enter">
   

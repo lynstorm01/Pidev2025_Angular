@@ -61,7 +61,7 @@ export class SinisterupdateComponent implements OnInit {
   
       this.sinistersService.updateSinister(this.sinister.id, updatedSinister).subscribe({
         next: () => {
-          this.router.navigate(['/sinister-ad']);
+          this.router.navigate(['/admin/sinister']);
         },
         error: (error) => {
           console.error("Error updating sinister:", error);

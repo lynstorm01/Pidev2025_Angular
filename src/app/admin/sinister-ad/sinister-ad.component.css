@@ -46,4 +46,16 @@
     -webkit-overflow-scrolling: touch; }
     .table-responsive > .table-bordered {
       border: 0; }
-  
+      .status-cards .card {
+        width: 20%;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+      .status-cards .card h2 {
+        font-size: 2.5em;
+        margin: 0;
+      }
+      .status-cards .card p {
+        font-size: 1.2em;
+      }
+      

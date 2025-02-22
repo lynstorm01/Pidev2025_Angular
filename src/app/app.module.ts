@@ -28,6 +28,15 @@ import { SinistercreateComponent } from './admin/sinister-ad/sinistercreate/sini
 import { SinisterupdateComponent } from './admin/sinister-ad/sinisterupdate/sinisterupdate.component';
 import { SinisterdisplayComponent } from './admin/sinister-ad/sinisterdisplay/sinisterdisplay.component';
 import { FormsModule } from '@angular/forms';
+import { SinisterComponent } from './front/Sinister/sinister.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import { SinistercalComponent } from './admin/sinister-ad/sinistercal/sinistercal.component';
+
+
+
 
 @NgModule({
   declarations: [
@@ -41,7 +50,9 @@ import { FormsModule } from '@angular/forms';
     SinisterADComponent,
     SinistercreateComponent,
     SinisterupdateComponent,
-    SinisterdisplayComponent
+    SinisterdisplayComponent,
+    SinisterComponent,
+    SinistercalComponent
   ],
   imports: [
     BrowserModule,
@@ -64,6 +75,9 @@ import { FormsModule } from '@angular/forms';
     RouterLink,
     MatIconModule,
     BrowserAnimationsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    FullCalendarModule,
     HttpClientModule
     
   ],

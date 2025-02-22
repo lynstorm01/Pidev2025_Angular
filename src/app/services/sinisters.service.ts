@@ -23,6 +23,7 @@ export interface SinisterDetail {
   status: string;
   evidenceFiles: string;
   estimatedDamageCost: number;
+  sinister: Sinister; // Add this property
 }
 @Injectable({
   providedIn: 'root'
@@ -45,7 +46,9 @@ export class SinistersService {
     formData.append('description', claim.description);
     formData.append('location', claim.location);
     formData.append('typeAssurance', claim.typeAssurance);
+    formData.append('incidentDate', claim.incidentDate.toISOString());
     formData.append('document', file);
+    
 
     const headers = new HttpHeaders({
       'Authorization': 'Basic YWRtaW46YWRtaW4xMjM='
@@ -84,4 +87,18 @@ export class SinistersService {
     });
     return this.http.get<SinisterDetail[]>(`${this.apiUrl}/${id}/details`, { headers });
   }
+  getPendingSinisters(): Observable<SinisterDetail[]> {
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic YWRtaW46YWRtaW4xMjM='
+    });
+    return this.http.get<SinisterDetail[]>(`${this.apiUrl}/pending`, { headers });
+  }
+
+  getMostRecentPendingSinisterDetails(): Observable<SinisterDetail[]> {
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic YWRtaW46YWRtaW4xMjM='
+    });
+    return this.http.get<SinisterDetail[]>(`${this.apiUrl}/most-recent-pending`, { headers });
+  }
+  
 }
