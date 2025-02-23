@@ -63,13 +63,17 @@ export class SinisterADComponent implements AfterViewInit {
         { title: 'Type Insurance', data: 'typeInsurance' },
         { title: 'Location', data: 'location' },
         { title: 'Status', data: 'status' },
+        { title: 'date of creation', data: 'dateofcreation',
+          render: (data: any) => new Date(data).toLocaleDateString() 
+         },
+        { title: 'client name', data: 'clientid' },
         { 
           title: 'Actions',
           data: 'id',
           render: (data: any) => `
-            <button class="btn btn-sm btn-primary btn-display" data-id="${data}">History</button>
+            <button class="btn btn-sm btn-primary btn-display" data-id="${data}">Display</button>
             <button class="btn btn-sm btn-warning btn-update" data-id="${data}">Update</button>
-            <button class="btn btn-sm btn-danger btn-delete" data-id="${data}">Delete</button>
+            <button class="btn btn-sm btn-danger btn-delete" data-id="${data}">Archive</button>
           `
         }
       ],

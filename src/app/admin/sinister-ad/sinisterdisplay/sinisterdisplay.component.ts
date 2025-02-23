@@ -44,6 +44,22 @@ export class SinisterdisplayComponent {
     });
   }
 
+  updateSinisterStatus(newStatus: string) {
+    const id = this.sinister.id;
+    if (id) {
+      this.sinister.status = newStatus;
+      this.sinistersService.updateSinister(id, this.sinister).subscribe({
+        next: (updatedSinister) => {
+          this.sinister = updatedSinister;
+          this.loadSinisterDetails(id); // Reload details after update
+        },
+        error: (error) => {
+          console.error('Error updating sinister:', error);
+        }
+      });
+    }
+  }
+
   goBack() {
     this.router.navigate(['/sinister-ad']);
   }
