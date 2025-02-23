@@ -10,6 +10,9 @@ export interface Sinister {
   location: string;
   evidenceFiles: string;
   typeInsurance: string;
+  clientid: number;
+  reportedDate: Date;
+  dateofcreation: Date;
   
   
 }
@@ -87,12 +90,13 @@ export class SinistersService {
     });
     return this.http.get<SinisterDetail[]>(`${this.apiUrl}/${id}/details`, { headers });
   }
-  getPendingSinisters(): Observable<SinisterDetail[]> {
+  getPendingSinisters(): Observable<Sinister[]> {
     const headers = new HttpHeaders({
       'Authorization': 'Basic YWRtaW46YWRtaW4xMjM='
     });
-    return this.http.get<SinisterDetail[]>(`${this.apiUrl}/pending`, { headers });
+    return this.http.get<Sinister[]>(`${this.apiUrl}/pending`, { headers });
   }
+  
 
   getMostRecentPendingSinisterDetails(): Observable<SinisterDetail[]> {
     const headers = new HttpHeaders({
