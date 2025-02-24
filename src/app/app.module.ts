@@ -36,6 +36,7 @@ import { SinistercreateComponent } from './admin/sinister-ad/sinistercreate/sini
 import { SinisterupdateComponent } from './admin/sinister-ad/sinisterupdate/sinisterupdate.component';
 import { SinisterdisplayComponent } from './admin/sinister-ad/sinisterdisplay/sinisterdisplay.component';
 import { ContractCrudComponent } from './admin/contract-crud/contract-crud.component';
+import { ContractComponent } from './front/contract/contract.component';
 
 
 @NgModule({
@@ -57,7 +58,8 @@ import { ContractCrudComponent } from './admin/contract-crud/contract-crud.compo
     SinistercreateComponent,
     SinisterupdateComponent,
     SinisterdisplayComponent,
-    ContractCrudComponent
+    ContractCrudComponent,
+    ContractComponent
 
   ],
   imports: [

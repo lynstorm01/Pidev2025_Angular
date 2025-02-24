@@ -41,7 +41,7 @@ describe('ContractCrudComponent', () => {
     component.contractForm.controls['startDate'].setValue('2025-01-01');
     component.contractForm.controls['endDate'].setValue('2025-12-31');
     component.contractForm.controls['type'].setValue('Auto Insurance');
-    component.contractForm.controls['status'].setValue('ACTIVE');
+    component.contractForm.controls['status'].setValue('PENDING');
 
     // Get the nested property form group
     const propertyGroup = component.contractForm.get('property');

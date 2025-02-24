@@ -13,10 +13,12 @@ import { AppointmentFormComponent } from './components/appointment-form/appointm
 import { ClaimsListComponent } from './components/claims-list/claims-list.component';
 import { ClaimFormComponent } from './components/claim-form/claim-form.component';
 import { ContractCrudComponent } from './admin/contract-crud/contract-crud.component';
+import { ContractComponent } from './front/contract/contract.component';
 
 
 
 const routes: Routes = [
+  { path: 'contract', component: ContractComponent },
 
   { path: 'create', component: CreateSinComponent },
   { path: 'admin', component: DashboardComponent, children: [
@@ -28,11 +30,12 @@ const routes: Routes = [
       { path: 'claims', component: ClaimsListComponent },
          { path: 'claim/add', component: ClaimFormComponent },
       { path: 'claim/edit/:id', component: ClaimFormComponent },
-      { path: 'admin/contract-crud', component: ContractCrudComponent }
+      { path: 'admin/contract-crud', component: ContractCrudComponent },
 
     // Ajoute d'autres routes pour les autres composants CRUD ici
 ]},
 { path: 'home', component: HomeComponent, children: [
+
   // Ajoute d'autres routes pour les autres composants CRUD ici
 ]},
 
