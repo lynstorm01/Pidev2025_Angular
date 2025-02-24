@@ -25,6 +25,8 @@
     "@fullcalendar/daygrid": "^6.1.15",
     "admin-lte": "^4.0.0-beta3",
     "bootstrap": "^5.3.3",
+    "chart.js": "^4.4.8",
+    "chartjs-adapter-date-fns": "^3.0.0",
     "datatables.net": "^2.2.2",
     "datatables.net-buttons": "^3.2.2",
     "datatables.net-buttons-dt": "^3.2.2",

@@ -104,5 +104,13 @@ export class SinistersService {
     });
     return this.http.get<SinisterDetail[]>(`${this.apiUrl}/most-recent-pending`, { headers });
   }
+
+  getStatusCountByDate(): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic YWRtaW46YWRtaW4xMjM='
+    });
+    return this.http.get(`${this.apiUrl}/status-count-by-date`, { headers });
+  }
+  
   
 }

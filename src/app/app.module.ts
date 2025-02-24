@@ -34,6 +34,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { SinistercalComponent } from './admin/sinister-ad/sinistercal/sinistercal.component';
+import { SinisterchartComponent } from './admin/sinister-ad/sinisterchart/sinisterchart.component';
 
 
 
@@ -52,7 +53,8 @@ import { SinistercalComponent } from './admin/sinister-ad/sinistercal/sinisterca
     SinisterupdateComponent,
     SinisterdisplayComponent,
     SinisterComponent,
-    SinistercalComponent
+    SinistercalComponent,
+    SinisterchartComponent
   ],
   imports: [
     BrowserModule,

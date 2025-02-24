@@ -9,6 +9,7 @@ import { SinisterupdateComponent } from './admin/sinister-ad/sinisterupdate/sini
 import { SinisterdisplayComponent } from './admin/sinister-ad/sinisterdisplay/sinisterdisplay.component';
 import { SinisterComponent } from './front/Sinister/sinister.component';
 import { SinistercalComponent } from './admin/sinister-ad/sinistercal/sinistercal.component';
+import { SinisterchartComponent } from './admin/sinister-ad/sinisterchart/sinisterchart.component';
 
 
 const routes: Routes = [
@@ -21,6 +22,7 @@ const routes: Routes = [
     { path: 'sinister/update/:id', component: SinisterupdateComponent },
     { path: 'sinister/display/:id', component: SinisterdisplayComponent },
     { path: 'sinister/calendar', component: SinistercalComponent },
+    { path: 'sinister/chart', component: SinisterchartComponent },
 
     // Ajoute d'autres routes pour les autres composants CRUD ici
 ]},
