@@ -14,11 +14,14 @@ import { ClaimsListComponent } from './components/claims-list/claims-list.compon
 import { ClaimFormComponent } from './components/claim-form/claim-form.component';
 import { ContractCrudComponent } from './admin/contract-crud/contract-crud.component';
 import { ContractComponent } from './front/contract/contract.component';
+import { CreateContractComponent } from './front/contract/create-contract/create-contract.component';
+import { ListContractComponent } from './admin/contract-crud/list-contract/list-contract.component';
 
 
 
 const routes: Routes = [
   { path: 'contract', component: ContractComponent },
+
 
   { path: 'create', component: CreateSinComponent },
   { path: 'admin', component: DashboardComponent, children: [
@@ -31,6 +34,8 @@ const routes: Routes = [
          { path: 'claim/add', component: ClaimFormComponent },
       { path: 'claim/edit/:id', component: ClaimFormComponent },
       { path: 'admin/contract-crud', component: ContractCrudComponent },
+      { path: 'admin/contract-crud/list', component: ListContractComponent },
+      { path: 'admin/contract-crud/create', component: CreateContractComponent },
 
     // Ajoute d'autres routes pour les autres composants CRUD ici
 ]},

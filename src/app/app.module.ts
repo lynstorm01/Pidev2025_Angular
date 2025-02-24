@@ -28,6 +28,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router'; // Pour utiliser RouterLink
@@ -37,6 +38,8 @@ import { SinisterupdateComponent } from './admin/sinister-ad/sinisterupdate/sini
 import { SinisterdisplayComponent } from './admin/sinister-ad/sinisterdisplay/sinisterdisplay.component';
 import { ContractCrudComponent } from './admin/contract-crud/contract-crud.component';
 import { ContractComponent } from './front/contract/contract.component';
+import { CreateContractComponent } from './front/contract/create-contract/create-contract.component';
+import { ListContractComponent } from './admin/contract-crud/list-contract/list-contract.component';
 
 
 @NgModule({
@@ -59,7 +62,9 @@ import { ContractComponent } from './front/contract/contract.component';
     SinisterupdateComponent,
     SinisterdisplayComponent,
     ContractCrudComponent,
-    ContractComponent
+    ContractComponent,
+    CreateContractComponent,
+    ListContractComponent
 
   ],
   imports: [
@@ -77,6 +82,7 @@ import { ContractComponent } from './front/contract/contract.component';
     MatIconModule,
     MatSelectModule,
     MatOptionModule,
+    MatPaginatorModule,
     RouterModule // Ajout du RouterModule pour RouterLink
   ],
   providers: [],
