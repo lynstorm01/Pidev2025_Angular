@@ -4,6 +4,10 @@ import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { HomeComponent } from './front/home/home.component';
 import { CreateSinComponent } from './front/Sinister/create-sin/create-sin.component';
 import { SinisterADComponent } from './admin/sinister-ad/sinister-ad.component';
+
+import { SinistercreateComponent } from './admin/sinister-ad/sinistercreate/sinistercreate.component';
+import { SinisterupdateComponent } from './admin/sinister-ad/sinisterupdate/sinisterupdate.component';
+import { SinisterdisplayComponent } from './admin/sinister-ad/sinisterdisplay/sinisterdisplay.component';
 import { AppointmentListComponent } from './components/appointment-list/appointment-list.component';
 import { AppointmentFormComponent } from './components/appointment-form/appointment-form.component';
 import { ClaimsListComponent } from './components/claims-list/claims-list.component';
@@ -12,7 +16,9 @@ import { ProfiluserComponent } from './profiluser/profiluser.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 
 
+
 const routes: Routes = [
+
 
   { path: 'profiluser', component: ProfiluserComponent },
   // Routes liées aux sinistres et à l'administration
@@ -53,6 +59,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   // Route pour toutes les autres URL non trouvées
   { path: '**', redirectTo: '/home' }
+
 ];
 
 @NgModule({
