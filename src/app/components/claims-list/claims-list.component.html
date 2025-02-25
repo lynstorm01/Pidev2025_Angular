@@ -4,27 +4,60 @@
     Ajouter une réclamation
   </button>
 
+  <!-- Section des statistiques -->
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <div class="card text-white bg-info mb-3">
+        <div class="card-header">Réclamations en attente</div>
+        <div class="card-body">
+          <h5 class="card-title">{{ stats['en attente'] }}</h5>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-white bg-warning mb-3">
+        <div class="card-header">Réclamations en traitement</div>
+        <div class="card-body">
+          <h5 class="card-title">{{ stats['en traitement'] }}</h5>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-white bg-success mb-3">
+        <div class="card-header">Réclamations traitées</div>
+        <div class="card-body">
+          <h5 class="card-title">{{ stats['traité'] }}</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <table class="table table-striped">
     <thead>
       <tr>
-        <th>ID</th>
         <th>Type</th>
         <th>Date</th>
         <th>Description</th>
+        <th>Status</th>
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let claim of claims">
-        <td>{{ claim.idClaim }}</td>
         <td>{{ claim.reclamationType }}</td>
         <td>{{ claim.reclamationDate | date }}</td>
         <td>{{ claim.description }}</td>
+        <td>{{ claim.status }}</td>
         <td>
           <button class="btn btn-warning btn-sm" [routerLink]="['/admin/claim/edit', claim.idClaim]">
             Modifier
           </button>
-    
+          <button *ngIf="claim.status === 'reclamation bien enregistre'" class="btn btn-info btn-sm" (click)="confirmClaim(claim)">
+            Confirmer
+          </button>
+          <button *ngIf="claim.status === 'en traint de traitement'" class="btn btn-success btn-sm" (click)="markClaimAsTreated(claim)">
+            Marquer comme traité
+          </button>
         </td>
       </tr>
     </tbody>

@@ -6,8 +6,10 @@ describe('Appointement', () => {
       idAppointment: 1,
       description: 'Test description',
       dateSubmitted: new Date(),
-      status: 'PENDING'
+      status: 'PENDING',
+      archiver: true // Ajout de la propriété manquante
     };
+    
 
     // Vérifiez que l'objet respecte l'interface
     expect(appointement).toBeTruthy();

@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class AppointmentFormComponent implements OnInit {
   appointement: Appointement = new Appointement();
+  today: string = '';
 
   constructor(
     private appointementService: AppointementService,
@@ -18,6 +19,9 @@ export class AppointmentFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    // Définir la date d'aujourd'hui au format 'yyyy-MM-dd'
+    this.today = new Date().toISOString().split('T')[0];
+
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.appointementService.getAppointmentById(+id).subscribe(
@@ -42,6 +46,8 @@ export class AppointmentFormComponent implements OnInit {
         }
       );
     } else {
+      // Pour une création, le statut reste PENDING par défaut
+      this.appointement.status = 'PENDING';
       this.appointementService.createAppointment(this.appointement).subscribe(
         () => {
           this.router.navigate(['/appointments']);

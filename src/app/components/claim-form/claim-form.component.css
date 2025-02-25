@@ -1,0 +1,63 @@
+/* Centrer le formulaire */
+.claim-form-container {
+    width: 40%;
+    margin: 50px auto;
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style du titre */
+.claim-form-container h2 {
+    text-align: center;
+    color: #004b8d;
+}
+
+/* Style des champs de formulaire */
+.claim-group {
+    margin-bottom: 15px;
+}
+
+.claim-group label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.claim-group input,
+.claim-group select,
+.claim-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Style du statut */
+.claim-status {
+    font-weight: bold;
+    color: #272727;
+    background: #e0e0e0;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+/* Style des boutons */
+.claim-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.claim-buttons .btn-success {
+    background: #f38f1d;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
+
+.claim-buttons .btn-success:hover {
+    background: #d37714;
+}

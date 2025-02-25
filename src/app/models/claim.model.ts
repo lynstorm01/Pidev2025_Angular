@@ -3,5 +3,8 @@ export interface Claim {
     reclamationType: 'SERVICE' | 'QUALITY' | 'DELAY' | 'OTHER';
     reclamationDate: string;
     description: string;
+    status?: string; 
+    
+  
   }
   
