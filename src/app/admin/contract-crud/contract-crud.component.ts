@@ -34,7 +34,7 @@ export class ContractCrudComponent implements OnInit {
 
   private initForm(): void {
     this.contractForm = this.fb.group({
-      contractNumber: ['', Validators.required],
+      contractNumber: ['CNT-', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
       type: ['', Validators.required],
@@ -80,18 +80,24 @@ export class ContractCrudComponent implements OnInit {
   onSubmit(): void {
     if (this.contractForm.invalid) {
       this.message = 'Please correct the form errors.';
-      // Mark all controls as touched so that errors are displayed.
       this.contractForm.markAllAsTouched();
       return;
     }
   
+    // Get form value and force the prefix "CNT-"
+    const formValue = this.contractForm.value;
+    if (!formValue.contractNumber.startsWith('CNT-')) {
+      formValue.contractNumber = 'CNT-' + formValue.contractNumber;
+    }
+  
+    // Optionally, validate date format here if needed
+  
     const contractData: Contract = {
-      ...this.contractForm.value,
-      property: { ...this.contractForm.value.property }
+      ...formValue,
+      property: { ...formValue.property }
     };
   
-    const userId = 1; // Assuming static userId for now
-  
+    const userId = 1; // Assuming a static userId for now
     this.isLoading = true;
     const operation = this.selectedContract
       ? this.contractService.updateContract(this.selectedContract.id!, contractData)
@@ -104,6 +110,7 @@ export class ContractCrudComponent implements OnInit {
         this.resetForm();
       },
       error: (err) => {
+        console.error('Error creating contract:', err);
         this.handleError(err, this.selectedContract ? 'updating contract' : 'creating contract');
       },
       complete: () => {
@@ -111,7 +118,7 @@ export class ContractCrudComponent implements OnInit {
       }
     });
   }
-
+    
   onEdit(contract: Contract): void {
     this.selectedContract = contract;
     window.scrollTo({ top: 0, behavior: 'smooth' });

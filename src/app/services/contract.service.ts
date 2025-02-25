@@ -105,4 +105,13 @@ export class ContractService {
 
     return throwError(() => new Error(errorMessage));
   }
+
+
+  
+  signeContract(contractId: number, signatureFile: File): Observable<Contract> {
+  const formData = new FormData();
+  formData.append('signature', signatureFile);
+  return this.http.put<Contract>(`${this.baseUrl}/${contractId}/signer`, formData);
+}
+
 }

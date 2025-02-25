@@ -21,20 +21,19 @@ import { ListContractComponent } from './admin/contract-crud/list-contract/list-
 
 const routes: Routes = [
   { path: 'contract', component: ContractComponent },
-
-
+  { path: 'contract/create', component: CreateContractComponent },
   { path: 'create', component: CreateSinComponent },
   { path: 'admin', component: DashboardComponent, children: [
     { path: 'sinister', component: SinisterADComponent},
     { path: 'sinister/create', component: SinistercreateComponent },
     { path: 'sinister/update/:id', component: SinisterupdateComponent },
     { path: 'sinister/display/:id', component: SinisterdisplayComponent },
-          { path: 'appointments', component: AppointmentListComponent },
+    { path: 'appointments', component: AppointmentListComponent },
       { path: 'claims', component: ClaimsListComponent },
-         { path: 'claim/add', component: ClaimFormComponent },
+      { path: 'claim/add', component: ClaimFormComponent },
       { path: 'claim/edit/:id', component: ClaimFormComponent },
       { path: 'admin/contract-crud', component: ContractCrudComponent },
-      { path: 'admin/contract-crud/list', component: ListContractComponent },
+      { path: 'contract-crud/list', component: ListContractComponent },
       { path: 'admin/contract-crud/create', component: CreateContractComponent },
 
     // Ajoute d'autres routes pour les autres composants CRUD ici
