@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { FullCalendarModule } from '@fullcalendar/angular'; // Import du module FullCalendar  
 
 // Composants
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
@@ -28,7 +29,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router'; // Pour utiliser RouterLink
+import { RouterModule } from '@angular/router';
+import { ProfiluserComponent } from './profiluser/profiluser.component'; // Pour utiliser RouterLink
+import { CalendarComponent } from './components/calendar/calendar.component'; // Import du module
 
 @NgModule({
   declarations: [
@@ -43,7 +46,9 @@ import { RouterModule } from '@angular/router'; // Pour utiliser RouterLink
     AppointmentListComponent,
     AppointmentFormComponent,
     ClaimsListComponent,
-    ClaimFormComponent
+    ClaimFormComponent,
+    ProfiluserComponent,
+    CalendarComponent
   ],
   imports: [
     BrowserModule,
@@ -60,7 +65,8 @@ import { RouterModule } from '@angular/router'; // Pour utiliser RouterLink
     MatIconModule,
     MatSelectModule,
     MatOptionModule,
-    RouterModule // Ajout du RouterModule pour RouterLink
+    RouterModule ,// Ajout du RouterModule pour RouterLink
+    FullCalendarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

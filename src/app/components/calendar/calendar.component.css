@@ -1,0 +1,59 @@
+/* Personnaliser la couleur de fond du calendrier */
+.fc {
+ /* Gris clair */
+    border-radius: 8px;
+    padding: 10px;
+  }
+  
+  /* Modifier l'apparence des jours */
+  .fc-daygrid-day {
+    border: 1px solid #ddd;
+  }
+  
+  /* Changer la couleur du texte des jours */
+  .fc-daygrid-day-number {
+    color: #004b8d; /* Bleu de ta charte graphique */
+    font-weight: bold;
+  }
+  
+  /* Personnaliser les événements */
+  .fc-event {
+    background-color: #f38f1d !important; /* Orange */
+    color: white !important;
+    border-radius: 5px;
+    padding: 3px;
+    font-size: 14px;
+  }
+  
+  /* Survol d'un événement */
+  .fc-event:hover {
+    background-color: #d97706 !important; /* Orange foncé */
+    cursor: pointer;
+  }
+  
+  /* Personnaliser le header du calendrier */
+  .fc-toolbar-title {
+    color: #272727; /* Noir/Gris foncé */
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  /* Personnaliser les boutons du calendrier */
+  .fc-button {
+    background-color: #004b8d !important; /* Bleu */
+    color: white !important;
+    border: none !important;
+  }
+  
+  .fc-button:hover {
+    background-color: #003366 !important; /* Bleu foncé */
+  }
+  .custom-calendar-container {
+    max-width: 900px;
+    margin: auto;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+
+  }
+  
