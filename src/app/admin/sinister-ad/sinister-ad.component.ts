@@ -54,30 +54,68 @@ export class SinisterADComponent implements AfterViewInit {
     this.dataTable = $(this.table.nativeElement).DataTable({
       data: this.sinisters,
       columns: [
-        { 
-          title: 'Date of Incident', 
-          data: 'dateOfIncident', 
-          render: (data: any) => new Date(data).toLocaleDateString() 
+        {
+          title: 'Date of Incident',
+          data: 'dateOfIncident',
+          render: (data: any) => new Date(data).toLocaleDateString()
         },
         { title: 'Description', data: 'description' },
         { title: 'Type Insurance', data: 'typeInsurance' },
         { title: 'Location', data: 'location' },
-        { title: 'Status', data: 'status' },
-        { title: 'date of creation', data: 'dateofcreation',
-          render: (data: any) => new Date(data).toLocaleDateString() 
-         },
-        { title: 'client name', data: 'clientid' },
-        { 
+        {
+          title: 'Status',
+          data: 'status',
+          render: (data: any) => {
+            if (data === 'ARCHIVED') {
+              return `<span class="text-muted">${data}</span>`;
+            }
+            return data;
+          }
+        },
+        {
+          title: 'Date of Creation',
+          data: 'dateofcreation',
+          render: (data: any) => new Date(data).toLocaleDateString()
+        },
+        { title: 'Client Name', data: 'clientid' },
+        {
           title: 'Actions',
           data: 'id',
-          render: (data: any) => `
-            <button class="btn btn-sm btn-primary btn-display" data-id="${data}">Display</button>
-            <button class="btn btn-sm btn-warning btn-update" data-id="${data}">Update</button>
-            <button class="btn btn-sm btn-danger btn-delete" data-id="${data}">Delete</button>
-            <button class="btn btn-sm btn-secondary btn-archive" data-id="${data}">Archive</button>
-          `
+          render: (data: any, type: any, row: any) => {
+            const isArchived = row.status === 'ARCHIVED';
+            const archiveText = isArchived ? 'Unarchive' : 'Archive';
+            return `
+              <button class="btn btn-sm btn-primary btn-display" data-id="${data}">Display</button>
+              <button class="btn btn-sm btn-warning btn-update" data-id="${data}">Update</button>
+              <button class="btn btn-sm btn-danger btn-delete" data-id="${data}">Delete</button>
+              <button class="btn btn-sm btn-secondary btn-archive" data-id="${data}">${archiveText}</button>
+            `;
+          }
         }
       ],
+      createdRow: (row: Node, data: any) => {
+        if (data.status === 'ARCHIVED') {
+          $(row).addClass('archived-row');
+          // Apply inline CSS to override any other styles
+          $(row).css({
+            'background-color': '#e9ecef',
+            'color': '#6c757d',
+            'text-decoration': 'line-through'
+          });
+          // Apply the same style to all cells in the row
+          $('td', row).css({
+            'background-color': '#e9ecef',
+            'color': '#6c757d',
+            'text-decoration': 'line-through'
+          });
+          // Keep the buttons faded but functional
+          $('td .btn', row).css({
+            'opacity': '0.4'
+          });
+        }
+      },
+      
+      
       dom: 'Bfrtip',
       buttons: [
         { extend: 'copy', text: 'Copy', className: 'btn btn-primary' },
@@ -95,8 +133,8 @@ export class SinisterADComponent implements AfterViewInit {
     });
   
     this.setupButtonClickHandlers();
-    
   }
+  
   private setupButtonClickHandlers() {
     const self = this;
   
@@ -120,15 +158,22 @@ export class SinisterADComponent implements AfterViewInit {
     });
   }
   archiveSinister(id: number) {
-    this.sinistersService.archiveSinister(id).subscribe({
-      next: () => {
-        this.loadSinisters(); // Refresh the table data
+    this.sinistersService.toggleArchiveSinister(id).subscribe({
+      next: (updatedSinister) => {
+        // Find the updated sinister and change its status
+        const index = this.sinisters.findIndex(s => s.id === id);
+        if (index !== -1) {
+          this.sinisters[index].status = updatedSinister.status;
+        }
+        // Refresh the DataTable without reloading the whole list
+        this.dataTable.clear().rows.add(this.sinisters).draw();
       },
       error: (error) => {
-        console.error('Archive error:', error);
+        console.error('Toggle archive error:', error);
       }
     });
   }
+  
   
   private setupCustomSearch() {
     $('#search').off('keyup').on('keyup', (event) => {

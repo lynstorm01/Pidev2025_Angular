@@ -58,4 +58,24 @@
       .status-cards .card p {
         font-size: 1.2em;
       }
+   /* Style for archived rows */
+/* Style for archived rows */
+/* Make the entire row gray for archived rows */
+/* Force entire row to be gray, including text and buttons */
+/* High specificity to override other styles */
+table#example23 tbody tr.archived-row,
+table#example23 tbody tr.archived-row td {
+  background-color: #e9ecef !important;
+  color: #6c757d !important;
+  text-decoration: line-through !important;
+}
+
+table#example23 tbody tr.archived-row td .btn {
+  pointer-events: none;
+  opacity: 0.4 !important;
+}
+
+
+
+
       

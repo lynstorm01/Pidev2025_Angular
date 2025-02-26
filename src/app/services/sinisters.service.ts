@@ -118,4 +118,11 @@ export class SinistersService {
     });
     return this.http.put<Sinister>(`${this.apiUrl}/${id}/archive`, {}, { headers });
   }
+  toggleArchiveSinister(id: number): Observable<Sinister> {
+     const headers = new HttpHeaders({
+      'Authorization': 'Basic YWRtaW46YWRtaW4xMjM='
+    });
+    return this.http.put<Sinister>(`http://localhost:8069/api/admin/sinisters/${id}/toggle-archive`, {}, { headers });
+  }
+  
 }

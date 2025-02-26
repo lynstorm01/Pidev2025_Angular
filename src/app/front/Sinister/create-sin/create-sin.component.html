@@ -58,19 +58,20 @@
   </form>
 </mat-step>
 
-    <!-- Step 4: Location -->
-    <mat-step [stepControl]="fourthFormGroup">
-      <form [formGroup]="fourthFormGroup">
-        <ng-template matStepLabel>Location</ng-template>
-        <mat-form-field appearance="fill">
-          <input matInput placeholder="Location" formControlName="location">
-        </mat-form-field>
-        <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext [disabled]="!fourthFormGroup.valid">Next</button>
-        </div>
-      </form>
-    </mat-step>
+<!-- Step 4: Location -->
+<mat-step [stepControl]="fourthFormGroup">
+  <form [formGroup]="fourthFormGroup">
+    <ng-template matStepLabel>Location</ng-template>
+    <div id="map"></div>
+    <input matInput placeholder="Selected Location" formControlName="location" readonly>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </form>
+</mat-step>
+
+
 
     <!-- Step 5: Document Upload -->
     <mat-step [stepControl]="fifthFormGroup">
