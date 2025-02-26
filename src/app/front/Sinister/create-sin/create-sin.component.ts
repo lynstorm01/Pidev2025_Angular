@@ -56,28 +56,26 @@ export class CreateSinComponent implements AfterViewInit {
   }
 
   initializeMap() {
-    this.map = L.map('map').setView([30.3753, 69.3451], 5);  // Default location (Pakistan)
+    this.map = L.map('map').setView([33.6844, 73.0479], 12); // Default location
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18,
-      attribution: '© OpenStreetMap'
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
 
-    this.map.on('click', (e: any) => {
-      const latitude = e.latlng.lat;
-      const longitude = e.latlng.lng;
-      const locationString = `${latitude}, ${longitude}`;
-      this.fourthFormGroup.get('location')?.setValue(locationString);
+    this.map.on('click', (event: any) => {
+      const lat = event.latlng.lat;
+      const lng = event.latlng.lng;
+      this.selectedLocation = `${lat}, ${lng}`;
+      this.fourthFormGroup.get('location')?.setValue(this.selectedLocation);
 
-      // Remove existing marker before adding a new one
       if (this.marker) {
-        this.map.removeLayer(this.marker);
+        this.marker.setLatLng(event.latlng);
+      } else {
+        this.marker = L.marker(event.latlng).addTo(this.map);
       }
-
-      this.marker = L.marker([latitude, longitude]).addTo(this.map);
     });
   }
-
   onFileChange(event: any) {
     if (event.target.files.length > 0) {
       this.selectedFile = event.target.files[0];
