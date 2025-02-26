@@ -73,7 +73,8 @@ export class SinisterADComponent implements AfterViewInit {
           render: (data: any) => `
             <button class="btn btn-sm btn-primary btn-display" data-id="${data}">Display</button>
             <button class="btn btn-sm btn-warning btn-update" data-id="${data}">Update</button>
-            <button class="btn btn-sm btn-danger btn-delete" data-id="${data}">Archive</button>
+            <button class="btn btn-sm btn-danger btn-delete" data-id="${data}">Delete</button>
+            <button class="btn btn-sm btn-secondary btn-archive" data-id="${data}">Archive</button>
           `
         }
       ],
@@ -113,8 +114,21 @@ export class SinisterADComponent implements AfterViewInit {
       const id = $(this).data('id');
       self.deleteSinister(id);
     });
+    $(document).on('click', '.btn-archive', function () {
+      const id = $(this).data('id');
+      self.archiveSinister(id);
+    });
   }
-  
+  archiveSinister(id: number) {
+    this.sinistersService.archiveSinister(id).subscribe({
+      next: () => {
+        this.loadSinisters(); // Refresh the table data
+      },
+      error: (error) => {
+        console.error('Archive error:', error);
+      }
+    });
+  }
   
   private setupCustomSearch() {
     $('#search').off('keyup').on('keyup', (event) => {

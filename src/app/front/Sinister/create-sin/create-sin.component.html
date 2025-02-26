@@ -38,24 +38,25 @@
       </form>
     </mat-step>
 
-    <!-- Step 3: Incident Date -->
-    <mat-step [stepControl]="thirdFormGroup">
-      <form [formGroup]="thirdFormGroup">
-        <ng-template matStepLabel>Date of the incident</ng-template>
-        <mat-form-field appearance="fill">
-          <mat-label>Incident Date</mat-label>
-          <input matInput [matDatepicker]="datePicker" 
-                 formControlName="incidentDate"
-                 [min]="minDate" [max]="maxDate" required>
-          <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
-          <mat-datepicker #datePicker [startAt]="maxDate"></mat-datepicker>
-        </mat-form-field>
-        <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext [disabled]="!thirdFormGroup.valid">Next</button>
-        </div>
-      </form>
-    </mat-step>
+ <!-- Step 3: Incident Date -->
+<mat-step [stepControl]="thirdFormGroup">
+  <form [formGroup]="thirdFormGroup">
+    <ng-template matStepLabel>Date of the incident</ng-template>
+    <mat-form-field appearance="fill">
+      <mat-label>Incident Date</mat-label>
+      <input matInput [matDatepicker]="datePicker" 
+             formControlName="incidentDate"
+             [min]="minDate" [max]="maxDate" required
+             readonly> <!-- Add the readonly attribute here -->
+      <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+      <mat-datepicker #datePicker [startAt]="maxDate"></mat-datepicker>
+    </mat-form-field>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button matStepperNext [disabled]="!thirdFormGroup.valid">Next</button>
+    </div>
+  </form>
+</mat-step>
 
     <!-- Step 4: Location -->
     <mat-step [stepControl]="fourthFormGroup">

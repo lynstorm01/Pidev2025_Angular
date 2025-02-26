@@ -30,7 +30,7 @@ export class SinistercalComponent implements OnInit {
           const date = new Date(s.dateofcreation);
           if (!isNaN(date.getTime())) { // Check for valid date
             return {
-              title: `ID: ${s.id}`, // Display the Sinister ID
+              title: `sinister waiting: ${s.id}`, // Display the Sinister ID
               start: date.toISOString().split('T')[0], // Use only the date part
               color: 'orange', // Optional: Color to indicate pending status
               id: s.id.toString() // Add id for navigation

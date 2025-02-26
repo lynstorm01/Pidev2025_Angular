@@ -35,6 +35,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { SinistercalComponent } from './admin/sinister-ad/sinistercal/sinistercal.component';
 import { SinisterchartComponent } from './admin/sinister-ad/sinisterchart/sinisterchart.component';
+import { FileViewerComponent } from './admin/sinister-ad/file-viewer/file-viewer.component';
 
 
 
@@ -54,7 +55,8 @@ import { SinisterchartComponent } from './admin/sinister-ad/sinisterchart/sinist
     SinisterdisplayComponent,
     SinisterComponent,
     SinistercalComponent,
-    SinisterchartComponent
+    SinisterchartComponent,
+    FileViewerComponent
   ],
   imports: [
     BrowserModule,

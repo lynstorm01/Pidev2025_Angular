@@ -14,7 +14,9 @@
           <p><strong>Description:</strong> {{ detail.description }}</p>
           <p><strong>Reported Date:</strong> {{ detail.reportedDate | date: 'yyyy-MM-dd HH:mm a' }}</p>
           <p><strong>Status:</strong> {{ detail.status }}</p>
-          <p><strong>Evidence Files:</strong> {{ detail.evidenceFiles }}</p>
+          <p><strong>Evidence Files:</strong>    <button (click)="downloadFile(detail.id)" class="btn btn-primary">Download Evidence File</button>                            </p>
+    <!--       <button (click)="openFile(detail.evidenceFiles)" class="btn btn-primary">View Evidence File</button> -->
+
           <p><strong>Estimated Damage Cost:</strong> {{ detail.estimatedDamageCost | currency }}</p>
         </div>
       </div>

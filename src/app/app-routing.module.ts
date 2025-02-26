@@ -10,10 +10,13 @@ import { SinisterdisplayComponent } from './admin/sinister-ad/sinisterdisplay/si
 import { SinisterComponent } from './front/Sinister/sinister.component';
 import { SinistercalComponent } from './admin/sinister-ad/sinistercal/sinistercal.component';
 import { SinisterchartComponent } from './admin/sinister-ad/sinisterchart/sinisterchart.component';
+import { FileViewerComponent } from './admin/sinister-ad/file-viewer/file-viewer.component';
 
 
 const routes: Routes = [
-
+  { path: 'view-file', component: FileViewerComponent },
+  { path: 'sinister/:id', component: SinisterdisplayComponent },
+  
   { path: 'create', component: CreateSinComponent },
   { path: 'sinister', component: SinisterComponent },
   { path: 'admin', component: DashboardComponent, children: [

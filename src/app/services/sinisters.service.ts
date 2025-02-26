@@ -106,11 +106,16 @@ export class SinistersService {
   }
 
   getStatusCountByDate(): Observable<any> {
+  const headers = new HttpHeaders({
+    'Authorization': 'Basic YWRtaW46YWRtaW4xMjM='
+  });
+  return this.http.get(`${this.apiUrl}/status-count-by-date`, { headers });
+}
+//archive
+  archiveSinister(id: number): Observable<Sinister> {
     const headers = new HttpHeaders({
       'Authorization': 'Basic YWRtaW46YWRtaW4xMjM='
     });
-    return this.http.get(`${this.apiUrl}/status-count-by-date`, { headers });
+    return this.http.put<Sinister>(`${this.apiUrl}/${id}/archive`, {}, { headers });
   }
-  
-  
 }
