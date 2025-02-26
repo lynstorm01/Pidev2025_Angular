@@ -16,6 +16,7 @@ import { ContractCrudComponent } from './admin/contract-crud/contract-crud.compo
 import { ContractComponent } from './front/contract/contract.component';
 import { CreateContractComponent } from './front/contract/create-contract/create-contract.component';
 import { ListContractComponent } from './admin/contract-crud/list-contract/list-contract.component';
+import { ContractUpdateComponent } from './admin/contract-crud/update-contract/update-contract.component';
 
 
 
@@ -34,6 +35,7 @@ const routes: Routes = [
       { path: 'claim/edit/:id', component: ClaimFormComponent },
       { path: 'admin/contract-crud', component: ContractCrudComponent },
       { path: 'contract-crud/list', component: ListContractComponent },
+      { path: 'contract-crud/Update/:id', component: ContractUpdateComponent },
       { path: 'admin/contract-crud/create', component: CreateContractComponent },
 
     // Ajoute d'autres routes pour les autres composants CRUD ici

@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ContractService, Contract } from '../../../services/contract.service';
+import { Router } from '@angular/router';
 import { PageEvent } from '@angular/material/paginator';
+import { ContractService, Contract } from '../../../services/contract.service';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
-import 'pdfmake';
+(pdfMake as any).vfs = pdfFonts.vfs;
+
 @Component({
   selector: 'app-list-contract',
   templateUrl: './list-contract.component.html',
@@ -11,19 +13,19 @@ import 'pdfmake';
 })
 export class ListContractComponent implements OnInit {
   contracts: Contract[] = [];
+  filteredContracts: Contract[] = [];
   pagedContracts: Contract[] = [];
   isLoading: boolean = false;
   message: string = '';
-
+  
   // Pagination variables
   pageSize: number = 5;
   currentPage: number = 0;
   totalContracts: number = 0;
-
+  
   searchTerm: string = '';
-  filteredContracts: Contract[] = [];
 
-  constructor(private contractService: ContractService) {}
+  constructor(private contractService: ContractService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadContracts();
@@ -72,9 +74,8 @@ export class ListContractComponent implements OnInit {
   }
 
   onEdit(contract: Contract): void {
-    // You might navigate to the create page for editing:
-    // e.g., using a router: this.router.navigate(['/admin/contract-crud/create'], { state: { contract } })
-    console.log('Edit contract', contract);
+    // Navigate to update route; adjust path as needed
+    this.router.navigate(['/admin', 'contract-crud', 'Update', contract.id]);
   }
 
   onDelete(contract: Contract): void {
@@ -92,8 +93,25 @@ export class ListContractComponent implements OnInit {
     });
   }
 
+  onToggleArchive(contract: Contract): void {
+    // Determine the new status: if currently ARCHIVED, set to ACTIVE (or your default); otherwise, ARCHIVED
+    const newStatus = contract.status === 'ARCHIVED' ? 'ACTIVE' : 'ARCHIVED';
+    const updatePayload = { ...contract, status: newStatus };
+  
+    this.contractService.updateContract(contract.id!, updatePayload).subscribe({
+      next: () => {
+        contract.status = newStatus;
+        this.message = `Contract ${newStatus === 'ARCHIVED' ? 'archived' : 'unarchived'} successfully!`;
+      },
+      error: (err: any) => {
+        console.error(err);
+        this.message = `Error updating contract status.`;
+      }
+    });
+  }
+  
+
   downloadPDF(contract: Contract): void {
-    // (The same pdfMake code as before)
     const docDefinition: any = {
       content: [
         { text: 'Contract Details', style: 'header' },

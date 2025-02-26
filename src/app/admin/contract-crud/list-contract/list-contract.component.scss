@@ -273,4 +273,15 @@
     }
   }
   
+  .archived-row {
+    background-color: #e0e0e0 !important; // light gray background
+    opacity: 0.8;                       // slightly faded
+    text-decoration: line-through;      // crossed out text
+    
+    // Optionally, style specific elements within the row
+    td {
+      color: #6c757d;                   // change text color for contrast
+    }
+  }
+  
   

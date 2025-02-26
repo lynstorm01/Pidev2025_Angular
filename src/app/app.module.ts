@@ -40,6 +40,8 @@ import { ContractCrudComponent } from './admin/contract-crud/contract-crud.compo
 import { ContractComponent } from './front/contract/contract.component';
 import { CreateContractComponent } from './front/contract/create-contract/create-contract.component';
 import { ListContractComponent } from './admin/contract-crud/list-contract/list-contract.component';
+import { ContractUpdateComponent } from './admin/contract-crud/update-contract/update-contract.component';
+import * as Papa from 'papaparse';
 
 
 @NgModule({
@@ -64,7 +66,8 @@ import { ListContractComponent } from './admin/contract-crud/list-contract/list-
     ContractCrudComponent,
     ContractComponent,
     CreateContractComponent,
-    ListContractComponent
+    ListContractComponent,
+    ContractUpdateComponent
 
   ],
   imports: [

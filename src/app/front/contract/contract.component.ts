@@ -90,7 +90,7 @@ export class ContractComponent implements OnInit {
 
     const operation = this.selectedContract
       ? this.contractService.updateContract(this.selectedContract.id!, contractData)
-      : this.contractService.createContract(userId, contractData);
+      : this.contractService.createContract( contractData);
 
     operation.subscribe({
       next: () => {

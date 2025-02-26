@@ -4,6 +4,8 @@ import { ContractService, Contract } from 'src/app/services/contract.service';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 (pdfMake as any).vfs = pdfFonts.vfs;
+import * as Papa from 'papaparse';
+
 
 @Component({
   selector: 'app-create-contract',
@@ -48,29 +50,28 @@ export class CreateContractComponent implements OnInit {
       this.contractForm.markAllAsTouched();
       return;
     }
-
+  
+    // No check for this.signatureFile here if you want to allow contract creation without signature
+  
     // Ensure contractNumber has the proper prefix
     const formValue = this.contractForm.value;
     if (!formValue.contractNumber.startsWith('CNT-')) {
       formValue.contractNumber = 'CNT-' + formValue.contractNumber;
     }
-    // Force status to "PENDING" (if needed)
     formValue.status = 'PENDING';
-
+  
     const contractData: Contract = {
       ...formValue,
       property: { ...formValue.property }
     };
-
-    const userId = 1; // Static userId for now
+  
     this.isLoading = true;
-    this.contractService.createContract(userId, contractData).subscribe({
+    this.contractService.createContract(contractData).subscribe({
       next: (created) => {
-        this.message = 'Contract created successfully! Please sign the contract below.';
-        // Store the created contract so we can sign it in the next step
+        this.message = 'Contract created successfully! You can now sign the contract below if desired.';
         this.createdContract = created;
-        // Optionally, clear the form so the user cannot create again.
-        this.resetForm();
+        // Optionally, do not reset the form so the user can see the data or sign
+        // this.resetForm();
       },
       error: (err) => {
         this.handleError(err, 'creating contract');
@@ -80,14 +81,69 @@ export class CreateContractComponent implements OnInit {
       }
     });
   }
+  
 
+  // Method to handle file input change event
   onFileChange(event: any): void {
-    if (event.target.files && event.target.files.length > 0) {
-      this.signatureFile = event.target.files[0];
+    const file: File = event.target.files[0];
+    if (file) {
+      const reader: FileReader = new FileReader();
+      reader.readAsText(file);
+      reader.onload = () => {
+        const csvData = reader.result as string;
+        Papa.parse(csvData, {
+          header: true, // Assumes the CSV file contains header row
+          skipEmptyLines: true,
+          complete: (result) => {
+            this.populateForm(result.data);
+          },
+          error: (error:any) => {
+            console.error('Error parsing CSV:', error);
+            this.message = 'Error parsing CSV file.';
+          }
+        });
+      };
+      reader.onerror = (error) => {
+        console.error('File reading error:', error);
+        this.message = 'Error reading CSV file.';
+      };
     }
   }
+  // Map CSV data to form fields
+  populateForm(data: any[]): void {
+  if (data && data.length > 0) {
+    // Assume CSV has columns: contractNumber, startDate, endDate, type, status,
+    // propertyAddress, propertyArea, propertyType, propertyValue
+    const row = data[0]; // For a step-by-step process, you might loop through multiple rows
 
+    this.contractForm.patchValue({
+      contractNumber: row.contractNumber,
+      startDate: row.startDate,
+      endDate: row.endDate,
+      type: row.type,
+      status: row.status,
+      property: {
+        address: row.propertyAddress,
+        area: row.propertyArea,
+        propertyType: row.propertyType,
+        value: row.propertyValue
+      }
+    });
+
+    this.message = 'CSV data loaded into the form successfully.';
+  } else {
+    this.message = 'CSV file is empty or invalid.';
+  }
+}
+
+onSignatureFileChange(event: any): void {
+  if (event.target.files && event.target.files.length > 0) {
+    this.signatureFile = event.target.files[0];
+  }
+}
   signContract(): void {
+    console.log('signContract() method called');
+
     if (!this.createdContract || !this.signatureFile) {
       this.message = 'Please select a signature file.';
       return;

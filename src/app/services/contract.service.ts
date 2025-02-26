@@ -40,7 +40,7 @@ export class ContractService {
   }
 
   // ✅ POST: Create a new contract
-  createContract(userId: number, contract: Contract): Observable<Contract> {
+  createContract( contract: Contract): Observable<Contract> {
     const payload = {
       ...contract,
       property: contract.property || { address: '', area: 0, propertyType: '', value: 0 } // Ensures property is defined
@@ -112,6 +112,10 @@ export class ContractService {
   const formData = new FormData();
   formData.append('signature', signatureFile);
   return this.http.put<Contract>(`${this.baseUrl}/${contractId}/signer`, formData);
+}
+
+getContractById(id: number): Observable<Contract> {
+  return this.http.get<Contract>(`${this.baseUrl}/${id}`);
 }
 
 }

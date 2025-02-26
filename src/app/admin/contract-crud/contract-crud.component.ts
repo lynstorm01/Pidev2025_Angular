@@ -5,7 +5,10 @@ import { ContractService, Contract } from '../../services/contract.service';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import 'pdfmake';
-
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';  // for ngClass, etc.
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 (pdfMake as any).vfs = pdfFonts.vfs;
 
@@ -101,7 +104,7 @@ export class ContractCrudComponent implements OnInit {
     this.isLoading = true;
     const operation = this.selectedContract
       ? this.contractService.updateContract(this.selectedContract.id!, contractData)
-      : this.contractService.createContract(userId, contractData);
+      : this.contractService.createContract( contractData);
   
     operation.subscribe({
       next: () => {

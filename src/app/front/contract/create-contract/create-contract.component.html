@@ -171,6 +171,12 @@
     </div>
 
     <!-- Submit Button -->
+    
+    <div class="csv-upload mb-3">
+      <label for="csvFile">Upload CSV file:</label>
+      <input type="file" id="csvFile" (change)="onFileChange($event)" accept=".csv" />
+    </div>
+
     <div class="text-center mt-4">
       <button type="submit" class="btn btn-create">
         Create Contract
@@ -187,7 +193,7 @@
   <div *ngIf="createdContract" class="signature-section mt-4">
     <h3 class="text-center">Sign Contract</h3>
     <div class="form-group">
-      <input type="file" (change)="onFileChange($event)" accept="image/*">
+      <input type="file" (change)="onSignatureFileChange($event)" accept="image/*" />
     </div>
     <div class="text-center">
       <button type="button" class="btn btn-create" (click)="signContract()">
