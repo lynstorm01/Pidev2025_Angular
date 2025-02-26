@@ -19,7 +19,7 @@ export class AppointmentFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // Définir la date d'aujourd'hui au format 'yyyy-MM-dd'
+    // Définit la date d'aujourd'hui au format "yyyy-MM-dd" pour l'attribut [min] de l'input date
     this.today = new Date().toISOString().split('T')[0];
 
     const id = this.route.snapshot.paramMap.get('id');
@@ -36,6 +36,11 @@ export class AppointmentFormComponent implements OnInit {
   }
 
   saveAppointment(): void {
+    if (this.appointement.dateSubmitted) {
+      // Convertit la date saisie (string) en objet Date
+      this.appointement.dateSubmitted = new Date(this.appointement.dateSubmitted);
+    }
+    
     if (this.appointement.idAppointment) {
       this.appointementService.updateAppointment(this.appointement.idAppointment, this.appointement).subscribe(
         () => {
@@ -46,8 +51,8 @@ export class AppointmentFormComponent implements OnInit {
         }
       );
     } else {
-      // Pour une création, le statut reste PENDING par défaut
       this.appointement.status = 'PENDING';
+      this.appointement.archiver = true;
       this.appointementService.createAppointment(this.appointement).subscribe(
         () => {
           this.router.navigate(['/appointments']);
@@ -58,4 +63,5 @@ export class AppointmentFormComponent implements OnInit {
       );
     }
   }
+  
 }

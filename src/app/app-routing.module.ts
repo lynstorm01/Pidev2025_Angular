@@ -20,6 +20,7 @@ const routes: Routes = [
   { path: 'claim/add', component: ClaimFormComponent },
   { path: 'calendar', component: CalendarComponent },
 
+  { path: 'appointment/add', component: AppointmentFormComponent }, 
 
   
 
@@ -30,7 +31,6 @@ const routes: Routes = [
       { path: 'claims', component: ClaimsListComponent },
       // Routes pour la gestion des rendez-vous
 
-      { path: 'appointment/add', component: AppointmentFormComponent }, 
       { path: 'appointment/edit/:id', component: AppointmentFormComponent },
       // Routes pour la gestion des réclamations
       { path: 'claim/add', component: ClaimFormComponent },

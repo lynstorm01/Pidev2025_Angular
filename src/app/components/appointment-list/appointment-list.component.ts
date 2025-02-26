@@ -39,6 +39,7 @@ export class AppointmentListComponent implements OnInit {
   }
 
   archiveAppointment(appointment: Appointement): void {
+    // Si l’API attend un booléen pour archiver, on s’assure de l’envoyer.
     appointment.archiver = false;
     this.appointementService.updateAppointment(appointment.idAppointment, appointment).subscribe(
       () => {
