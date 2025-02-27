@@ -1,35 +1,35 @@
 <link rel="stylesheet" href="/assets/css/style55.css">
 <div class="claim-form-container">
-  <h2>{{ claim.idClaim ? 'Edit' : 'Add' }} a Claim</h2>
-  <form>
+    <h2>{{ claim.idClaim ? 'Edit' : 'Add' }} a Claim</h2>
+    <form>
       <div class="claim-group">
-          <label for="reclamationType">Claim Type</label>
-          <select id="reclamationType" [(ngModel)]="claim.reclamationType" name="reclamationType" required>
-              <option value="SERVICE">Service</option>
-              <option value="QUALITY">Quality</option>
-              <option value="DELAY">Delay</option>
-              <option value="OTHER">Other</option>
-          </select>
+        <label for="reclamationType">Claim Type</label>
+        <select id="reclamationType" [(ngModel)]="claim.reclamationType" name="reclamationType" required>
+          <option value="SERVICE">Service</option>
+          <option value="QUALITY">Quality</option>
+          <option value="DELAY">Delay</option>
+          <option value="OTHER">Other</option>
+        </select>
       </div>
-
+  
       <div class="claim-group">
-          <label for="reclamationDate">Claim Date</label>
-          <input type="date" id="reclamationDate" [(ngModel)]="claim.reclamationDate" name="reclamationDate" [min]="today" [max]="today" required />
+        <label for="reclamationDate">Claim Date</label>
+        <input type="date" id="reclamationDate" [(ngModel)]="claim.reclamationDate" name="reclamationDate" [min]="today" [max]="today" required />
       </div>
-
+  
       <div class="claim-group">
-          <label for="description">Description</label>
-          <textarea id="description" [(ngModel)]="claim.description" name="description" rows="3" required></textarea>
+        <label for="description">Description</label>
+        <textarea id="description" [(ngModel)]="claim.description" name="description" rows="3" required></textarea>
       </div>
-
-   <!--   <div class="claim-group">
-          <label>Status</label>
-          <p class="claim-status">{{ claim.status ? claim.status : 'Not defined' }}</p>
-      </div>-->
-
+  
+      <!-- Status display -->
+   
+      
+  
       <div class="claim-buttons">
-          <button *ngIf="!claim.idClaim" type="button" class="btn btn-success" (click)="createClaim()">Create</button>
-          <button *ngIf="claim.idClaim" type="button" class="btn btn-success" (click)="updateClaim()">Update</button>
+        <button *ngIf="!claim.idClaim" type="button" class="btn btn-success" (click)="createClaim()">Create</button>
+        <button *ngIf="claim.idClaim" type="button" class="btn btn-success" (click)="updateClaim()">Update</button>
       </div>
-  </form>
-</div>
+    </form>
+  </div>
+  

@@ -36,9 +36,9 @@ export class ClaimsListComponent implements OnInit {
 
   calculateStats(): void {
     this.stats = {
-      'en attente': this.claims.filter(claim => claim.status === 'réclamation bien enregistrée').length,
-      'en traitement': this.claims.filter(claim => claim.status === 'en train de traitement').length,
-      'traité': this.claims.filter(claim => claim.status === 'traité').length
+      'en attente': this.claims.filter(claim => claim.status === 'ENREGISTREE').length,
+      'en traitement': this.claims.filter(claim => claim.status === 'EN_COURS').length,
+      'traité': this.claims.filter(claim => claim.status === 'TRAITEE').length
     };
   }
 
@@ -54,7 +54,7 @@ export class ClaimsListComponent implements OnInit {
   }
 
   confirmClaim(claim: Claim): void {
-    claim.status = 'en train de traitement';
+    claim.status = 'EN_COURS';
     this.claimsService.updateClaim(claim.idClaim!, claim).subscribe(
       () => {
         this.loadClaims();
@@ -64,7 +64,7 @@ export class ClaimsListComponent implements OnInit {
   }
 
   markClaimAsTreated(claim: Claim): void {
-    claim.status = 'traité';
+    claim.status = 'TRAITEE';
     this.claimsService.updateClaim(claim.idClaim!, claim).subscribe(
       () => {
         this.loadClaims();
