@@ -1,19 +1,22 @@
 /* Conteneur du formulaire */
 .form-container {
     padding: 20px;
-    background-color: #ffffff; /* Fond blanc pour un look propre */
+    background-color: #333; /* Fond blanc pour un look propre */
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre douce */
     max-width: 600px;
     margin: 0 auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
     font-family: Arial, sans-serif;
+    
   }
   
   /* Titres */
   .form-container h2 {
     font-size: 24px;
     font-weight: bold;
-    color: #004b8d; /* Bleu de la charte graphique */
+    color: #f38f1d; /* Bleu de la charte graphique */
     margin-bottom: 20px;
   }
   
@@ -25,26 +28,34 @@
   .form-group label {
     font-size: 14px;
     font-weight: bold;
-    color: #272727; /* Gris foncé */
+    color: #00000080; /* Gris foncé */
     margin-bottom: 5px;
     display: block;
   }
-  
+  /* Style du placeholder */
+.form-group input::placeholder {
+  color: #0100006c; /* Orange de la charte graphique */
+  opacity: 1; /* Pour s'assurer qu'il est bien visible */
+  font-style: italic;
+}
+
   /* Champ de texte et date */
   .form-group input[type="text"],
   .form-group input[type="date"],
+  .form-group input[type="placeholder"],
   .form-group select {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #333;
     border-radius: 5px;
     font-size: 14px;
     color: #333;
-    background-color: #f9f9f9;
+    background-color: #f9f9f962;
   }
   
   .form-group input[type="text"]:focus,
   .form-group input[type="date"]:focus,
+  .form-group input[type="placeholder"]:focus,
   .form-group select:focus {
     border-color: #004b8d; /* Bleu de la charte au focus */
     outline: none;
@@ -52,7 +63,7 @@
   
   /* Bouton de soumission */
   .btn-submit {
-    background-color: #f38f1d; /* Orange de la charte */
+    background-color: #09060399; /* Orange de la charte */
     color: white;
     font-weight: bold;
     border: none;

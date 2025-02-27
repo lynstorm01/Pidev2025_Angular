@@ -13,6 +13,7 @@ export class ClaimFormComponent implements OnInit {
   // Définir idClaim comme optionnel dans l'interface (ou l'omettre pour une création)
   claim: Claim = { reclamationType: 'SERVICE', reclamationDate: '', description: '', status: ''};
   today: string = '';
+  userPhoneNumber: string = '+21693323188'; // Remplacez par le numéro de l'utilisateur
 
   constructor(
     private claimsService: ClaimsService,
@@ -35,9 +36,9 @@ export class ClaimFormComponent implements OnInit {
   // Méthode de création
   createClaim(): void {
     this.claim.status = 'reclamation bien enregistre';
-    this.claimsService.createClaim(this.claim).subscribe(
-      () => this.router.navigate(['/admin/claims']),
-      error => console.error('Erreur lors de la création', error)
+    this.claimsService.createClaim(this.claim, this.userPhoneNumber).subscribe(
+      () => this.router.navigate(['/home']),
+      (error) => console.error('Erreur lors de la création', error)
     );
   }
 

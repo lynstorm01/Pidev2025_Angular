@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Appointement } from '../models/appointement.model'; // Assurez-vous de créer ce modèle
+import { tap } from 'rxjs/operators';
+import { TwilioService } from './TwilioService';
 
 @Injectable({
   providedIn: 'root'
@@ -10,11 +12,16 @@ export class AppointementService {
 
   private baseUrl = 'http://localhost:8069/api/appointments'; // Remplacez l'URL par celle de votre API
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private twilioService: TwilioService) {}
 
   // Créer un rendez-vous
-  createAppointment(appointement: Appointement): Observable<Appointement> {
-    return this.http.post<Appointement>(this.baseUrl, appointement);
+  createAppointment(appointment: Appointement, userPhoneNumber: string): Observable<Appointement> {
+    return this.http.post<Appointement>(this.baseUrl, appointment).pipe(
+      tap(() => {
+        const message = `Votre rendez-vous a bien été enregistré. ${appointment.description}`;
+        this.twilioService.sendSms(userPhoneNumber, message).subscribe();
+      })
+    );
   }
 
   // Récupérer tous les rendez-vous
@@ -36,4 +43,10 @@ export class AppointementService {
   deleteAppointment(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
+
+  // Récupérer les rendez-vous archivés (archiver = 0)
+getArchivedAppointments(): Observable<Appointement[]> {
+  return this.http.get<Appointement[]>(`${this.baseUrl}/archived`);
+}
+
 }

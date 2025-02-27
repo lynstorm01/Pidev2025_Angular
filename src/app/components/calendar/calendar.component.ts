@@ -34,10 +34,11 @@ export class CalendarComponent implements OnInit {
           console.log('Statut du rendez-vous:', appointment.status); // Vérifier chaque statut
   
           return {
-            title: appointment.status, // Afficher uniquement le statut
+            title: appointment.description, // Afficher uniquement le statut
             start: new Date(appointment.dateSubmitted),
             extendedProps: {
               idAppointment: appointment.idAppointment
+              
             },
             color: appointment.status === 'CONFIRMED' ? '#28a745' : '#dc3545',
           };

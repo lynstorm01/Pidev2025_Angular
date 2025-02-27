@@ -1,50 +1,73 @@
-<div class="container">
-  <h2 class="mb-4">Liste des Rendez-vous</h2>
-  <button routerLink="/admin/appointment/add" class="btn btn-primary mb-3">Ajouter un rendez-vous</button>
-
+<div class="container mt-4">
+  <h2 class="mb-4">Appointment List</h2>
+  
   <div class="row">
     <div class="col-12">
-      <div class="card">
+      <div class="card modern-card">
         <div class="card-body">
-          <h4 class="card-title">Rendez-vous</h4>
-          <h6 class="card-subtitle">Liste des rendez-vous existants</h6>
-          <div class="table-responsive m-t-40">
-            <table id="appointmentTable" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+          <h4 class="card-title">Appointments</h4>
+          <h6 class="card-subtitle text-muted mb-3">List of existing appointments</h6>
+          
+          <!-- Search bar -->
+          <div class="search-bar mb-3">
+            <input 
+              type="text" 
+              class="form-control" 
+              placeholder="Search appointments..." 
+              [(ngModel)]="searchText">
+          </div>
+          
+          <div class="table-responsive modern-table-responsive">
+            <!-- Active Appointments Table -->
+            <h4 class="mb-3">Active Appointments</h4>
+            <table class="table modern-table">
               <thead>
                 <tr>
                   <th>Description</th>
                   <th>Status</th>
-                  <th>Date Soumise</th>
+                  <th>Submitted Date</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let appointment of appointments">
+                <tr *ngFor="let appointment of filteredAppointments | slice:(page - 1) * itemsPerPage:(page * itemsPerPage)">
                   <td>{{ appointment.description }}</td>
                   <td>{{ appointment.status }}</td>
                   <td>{{ appointment.dateSubmitted | date }}</td>
                   <td>
-                    <button class="btn btn-warning btn-sm" [routerLink]="['/admin/appointment/edit', appointment.idAppointment]">
-                      Modifier
+                    <button class="btn btn-modern-info btn-sm" (click)="changeStatus(appointment)">
+                      Change Status
                     </button>
-                    <button class="btn btn-danger btn-sm" (click)="deleteAppointment(appointment.idAppointment)">
-                      Supprimer
-                    </button>
-                    <!-- Bouton pour changer le statut -->
-                    <button class="btn btn-info btn-sm" (click)="changeStatus(appointment)">
-                      Changer Statut
-                    </button>
-                    <!-- Bouton pour archiver si besoin -->
-                    <button class="btn btn-secondary btn-sm" (click)="archiveAppointment(appointment)">
-                      Archiver
+                    
+                    <button class="btn btn-modern-secondary btn-sm" (click)="archiveAppointment(appointment)">
+                      Archive
                     </button>
                   </td>
                 </tr>
               </tbody>
             </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+            
+            <!-- Pagination -->
+            <nav aria-label="Page navigation">
+              <ul class="pagination">
+                <li class="page-item" [class.disabled]="page === 1">
+                  <a class="page-link" (click)="changePage(page - 1)" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li class="page-item" *ngFor="let p of totalPagesArray" [class.active]="p === page">
+                  <a class="page-link" (click)="changePage(p)">{{ p }}</a>
+                </li>
+                <li class="page-item" [class.disabled]="page === totalPages">
+                  <a class="page-link" (click)="changePage(page + 1)" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div><!-- /.modern-table-responsive -->
+        </div><!-- /.card-body -->
+      </div><!-- /.modern-card -->
+    </div><!-- /.col-12 -->
+  </div><!-- /.row -->
 </div>
