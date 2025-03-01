@@ -14,6 +14,7 @@ import { HistorComponent } from './front/Sinister/histor/histor.component';
 import { SinisterADComponent } from './admin/sinister-ad/sinister-ad.component';
 import { AppointmentListComponent } from './components/appointment-list/appointment-list.component';
 import { AppointmentFormComponent } from './components/appointment-form/appointment-form.component';
+import { UserService } from './services/UserService'; // Importation de UserService
 import { ClaimsListComponent } from './components/claims-list/claims-list.component';
 import { ClaimFormComponent } from './components/claim-form/claim-form.component';
 
@@ -68,7 +69,7 @@ import { CalendarComponent } from './components/calendar/calendar.component'; //
     RouterModule ,// Ajout du RouterModule pour RouterLink
     FullCalendarModule
   ],
-  providers: [],
+  providers: [UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

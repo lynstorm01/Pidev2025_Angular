@@ -6,7 +6,7 @@ import { Claim } from 'src/app/models/claim.model';
 @Component({
   selector: 'app-profiluser',
   templateUrl: './profiluser.component.html',
-  styleUrls: ['./profiluser.component.css']
+
 })
 export class ProfiluserComponent implements OnInit {
   claims: Claim[] = [];

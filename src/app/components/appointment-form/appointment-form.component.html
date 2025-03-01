@@ -2,6 +2,21 @@
 <div class="form-container">
   <h2>{{ appointement.idAppointment ? 'Edit' : 'Add' }} an Appointment</h2>
   <form #appointmentForm="ngForm" (ngSubmit)="saveAppointment()">
+
+  <!--  <div class="form-group">
+      <label for="userId">User ID</label>
+      <input 
+        type="number" 
+        [(ngModel)]="appointement.userId" 
+        name="userId" 
+        required 
+        #userId="ngModel" 
+        placeholder="Enter user ID" />
+      <div *ngIf="userId.invalid && (userId.dirty || userId.touched)" class="error">
+        <div *ngIf="userId.errors?.['required']">User assignment is required.</div>
+      </div>
+    </div>-->
+    
     <!-- Description -->
     <div class="form-group">
       <label for="description">Description</label>

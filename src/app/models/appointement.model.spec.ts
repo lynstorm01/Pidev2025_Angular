@@ -7,7 +7,8 @@ describe('Appointement', () => {
       description: 'Test description',
       dateSubmitted: new Date(),
       status: 'PENDING',
-      archiver: true // Ajout de la propriété manquante
+      archiver: true, // Ajout de la propriété manquante
+      userId: 5 
     };
     
 
