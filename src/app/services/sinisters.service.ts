@@ -2,6 +2,18 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
+export interface User {
+  id: number;
+  dateofregistration: Date;
+  email: string;
+  type: string;
+  firstname: string;
+  lastname: string;
+  password: string;
+  phonenumber: string;
+  username: string;
+}
+
 export interface Sinister {
   id: number;
   dateOfIncident: Date;
@@ -10,7 +22,7 @@ export interface Sinister {
   location: string;
   evidenceFiles: string;
   typeInsurance: string;
-  clientid: number;
+  user: User;
   reportedDate: Date;
   dateofcreation: Date;
   
@@ -26,7 +38,7 @@ export interface SinisterDetail {
   status: string;
   evidenceFiles: string;
   estimatedDamageCost: number;
-  sinister: Sinister; // Add this property
+  sinister: Sinister; 
 }
 @Injectable({
   providedIn: 'root'

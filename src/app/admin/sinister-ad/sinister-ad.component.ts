@@ -77,7 +77,11 @@ export class SinisterADComponent implements AfterViewInit {
           data: 'dateofcreation',
           render: (data: any) => new Date(data).toLocaleDateString()
         },
-        { title: 'Client Name', data: 'clientid' },
+        {
+          title: 'Client UserName',
+          data: 'user',
+          render: (data: any) => data ? data.username : 'N/A'
+        },
         {
           title: 'Actions',
           data: 'id',
