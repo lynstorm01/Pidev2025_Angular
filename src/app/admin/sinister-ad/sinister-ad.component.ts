@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { SinistersService, Sinister } from 'src/app/services/sinisters.service'; // Adjust path as needed
+import { SinistersService, Sinister } from 'src/app/services/sinisters.service';
 import * as $ from 'jquery';
 import 'datatables.net';
 import 'datatables.net-buttons';
@@ -9,6 +9,8 @@ import 'datatables.net-buttons/js/buttons.print.min.js';
 import 'jszip';
 import 'pdfmake';
 import 'pdfmake/build/vfs_fonts';
+import { Chart, ChartConfiguration, registerables } from 'chart.js';
+Chart.register(...registerables);
 
 @Component({
   selector: 'app-sinister-ad',
@@ -23,6 +25,7 @@ export class SinisterADComponent implements AfterViewInit {
   totalAccepted: number = 0;
   totalDeclined: number = 0;
   totalPending: number = 0;
+
   constructor(private sinistersService: SinistersService, private router: Router) {}
 
   ngAfterViewInit() {
@@ -37,8 +40,9 @@ export class SinisterADComponent implements AfterViewInit {
         this.totalAccepted = data.filter(s => s.status.toUpperCase() === 'ACCEPTED').length;
         this.totalDeclined = data.filter(s => s.status.toUpperCase() === 'DECLINED').length;
         this.totalPending = data.filter(s => s.status.toUpperCase() === 'PENDING').length;
-        
+
         this.initializeDataTable();
+        this.initializePieChart(); // Initialize the pie chart
       },
       error: (error) => {
         console.error('Error fetching sinisters:', error);
@@ -46,11 +50,39 @@ export class SinisterADComponent implements AfterViewInit {
     });
   }
 
+  private initializePieChart() {
+    const pieChartConfig: ChartConfiguration = {
+      type: 'pie',
+      data: {
+        labels: ['Accepted', 'Declined', 'Pending'],
+        datasets: [{
+          label: 'Status Counts',
+          data: [this.totalAccepted, this.totalDeclined, this.totalPending],
+          backgroundColor: ['green', 'red', 'orange'],
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Sinister Status Distribution'
+          }
+        }
+      }
+    };
+
+    new Chart('sinisterPieChart', pieChartConfig);
+  }
+
   private initializeDataTable() {
     if ($.fn.DataTable.isDataTable(this.table.nativeElement)) {
       $(this.table.nativeElement).DataTable().destroy();
     }
-  
+
     this.dataTable = $(this.table.nativeElement).DataTable({
       data: this.sinisters,
       columns: [
@@ -100,26 +132,21 @@ export class SinisterADComponent implements AfterViewInit {
       createdRow: (row: Node, data: any) => {
         if (data.status === 'ARCHIVED') {
           $(row).addClass('archived-row');
-          // Apply inline CSS to override any other styles
           $(row).css({
             'background-color': '#e9ecef',
             'color': '#6c757d',
             'text-decoration': 'line-through'
           });
-          // Apply the same style to all cells in the row
           $('td', row).css({
             'background-color': '#e9ecef',
             'color': '#6c757d',
             'text-decoration': 'line-through'
           });
-          // Keep the buttons faded but functional
           $('td .btn', row).css({
             'opacity': '0.4'
           });
         }
       },
-      
-      
       dom: 'Bfrtip',
       buttons: [
         { extend: 'copy', text: 'Copy', className: 'btn btn-primary' },
@@ -135,41 +162,41 @@ export class SinisterADComponent implements AfterViewInit {
         this.setupCustomSearch();
       }
     });
-  
+
     this.setupButtonClickHandlers();
   }
-  
+
   private setupButtonClickHandlers() {
     const self = this;
-  
+
     $(document).on('click', '.btn-display', function () {
       const id = $(this).data('id');
-      self.router.navigate([`/admin/sinister/display`, id]);  // ✅ Fix here
+      self.router.navigate([`/admin/sinister/display`, id]);
     });
-  
+
     $(document).on('click', '.btn-update', function () {
       const id = $(this).data('id');
-      self.router.navigate([`/admin/sinister/update`, id]);  // ✅ Fix here
+      self.router.navigate([`/admin/sinister/update`, id]);
     });
-  
+
     $(document).on('click', '.btn-delete', function () {
       const id = $(this).data('id');
       self.deleteSinister(id);
     });
+
     $(document).on('click', '.btn-archive', function () {
       const id = $(this).data('id');
       self.archiveSinister(id);
     });
   }
+
   archiveSinister(id: number) {
     this.sinistersService.toggleArchiveSinister(id).subscribe({
       next: (updatedSinister) => {
-        // Find the updated sinister and change its status
         const index = this.sinisters.findIndex(s => s.id === id);
         if (index !== -1) {
           this.sinisters[index].status = updatedSinister.status;
         }
-        // Refresh the DataTable without reloading the whole list
         this.dataTable.clear().rows.add(this.sinisters).draw();
       },
       error: (error) => {
@@ -177,36 +204,20 @@ export class SinisterADComponent implements AfterViewInit {
       }
     });
   }
-  
-  
+
   private setupCustomSearch() {
     $('#search').off('keyup').on('keyup', (event) => {
       const searchValue = (event.target as HTMLInputElement).value;
       this.dataTable.search(searchValue).draw();
     });
-  
-    // Ensure input is not disabled
+
     $('#search').prop('disabled', false);
-  }
-  
-
-  // Navigation methods
-  navigateToCreate() {
-    this.router.navigate(['/sinister/create']);
-  }
-
-  navigateToDisplay(id: number) {
-    this.router.navigate(['/sinister/display', id]);
-  }
-
-  navigateToUpdate(id: number) {
-    this.router.navigate(['/sinister/update', id]);
   }
 
   deleteSinister(id: number) {
     this.sinistersService.deleteSinister(id).subscribe({
       next: () => {
-        this.loadSinisters(); // Refresh the table data
+        this.loadSinisters();
       },
       error: (error) => {
         console.error('Delete error:', error);

@@ -1,41 +1,40 @@
-
 <div class="card">
-    <div class="card-body">
-      <h1 class="card-subtitle">Sinisters</h1>
-      <div class="status-cards d-flex justify-content-around mb-4">
-        <div class="card text-white bg-primary">
-          <div class="card-body text-center">
-            <h2>{{ totalSinisters }}</h2>
-            <p>Total Sinisters</p>
-          </div>
-        </div>
-        <div class="card text-white bg-warning">
-          <div class="card-body text-center">
-            <h2>{{ totalPending }}</h2>
-            <p>Pending</p>
-          </div>
-        </div>
-        <div class="card text-white bg-success ">
-          <div class="card-body text-center">
-            <h2>{{ totalAccepted }}</h2>
-            <p>Accepted</p>
-          </div>
-        </div>
-   
-  
-        <div class="card text-white bg-dark">
-          <div class="card-body text-center">
-            <h2>{{ totalDeclined }}</h2>
-            <p>Declined</p>
-          </div>
+  <div class="card-body">
+    <h1 class="card-subtitle">Sinisters</h1>
+    <div class="status-cards d-flex justify-content-around mb-4">
+      <div class="card text-white bg-primary">
+        <div class="card-body text-center">
+          <h2>{{ totalSinisters }}</h2>
+          <p>Total Sinisters</p>
         </div>
       </div>
-      
-      <!-- Custom Search Box -->
-      <input type="text" id="search" class="form-control mb-3" placeholder="Search & enter">
-  
+      <div class="card text-white bg-warning">
+        <div class="card-body text-center">
+          <h2>{{ totalPending }}</h2>
+          <p>Pending</p>
+        </div>
+      </div>
+      <div class="card text-white bg-success">
+        <div class="card-body text-center">
+          <h2>{{ totalAccepted }}</h2>
+          <p>Accepted</p>
+        </div>
+      </div>
+      <div class="card text-white bg-dark">
+        <div class="card-body text-center">
+          <h2>{{ totalDeclined }}</h2>
+          <p>Declined</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Custom Search Box -->
+    <input type="text" id="search" class="form-control mb-3" placeholder="Search & enter">
+
+    <!-- Flex container for table and pie chart -->
+    <div class="d-flex">
       <!-- Data Table -->
-      <div class="table-responsive">
+      <div class="table-responsive flex-grow-1">
         <table #example23 id="example23" class="display nowrap table table-hover table-striped table-bordered">
           <thead>
             <tr>
@@ -44,9 +43,9 @@
               <th>Status</th>
               <th>Location</th>
               <th>Type Insurance</th>
-              <th>date of creation</th>
-              <th>client name</th>
-              <th>Actions</th> <!-- New column for actions -->
+              <th>Date of Creation</th>
+              <th>Client Name</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -54,5 +53,11 @@
           </tbody>
         </table>
       </div>
+
+      <!-- Pie Chart -->
+      <div class="ml-4" style="width: 300px;">
+        <canvas id="sinisterPieChart"></canvas>
+      </div>
     </div>
   </div>
+</div>
