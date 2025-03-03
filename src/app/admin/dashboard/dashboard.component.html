@@ -127,29 +127,46 @@
 
   <!-- Sidebar -->
   <div class="sidebar">
-    <a routerLink="/admin">
+    <a (click)="$event.preventDefault()">
       <i class="fas fa-home"></i><span> Accueil</span>
     </a>
     
-    <a routerLink="/admin/appointments">
+    <a (click)="$event.preventDefault()">
       <i class="fas fa-calendar-alt"></i><span> Rendez-vous</span>
     </a>
     
-    <a routerLink="/admin/claims">
+    <a (click)="$event.preventDefault()">
       <i class="fas fa-file-alt"></i><span> Réclamations</span>
     </a>
     
-    <a routerLink="/admin/users">
+    <a (click)="$event.preventDefault()">
       <i class="fas fa-users"></i><span> Utilisateurs</span>
     </a>
-       <a routerLink="/admin/sinister">
-      <i class="fas fa-users"></i><span> Utilisateurs</span>
+
+    <a (click)="$event.preventDefault()">
+      <i class="fas fa-users"></i><span> Sinister</span>
     </a>
+
+    <ul class="sidebar-menu">
+      <li class="menu-item">
+        <a (click)="toggleDropdown()" class="menu-link">
+          <i class="fas fa-users"></i><span> Blog</span>
+          <i class="fas fa-chevron-down dropdown-icon" [ngClass]="{'rotate': isDropdownOpen}"></i>
+        </a>
+        <ul *ngIf="isDropdownOpen" class="submenu">
+          <li><a routerLink="/admin/posts">Posts</a></li>
+          <li><a routerLink="/admin/comments">Comments</a></li>
+          <li><a routerLink="/admin/replies">Replies</a></li>
+        </ul>
+      </li>
+    </ul>
+
     <br>
-    <a routerLink="/logout">
+    <a (click)="$event.preventDefault()">
       <i class="fas fa-sign-out-alt"></i><span> Déconnexion</span>
     </a>
-  </div>
+</div>
+
 
   <!-- Contenu -->
   <div class="content">

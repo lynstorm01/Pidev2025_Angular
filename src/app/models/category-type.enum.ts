@@ -1,0 +1,7 @@
+export enum CategoryType {
+    TECHNOLOGY = 'TECHNOLOGY',
+    HEALTH = 'HEALTH',
+    BUSINESS = 'BUSINESS',
+    EDUCATION = 'EDUCATION',
+    ENTERTAINMENT = 'ENTERTAINMENT'
+  }

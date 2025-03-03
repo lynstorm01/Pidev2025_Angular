@@ -1,0 +1,206 @@
+<div class="container mt-4">
+    <h2 class="text-center mb-2">📢 Blog Posts</h2>
+    <p class="text-center text-muted">Total Posts: {{ posts.length }}</p>
+  
+   <!-- Search bar -->
+<div class="mb-3 search-container">
+    <input type="text" [(ngModel)]="searchQuery" (input)="filterPosts()" class="search-input" placeholder="Search by title, username, category or content">
+  </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered text-center custom-table">
+            <thead class="table-dark">
+                <tr>
+                    <th>Title</th>
+                    <th>Content</th>
+                    <th>Posted By</th>
+                    <!-- <th>Created At</th>
+                    <th>Modified At</th> -->
+                    <!-- <th>Comments</th>
+                    <th>Replies</th>
+                    <th>👍 Likes</th>
+                    <th>👎 Dislikes</th> -->
+                    <th>Status</th> <!-- New Status Column -->
+                    <th>Category</th>
+                    <th>Actions</th> 
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let post of paginatedPosts">
+                    <td>{{ post.title }}</td>
+                    <td class="content-column">{{ post.content }}</td>
+                    <td>{{ post.username }}</td>
+                    <!-- <td>{{ post.createdAt ? (post.createdAt | date:'medium') : 'N/A' }}</td>
+                    <td>{{ post.lastUpdatedAt ? (post.lastUpdatedAt | date:'medium') : 'Never Updated' }}</td> -->
+                    <!-- <td><span class="badge bg-info">{{ post.commentCount }}</span></td>
+                    <td><span class="badge bg-warning">{{ post.replyIds?.length || 0 }}</span></td>
+                    <td><span class="badge bg-success">{{ post.nbr_like }}</span></td>
+                    <td><span class="badge bg-danger">{{ post.nbr_dislike }}</span></td> -->
+                    
+                    <!-- Status Column with Dropdown -->
+                    <td>
+                        <select [(ngModel)]="post.status" (change)="updateStatus(post.id, post.status)" class="form-select form-select-sm">
+                            <option value="PENDING">🟡 Pending</option>
+                            <option value="APPROVED">✅ Approved</option>
+                            <option value="REJECTED">❌ Rejected</option>
+                        </select>
+                    </td>
+                    <td><span class="badge bg-primary">{{ post.category }}</span></td>
+
+                    <!-- Actions column with icons -->
+<!-- Actions column with icons in a row -->
+<td class="actions-column">
+    <!-- Details Button (Retaining the method call for Details) -->
+    <button class="btn btn-sm action-btn" (click)="openDetails(post.id)" style="margin-right: 10px;">
+      <i class="fas fa-info-circle"></i> <!-- Details Icon -->
+    </button>
+    
+    <div class="button-group" (click)="openUpdateModal(post)" style="display: inline-block;">
+    <!-- Update Button (in table or list) -->
+    <button class="btn btn-sm action-btn" style="margin-right: 10px;" >
+        <i class="fas fa-edit"></i> <!-- Update Icon -->
+    </button>
+      
+    <!--  -->
+
+      <!-- Delete Button (Retaining the method call for delete) -->
+      <button class="btn btn-sm action-btn" (click)="confirmDelete(post.id, $event)">
+        <i class="fas fa-trash-alt"></i> <!-- Trash Icon for Delete -->
+      </button>
+    </div>
+  </td>
+  
+  
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="pagination-container">
+        <button (click)="previousPage()" [disabled]="currentPage === 1" class="btn btn-sm btn-outline-primary">
+            ⬅ Previous
+        </button>
+        <span class="page-info">Page {{ currentPage }} of {{ totalPages }}</span>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="btn btn-sm btn-outline-primary">
+            Next ➡
+        </button>
+    </div>
+</div>
+
+
+<!-- Modal to show post details -->
+<div class="modal fade" id="postDetailsModal" tabindex="-1" aria-labelledby="postDetailsModalLabel" aria-hidden="true" #postDetailsModal>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="postDetailsModalLabel">Post Details</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Status : </strong> 
+            <span [ngClass]="{
+              'bg-danger': selectedPost?.status === 'REJECTED', 
+              'bg-warning': selectedPost?.status === 'PENDING', 
+              'bg-success': selectedPost?.status === 'APPROVED'
+            }" class="badge">
+              {{ selectedPost?.status }}
+            </span>
+          </p>        
+        <p><strong>Title:</strong> {{ selectedPost?.title }}</p>
+        <p><strong>Content : </strong> {{ selectedPost?.content }}</p>
+        <p><strong>Category : </strong> <span class="badge bg-primary">{{ selectedPost?.category }}</span></p>
+        <p><strong>Posted By : </strong> {{ selectedPost?.username }}</p>
+
+        <!-- Created At & Last Updated At -->
+        <p><strong>Created At : </strong> {{ selectedPost?.createdAt | date: 'medium' }}</p>
+        <p><strong>Updated At : </strong> {{ selectedPost?.lastUpdatedAt ? (selectedPost.lastUpdatedAt | date:'medium') : 'Never Edited ! ' }}</p>
+
+        <!-- Comments, Replies, Likes & Dislikes -->
+        <p><strong>Comments : </strong> <span class="badge bg-info">{{ selectedPost?.comments.length || 0 }}</span></p>
+        <p><strong>Replies : </strong> <span class="badge bg-info">{{ selectedPost?.replyIds.length || 0 }}</span></p>
+        <p><strong>👍 </strong> <span class="badge bg-success">{{ selectedPost?.nbr_like }}</span></p>
+        <p><strong>👎 </strong> <span class="badge bg-danger">{{ selectedPost?.nbr_dislike }}</span></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <!-- You can add other action buttons here, like "Edit" or "Delete" -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Your other HTML code -->
+
+
+
+
+  
+  
+  <!-- Modal for updating the post -->
+<div class="modal fade" id="updatePostModal" tabindex="-1" aria-labelledby="updatePostModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="updatePostModalLabel">Update Post Information</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Form to update post information -->
+        <form #postForm="ngForm" (ngSubmit)="updatePost()" novalidate>
+          <!-- Title Input -->
+          <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" id="title" class="form-control" [(ngModel)]="selectedPostUpdate.title" name="title"
+              #title="ngModel" required minlength="5" maxlength="100">
+            <div class="text-danger" *ngIf="title.invalid && (title.dirty || title.touched)">
+              <small *ngIf="title.errors?.['required']">Title is required.</small>
+              <small *ngIf="title.errors?.['minlength']">Title must be at least 5 characters long.</small>
+              <small *ngIf="title.errors?.['maxlength']">Title cannot exceed 100 characters.</small>
+            </div>
+          </div>
+
+          <!-- Content Input -->
+          <div class="mb-3">
+            <label for="content" class="form-label">Content</label>
+            <textarea id="content" class="form-control" [(ngModel)]="selectedPostUpdate.content" name="content"
+              #content="ngModel" required minlength="10" rows="5"></textarea>
+            <div class="text-danger" *ngIf="content.invalid && (content.dirty || content.touched)">
+              <small *ngIf="content.errors?.['required']">Content is required.</small>
+              <small *ngIf="content.errors?.['minlength']">Content must be at least 10 characters long.</small>
+            </div>
+          </div>
+
+          <!-- Category Dropdown -->
+          <div class="mb-3">
+            <label for="category" class="form-label">Category</label>
+            <select id="category" class="form-select" [(ngModel)]="selectedPostUpdate.category" name="category"
+              #category="ngModel" required>
+              <option value="" disabled>Select a category</option>
+              <option value="TECHNOLOGY">Technology</option>
+              <option value="HEALTH">Health</option>
+              <option value="EDUCATION">Education</option>
+              <option value="ENTERTAINMENT">Entretainment</option>
+              <option value="BUSINESS">Business</option>
+            </select>
+            <div class="text-danger" *ngIf="category.invalid && (category.dirty || category.touched)">
+              <small *ngIf="category.errors?.['required']">Category is required.</small>
+            </div>
+          </div>
+
+          <!-- Save Button -->
+          <button type="submit" class="btn btn-success" [disabled]="postForm.invalid">Save Changes</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+
+
+

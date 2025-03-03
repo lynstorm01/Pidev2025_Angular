@@ -1,0 +1,116 @@
+/* Adjust table size and styling */
+.custom-table {
+    max-width: 95%;
+    margin: auto;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+    table-layout: fixed; /* Ensure columns take up defined width */
+}
+
+/* Table Header Styling */
+.custom-table thead {
+    background-color: #343a40;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+/* Row Styling */
+.custom-table tbody tr {
+    background-color: #f8f9fa;
+    transition: all 0.3s ease-in-out;
+}
+
+.custom-table tbody tr:hover {
+    background-color: #e9ecef;
+}
+
+/* Column text center and padding */
+.custom-table td, .custom-table th {
+    vertical-align: middle;
+    text-align: center;
+    padding: 12px;
+    min-width: 120px; /* Increased minimum column width */
+    max-width: 250px; /* Adjusted max width for better spacing */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Content Column Adjustments */
+.content-column {
+    max-width: 300px; /* Increased width for better readability */
+    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Styling for Badges */
+.badge {
+    font-size: 12px;
+    padding: 6px 8px;
+    border-radius: 5px;
+}
+
+/* Post Count Styling */
+.text-muted {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Pagination Container */
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.page-info {
+    margin: 0 15px;
+    font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .custom-table {
+        font-size: 12px;
+    }
+    .custom-table td, .custom-table th {
+        min-width: 80px; /* Smaller width for mobile */
+    }
+    .content-column {
+        max-width: 180px;
+    }
+    .pagination-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+
+  /* Styling for the search bar container */
+  .search-container {
+    display: left;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    gap: 10px;
+  }
+  
+  /* Styling for the search input field */
+  .search-input {
+    width: 250px;
+    padding: 8px 12px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    transition: all 0.3s ease;
+  }
+  
+  .search-input:focus {
+    border-color: #007bff;
+    outline: none;
+  }

@@ -1,0 +1,87 @@
+<div class="container mt-4">
+    <h2 class="text-center">Comments Management</h2>
+  
+    <!-- Search Bar -->
+    <div class="search-container">
+      <input 
+        type="text" 
+        class="search-input" 
+        [(ngModel)]="searchText" 
+        placeholder="Search comments..."
+      />
+    </div>
+  
+    <!-- Comments Table -->
+    <div class="table-responsive">
+      <table class="table table-bordered custom-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Content</th>
+            <th>Created At</th>
+            <th>Last Updated</th>
+            <th>Edited</th>
+            <th>Post ID</th>
+            <th>User ID</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let comment of filteredComments">
+            <td>{{ comment.id }}</td>
+            <td class="content-column">{{ comment.content }}</td>
+            <td>{{ comment.createdAt }}</td>
+            <td>{{ comment.lastUpdatedAt || 'N/A' }}</td>
+            <td>
+              <span class="badge" [class.bg-success]="comment.isEdited" [class.bg-secondary]="!comment.isEdited">
+                {{ comment.isEdited ? 'Yes' : 'No' }}
+              </span>
+            </td>
+            <td>{{ comment.postId }}</td>
+            <td>{{ comment.userId }}</td>
+            <td>
+              <button class="btn btn-primary btn-sm" (click)="openUpdateModal(comment)">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn btn-danger btn-sm" (click)="confirmDelete(comment.id)">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <!-- Pagination Controls -->
+    <div class="pagination-container">
+      <button class="btn btn-secondary btn-sm" (click)="previousPage()" [disabled]="currentPage === 1">
+        Previous
+      </button>
+      <span class="page-info">Page {{ currentPage }} of {{ totalPages }}</span>
+      <button class="btn btn-secondary btn-sm" (click)="nextPage()" [disabled]="currentPage === totalPages">
+        Next
+      </button>
+    </div>
+  
+    <!-- Update Comment Modal -->
+    <div class="modal fade" id="updateCommentModal" tabindex="-1" aria-labelledby="updateCommentModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="updateCommentModalLabel">Update Comment</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form (submit)="updateComment()">
+              <div class="mb-3">
+                <label for="commentContent" class="form-label">Content</label>
+                <textarea class="form-control" id="commentContent" [(ngModel)]="selectedCommentUpdate.content" name="content" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -8,14 +8,6 @@ import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { FooterComponent } from './front/footer/footer.component';
 import { HeaderComponent } from './front/header/header.component';
 import { HomeComponent } from './front/home/home.component';
-import { CreateSinComponent } from './front/Sinister/create-sin/create-sin.component';
-import { HistorComponent } from './front/Sinister/histor/histor.component';
-import { SinisterADComponent } from './admin/sinister-ad/sinister-ad.component';
-import { AppointmentListComponent } from './components/appointment-list/appointment-list.component';
-import { AppointmentFormComponent } from './components/appointment-form/appointment-form.component';
-import { ClaimsListComponent } from './components/claims-list/claims-list.component';
-import { ClaimFormComponent } from './components/claim-form/claim-form.component';
-
 // Modules Angular & Angular Material
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -30,10 +22,10 @@ import { MatOptionModule } from '@angular/material/core';
 
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router'; // Pour utiliser RouterLink
-
-import { SinistercreateComponent } from './admin/sinister-ad/sinistercreate/sinistercreate.component';
-import { SinisterupdateComponent } from './admin/sinister-ad/sinisterupdate/sinisterupdate.component';
-import { SinisterdisplayComponent } from './admin/sinister-ad/sinisterdisplay/sinisterdisplay.component';
+import { CommentsComponent } from './admin/dashboard/comments/comments.component';
+import { UsersComponent } from './admin/dashboard/users/users.component';
+import { ReplyComponent } from './admin/dashboard/reply/reply.component';
+import { PostsComponent } from './admin/dashboard/posts/posts.component';
 
 
 @NgModule({
@@ -43,18 +35,10 @@ import { SinisterdisplayComponent } from './admin/sinister-ad/sinisterdisplay/si
     HeaderComponent,
     DashboardComponent,
     HomeComponent,
-    HistorComponent,
-    CreateSinComponent,
-    SinisterADComponent,
-
-    AppointmentListComponent,
-    AppointmentFormComponent,
-    ClaimsListComponent,
-    ClaimFormComponent,
-
-    SinistercreateComponent,
-    SinisterupdateComponent,
-    SinisterdisplayComponent
+    PostsComponent,
+    CommentsComponent,
+    UsersComponent,
+    ReplyComponent
 
   ],
   imports: [
