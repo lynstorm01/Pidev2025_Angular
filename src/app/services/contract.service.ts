@@ -15,7 +15,8 @@ export interface Contract {
     area: number;
     propertyType: string;
     value: number;
-  };
+  }
+  //userid: number;
 }
 
 @Injectable({
@@ -117,5 +118,13 @@ export class ContractService {
 getContractById(id: number): Observable<Contract> {
   return this.http.get<Contract>(`${this.baseUrl}/${id}`);
 }
+
+// ✅ Fetch contracts by user ID
+getContractsByUserId(userId: number): Observable<Contract[]> {
+  return this.http.get<Contract[]>(`${this.baseUrl}/user/${userId}`, { headers: this.getHeaders() })
+    .pipe(catchError(this.handleError));
+}
+
+
 
 }

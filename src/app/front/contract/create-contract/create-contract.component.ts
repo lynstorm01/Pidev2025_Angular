@@ -163,6 +163,9 @@ onSignatureFileChange(event: any): void {
       }
     });
   }
+
+
+  
   isFieldInvalid(field: string): boolean {
     const control = this.contractForm.get(field);
     return control ? control.invalid && (control.touched || control.dirty) : false;

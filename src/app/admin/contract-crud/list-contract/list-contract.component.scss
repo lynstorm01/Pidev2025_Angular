@@ -284,4 +284,93 @@
     }
   }
   
+  .status-cards {
+    margin-bottom: 20px;
   
+    .card {
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      .card-body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        h2 {
+          margin-bottom: 4px;
+          font-size: 1.8rem;
+        }
+        p {
+          margin: 0;
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+
+  .btn-archive {
+    background-color: #f0ad4e; /* a warm orange color */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    margin-left: 0.5rem;
+
+    &:hover {
+      background-color: #ec971f; /* darken on hover */
+      color: #fff;
+      transform: translateY(-2px);
+
+    }
+  }
+/* Container to center the "Export All Contracts" button */
+.export-all-container {
+  text-align: center;
+  margin-bottom: 1rem; /* spacing below the button row */
+}
+
+/* "Export All Contracts" button styling */
+.export-all-btn {
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  margin: 8px 0;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+
+  &:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* Per-row "Export Contract" button styling */
+.action-buttons .btn-export-contract {
+  background-color: #ff9800;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  margin-right: 0.5rem; /* spacing from next button */
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+
+  &:hover {
+    background-color: #fb8c00;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+  }
+}
+

@@ -17,12 +17,14 @@ import { ContractComponent } from './front/contract/contract.component';
 import { CreateContractComponent } from './front/contract/create-contract/create-contract.component';
 import { ListContractComponent } from './admin/contract-crud/list-contract/list-contract.component';
 import { ContractUpdateComponent } from './admin/contract-crud/update-contract/update-contract.component';
+import { ClientContractsComponent } from './front/contract/client-contracts/client-contracts.component';
 
 
 
 const routes: Routes = [
   { path: 'contract', component: ContractComponent },
   { path: 'contract/create', component: CreateContractComponent },
+  { path: 'contract/client-contracts', component: ClientContractsComponent },
   { path: 'create', component: CreateSinComponent },
   { path: 'admin', component: DashboardComponent, children: [
     { path: 'sinister', component: SinisterADComponent},

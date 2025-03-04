@@ -42,6 +42,7 @@ import { CreateContractComponent } from './front/contract/create-contract/create
 import { ListContractComponent } from './admin/contract-crud/list-contract/list-contract.component';
 import { ContractUpdateComponent } from './admin/contract-crud/update-contract/update-contract.component';
 import * as Papa from 'papaparse';
+import { ClientContractsComponent } from './front/contract/client-contracts/client-contracts.component';
 
 
 @NgModule({
@@ -67,7 +68,8 @@ import * as Papa from 'papaparse';
     ContractComponent,
     CreateContractComponent,
     ListContractComponent,
-    ContractUpdateComponent
+    ContractUpdateComponent,
+    ClientContractsComponent,
 
   ],
   imports: [
