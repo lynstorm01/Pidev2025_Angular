@@ -1,0 +1,58 @@
+<link rel="stylesheet" href="/assets/css/style55.css">
+
+
+<div class="sign-in-area pt-50 pb-70">
+    <div class="container">
+        <div class="section-title text-center">
+            <span class="sp-before sp-after">Sign In</span>
+            <h2 class="h2-color">Sign in to Your Account!</h2>
+        </div>
+
+        <div class="row align-items-center pt-45">
+            <div class="col-lg-5 col-md-12">
+                
+            </div>
+
+            <div class="col-lg-7 col-md-12">
+                <div class="user-all-form">
+                    <div class="contact-form">
+                        <form id="contactForm" (ngSubmit)="login()" >
+                            <div class="row">
+                                <div class="col-lg-12 ">
+                                    <label for="roadAddress">Email</label>
+                                    <div class="form-group">
+                                        <i class='bx bx-user'></i>
+                                        <input type="text" name="email" id="email" [(ngModel)]="email" class="form-control" required data-error="Please enter your Email" placeholder="Email">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <label for="roadAddress">Password</label>
+                                    <div class="form-group">
+                                        <i class='bx bx-lock-alt'></i>
+                                        <input class="form-control" type="password" [(ngModel)]="password" name="password" placeholder="password">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-sm-6 form-condition">
+                                    <div class="agree-label">
+                                        <input type="checkbox" id="chb1">
+                                        <label for="chb1">Remember Me</label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-sm-6">
+                                    <a class="forget" routerLink="/">Forgot my password?</a>
+                                </div>
+                                <div class="col-lg-12 col-md-12 text-center">
+                                    <button type="submit"class="h2 card-title" >Sign In Now <i class='bx bx-plus'></i></button>
+                                </div>
+                                <div class="col-12">
+                                    <p class="account-desc">Not a member? <a routerLink="/signup">Sign Up</a></p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

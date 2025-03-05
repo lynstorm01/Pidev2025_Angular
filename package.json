@@ -36,6 +36,7 @@
     "jszip": "^3.10.1",
     "leaflet": "^1.9.4",
     "mapbox-gl": "^3.10.0",
+    "ngx-cookie-service": "^19.1.2",
     "pdfmake": "^0.2.18",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

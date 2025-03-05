@@ -37,6 +37,8 @@ import { SinistercalComponent } from './admin/sinister-ad/sinistercal/sinisterca
 import { SinisterchartComponent } from './admin/sinister-ad/sinisterchart/sinisterchart.component';
 import { FileViewerComponent } from './admin/sinister-ad/file-viewer/file-viewer.component';
 import { provideOAuthClient, AuthConfig,OAuthService } from 'angular-oauth2-oidc';
+import { SignUpComponent } from './front/sign-up/sign-up.component';
+import { SignInComponent } from './front/sign-in/sign-in.component';
 /*
 export const authCodeFlowConfig: AuthConfig = {
   issuer: 'http://localhost:9090/realms/testPI',
@@ -77,9 +79,12 @@ function initializeOAuth(oauthService: OAuthService): Promise<void> {
     SinisterComponent,
     SinistercalComponent,
     SinisterchartComponent,
-    FileViewerComponent
+    FileViewerComponent,
+    SignUpComponent,
+    SignInComponent
   ],
   imports: [
+    FormsModule, 
     BrowserModule,
     AppRoutingModule,
     CommonModule,

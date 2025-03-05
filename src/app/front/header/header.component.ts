@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-header',
@@ -6,10 +8,23 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+  isLoggedIn: boolean = false;
+  admin: boolean = false; 
+ 
 
-  constructor() { }
-
+  constructor(private router: Router,private cookieService: CookieService ) { }
+  async logout():  Promise<void> {
+    // Method to handle user logout
+    // Clear the token from cookies
+    await this.cookieService.delete('token');
+    // Update isLoggedIn property
+    this.isLoggedIn = false;
+    this.router.navigate(['/signin'])
+    alert("logged out")
+    // Implement any other logout logic here
+  }
   ngOnInit(): void {
+    
   }
 
 }

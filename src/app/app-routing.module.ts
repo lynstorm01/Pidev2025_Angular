@@ -11,15 +11,20 @@ import { SinisterComponent } from './front/Sinister/sinister.component';
 import { SinistercalComponent } from './admin/sinister-ad/sinistercal/sinistercal.component';
 import { SinisterchartComponent } from './admin/sinister-ad/sinisterchart/sinisterchart.component';
 import { FileViewerComponent } from './admin/sinister-ad/file-viewer/file-viewer.component';
+import { SignInComponent } from './front/sign-in/sign-in.component';
+import { AuthGuard } from './services/AuthGuard';
+import { SignUpComponent } from './front/sign-up/sign-up.component';
 
 
 const routes: Routes = [
   { path: 'view-file', component: FileViewerComponent },
   { path: 'sinister/:id', component: SinisterdisplayComponent },
-  
-  { path: 'create', component: CreateSinComponent },
+  { path: 'signin', component: SignInComponent },
+  { path: 'signup', component: SignUpComponent },
+
+  { path: 'create', component: CreateSinComponent, canActivate: [AuthGuard],data: {roles: ['ROLE_USER']}},
   { path: 'sinister', component: SinisterComponent },
-  { path: 'admin', component: DashboardComponent, children: [
+  { path: 'admin', component: DashboardComponent, canActivate: [AuthGuard],data: {roles: ['ROLE_ADMIN']}, children: [
     { path: 'sinister', component: SinisterADComponent},
     { path: 'sinister/create', component: SinistercreateComponent },
     { path: 'sinister/update/:id', component: SinisterupdateComponent },
