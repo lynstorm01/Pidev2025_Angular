@@ -1,24 +1,26 @@
 <div class="container mt-4">
   <h2 class="mb-4">Appointment List</h2>
-  
+
   <div class="row">
     <div class="col-12">
       <div class="card modern-card">
         <div class="card-body">
           <h4 class="card-title">Appointments</h4>
           <h6 class="card-subtitle text-muted mb-3">List of existing appointments</h6>
+
+          <button class="btn btn-primary mb-3" (click)="getAppointmentsForUser()">
+            Afficher mes rendez-vous
+          </button>
           
+          
+          
+
           <!-- Search bar -->
           <div class="search-bar mb-3">
-            <input 
-              type="text" 
-              class="form-control" 
-              placeholder="Search appointments..." 
-              [(ngModel)]="searchText">
+            <input type="text" class="form-control" placeholder="Search appointments..." [(ngModel)]="searchText">
           </div>
-          
+
           <div class="table-responsive modern-table-responsive">
-            <!-- Active Appointments Table -->
             <h4 class="mb-3">Active Appointments</h4>
             <table class="table modern-table">
               <thead>
@@ -30,44 +32,29 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let appointment of filteredAppointments | slice:(page - 1) * itemsPerPage:(page * itemsPerPage)">
+                <tr *ngFor="let appointment of displayedAppointments | slice:(page - 1) * itemsPerPage:(page * itemsPerPage)">
                   <td>{{ appointment.description }}</td>
                   <td>{{ appointment.status }}</td>
                   <td>{{ appointment.dateSubmitted | date }}</td>
                   <td>
-                    <button class="btn btn-modern-info btn-sm" (click)="changeStatus(appointment)">
-                      Change Status
-                    </button>
-                    
-                    <button class="btn btn-modern-secondary btn-sm" (click)="archiveAppointment(appointment)">
-                      Archive
-                    </button>
+                    <button class="btn btn-modern-info btn-sm" (click)="changeStatus(appointment)">Change Status</button>
+                    <button class="btn btn-modern-secondary btn-sm" (click)="archiveAppointment(appointment)">Archive</button>
                   </td>
                 </tr>
               </tbody>
             </table>
-            
+
             <!-- Pagination -->
-            <nav aria-label="Page navigation">
+            <nav>
               <ul class="pagination">
-                <li class="page-item" [class.disabled]="page === 1">
-                  <a class="page-link" (click)="changePage(page - 1)" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                  </a>
-                </li>
-                <li class="page-item" *ngFor="let p of totalPagesArray" [class.active]="p === page">
+                <li *ngFor="let p of totalPagesArray" [class.active]="p === page">
                   <a class="page-link" (click)="changePage(p)">{{ p }}</a>
-                </li>
-                <li class="page-item" [class.disabled]="page === totalPages">
-                  <a class="page-link" (click)="changePage(page + 1)" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
                 </li>
               </ul>
             </nav>
-          </div><!-- /.modern-table-responsive -->
-        </div><!-- /.card-body -->
-      </div><!-- /.modern-card -->
-    </div><!-- /.col-12 -->
-  </div><!-- /.row -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -10,6 +10,8 @@ import { ClaimsListComponent } from './components/claims-list/claims-list.compon
 import { ClaimFormComponent } from './components/claim-form/claim-form.component';
 import { ProfiluserComponent } from './profiluser/profiluser.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
+import { AppointmentDetailComponent } from './appointment-detail/appointment-detail.component';
+
 
 
 const routes: Routes = [
@@ -19,6 +21,7 @@ const routes: Routes = [
   {  path: 'create', component: CreateSinComponent },
   { path: 'claim/add', component: ClaimFormComponent },
   { path: 'calendar', component: CalendarComponent },
+  { path: 'appointment-detail', component: AppointmentDetailComponent },
 
   { path: 'appointment/add', component: AppointmentFormComponent },
 

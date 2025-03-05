@@ -23,6 +23,21 @@ export class ClaimsListComponent implements OnInit {
     this.loadClaims();
   }
 
+    // Méthode pour charger les réclamations pour un utilisateur spécifique (ID=5)
+    getClaimsForUser(): void {
+      const userId = 5;  // Spécifie l'ID de l'utilisateur ici
+      this.claimsService.getClaimsByUser(userId).subscribe(
+        data => {
+          this.claims = data;
+          this.calculateStats();
+          this.setupPagination();
+        },
+        error => {
+          console.error('Erreur lors du chargement des réclamations pour l\'utilisateur', error);
+        }
+      );
+    }
+
   loadClaims(): void {
     this.claimsService.getClaims().subscribe(
       data => {

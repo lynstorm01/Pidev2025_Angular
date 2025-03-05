@@ -16,8 +16,12 @@ export class CalendarComponent implements OnInit {
     editable: true,
     selectable: true, // Activer la sélection
     select: this.handleDateSelect.bind(this), // Corriger ici
+    eventClick: this.handleEventClick.bind(this), // Ajout de la gestion du clic sur un événement
     events: [] 
   };
+
+    // Propriété pour stocker le rendez-vous sélectionné
+    selectedAppointment: Appointement | null = null;
 
   constructor(private appointementService: AppointementService, private router: Router) {}
 
@@ -47,6 +51,15 @@ export class CalendarComponent implements OnInit {
       error => console.error('Erreur lors du chargement des rendez-vous', error)
     );
   }
+
+  handleEventClick(clickInfo: any): void {
+    const appointmentId = clickInfo.event.extendedProps.idAppointment;
+    this.router.navigate(['/appointment-detail'], { queryParams: { id: appointmentId } });
+  }
+  
+  
+
+  
   
   
 

@@ -11,18 +11,23 @@ export class AppointmentListComponent implements OnInit {
   appointments: Appointement[] = [];
   archivedAppointments: Appointement[] = [];
   searchText: string = '';
-  
+
   // Pagination variables
   page: number = 1;
   itemsPerPage: number = 10;
   totalPages: number = 1;
   totalPagesArray: number[] = [];
 
+  // Pour le filtrage par utilisateur
+  selectedUserId: number | null = null;
+  users: { id: number, name: string }[] = []; // Liste des utilisateurs
+
   constructor(private appointementService: AppointementService) {}
 
   ngOnInit(): void {
     this.getAppointments();
     this.getArchivedAppointments();
+   // this.getUsers(); // Charger la liste des utilisateurs
   }
 
   getAppointments(): void {
@@ -37,6 +42,21 @@ export class AppointmentListComponent implements OnInit {
     );
   }
 
+  getAppointmentsForUser(): void {
+    const userId = 5; // Spécifie l'ID de l'utilisateur ici
+    this.appointementService.getAppointmentsByUser(userId).subscribe(
+      data => {
+        this.appointments = data;
+        this.calculatePages(); // Recalculer les pages après avoir récupéré les rendez-vous
+      },
+      error => {
+        console.error('Error fetching appointments for user', error);
+      }
+    );
+  }
+  
+  
+
   getArchivedAppointments(): void {
     this.appointementService.getArchivedAppointments().subscribe(
       data => {
@@ -48,9 +68,19 @@ export class AppointmentListComponent implements OnInit {
     );
   }
 
+ // getUsers(): void {
+    // Simuler une liste d'utilisateurs (remplacez cela par une API si nécessaire)
+  //  this.users = [
+    //  { id: 1, name: 'Alice' },
+    //  { id: 2, name: 'Bob' },
+    //  { id: 3, name: 'Charlie' }
+   // ];
+ // }
+
   calculatePages(): void {
-    this.totalPages = Math.ceil(this.appointments.length / this.itemsPerPage);
+    this.totalPages = Math.ceil(this.displayedAppointments.length / this.itemsPerPage);
     this.totalPagesArray = Array.from({ length: this.totalPages }, (_, i) => i + 1);
+    this.page = 1; // Réinitialiser la pagination lors d'un changement de filtre
   }
 
   changePage(newPage: number): void {
@@ -91,6 +121,7 @@ export class AppointmentListComponent implements OnInit {
       () => {
         this.appointments = this.appointments.filter(app => app.idAppointment !== appointment.idAppointment);
         this.archivedAppointments.push(appointment);
+        this.calculatePages();
       },
       error => {
         console.error("Erreur lors de l'archivage du rendez-vous", error);
@@ -104,6 +135,7 @@ export class AppointmentListComponent implements OnInit {
       () => {
         this.archivedAppointments = this.archivedAppointments.filter(app => app.idAppointment !== appointment.idAppointment);
         this.appointments.push(appointment);
+        this.calculatePages();
       },
       error => {
         console.error("Erreur lors du désarchivage du rendez-vous", error);
@@ -111,16 +143,36 @@ export class AppointmentListComponent implements OnInit {
     );
   }
 
-  get filteredAppointments(): Appointement[] {
-    if (!this.searchText) {
-      return this.appointments;
+  // Filtrage des rendez-vous selon l'utilisateur sélectionné
+  get displayedAppointments(): Appointement[] {
+    let list = this.appointments;
+  
+    // Appliquer le filtre par userId si un utilisateur est sélectionné
+    if (this.selectedUserId !== null) {
+      list = list.filter(app => app.userId === this.selectedUserId);
     }
-    const search = this.searchText.toLowerCase();
-    return this.appointments.filter(app => {
-      const description = app.description ? app.description.toLowerCase() : '';
-      const status = app.status ? app.status.toLowerCase() : '';
-      const submittedDate = app.dateSubmitted ? new Date(app.dateSubmitted).toLocaleDateString().toLowerCase() : '';
-      return description.includes(search) || status.includes(search) || submittedDate.includes(search);
-    });
+  
+    // Appliquer la recherche
+    if (this.searchText) {
+      const search = this.searchText.toLowerCase();
+      list = list.filter(app => {
+        const description = app.description ? app.description.toLowerCase() : '';
+        const status = app.status ? app.status.toLowerCase() : '';
+        const submittedDate = app.dateSubmitted ? new Date(app.dateSubmitted).toLocaleDateString().toLowerCase() : '';
+        return description.includes(search) || status.includes(search) || submittedDate.includes(search);
+      });
+    }
+  
+    return list;
+  }
+  
+
+  applyUserFilter(): void {
+    this.calculatePages();
+  }
+
+  clearUserFilter(): void {
+    this.selectedUserId = null;
+    this.calculatePages();
   }
 }

@@ -1,7 +1,17 @@
 <link rel="stylesheet" href="/assets/css/style55.css">
 
 <div class="custom-calendar-container">
-    <full-calendar [options]="calendarOptions"></full-calendar>
-  </div>
+  <full-calendar [options]="calendarOptions"></full-calendar>
+</div>
+
+<!-- Affichage conditionnel des détails (exemple simple) -->
+<div *ngIf="selectedAppointment" class="appointment-details">
+  <h2>Détails du rendez-vous</h2>
+  <p><strong>Description :</strong> {{ selectedAppointment.description }}</p>
+  <p><strong>Date :</strong> {{ selectedAppointment.dateSubmitted | date }}</p>
+  <p><strong>Statut :</strong> {{ selectedAppointment.status }}</p>
+  <!-- Ajoutez d'autres informations au besoin -->
+</div>
+
   
   

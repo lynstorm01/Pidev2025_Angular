@@ -38,4 +38,9 @@ export class ClaimsService {
   deleteClaim(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  getClaimsByUser(userId: number): Observable<Claim[]> {
+    return this.http.get<Claim[]>(`${this.apiUrl}/user/${userId}`);
+  }
+  
 }

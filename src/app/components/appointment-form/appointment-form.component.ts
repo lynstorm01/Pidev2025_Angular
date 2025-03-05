@@ -28,7 +28,7 @@ export class AppointmentFormComponent implements OnInit {
     // Définit la date d'aujourd'hui au format "yyyy-MM-dd" pour l'attribut [min] de l'input date
     this.today = new Date().toISOString().split('T')[0];
       // Affectation manuelle de l'ID utilisateur (ici, 5)
-  this.appointement.userId = 5;
+  this.appointement.userId = 6; 
 
     // Récupérer les utilisateurs
     this.userService.getUsers().subscribe(

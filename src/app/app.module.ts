@@ -32,7 +32,8 @@ import { MatOptionModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ProfiluserComponent } from './profiluser/profiluser.component'; // Pour utiliser RouterLink
-import { CalendarComponent } from './components/calendar/calendar.component'; // Import du module
+import { CalendarComponent } from './components/calendar/calendar.component';
+import { AppointmentDetailComponent } from './appointment-detail/appointment-detail.component'; // Import du module
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { CalendarComponent } from './components/calendar/calendar.component'; //
     ClaimsListComponent,
     ClaimFormComponent,
     ProfiluserComponent,
-    CalendarComponent
+    CalendarComponent,
+    AppointmentDetailComponent
   ],
   imports: [
     BrowserModule,

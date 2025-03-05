@@ -49,4 +49,12 @@ getArchivedAppointments(): Observable<Appointement[]> {
   return this.http.get<Appointement[]>(`${this.baseUrl}/archived`);
 }
 
+getAppointmentsByUser(userId: number): Observable<Appointement[]> {
+  return this.http.get<Appointement[]>(`${this.baseUrl}/user/${userId}`);
+}
+
+
+
+
+
 }
