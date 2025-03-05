@@ -192,13 +192,13 @@
     }
   
     &.btn-edit {
-      background-color: #ffc107;
-      border-color: #ffc107;
-      color: #212529;
+      background-color: #343a40;
+      border-color: #acb8be;
+      color: #edf2f7;
   
       &:hover {
-        background-color: #e0a800;
-        border-color: #d39e00;
+        background-color: #acb8be;
+        border-color: #f1f0ee;
         transform: translateY(-2px);
         box-shadow: 0 4px 6px rgba(224, 168, 0, 0.2);
       }
@@ -273,16 +273,61 @@
     }
   }
   
-  .archived-row {
-    background-color: #e0e0e0 !important; // light gray background
-    opacity: 0.8;                       // slightly faded
-    text-decoration: line-through;      // crossed out text
-    
-    // Optionally, style specific elements within the row
-    td {
-      color: #6c757d;                   // change text color for contrast
-    }
-  }
+  /* Example custom button classes (if not relying on Bootstrap's built-in classes) */
+
+/* Approve (Green) */
+.btn-approve {
+  background-color: #28a745; /* or your preferred green */
+  border-color: #28a745;
+  color: #fff;
+  margin-right: 0.5rem;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-approve:hover {
+  background-color: #218838; 
+  border-color: #1e7e34;
+  transform: translateY(-1px);
+}
+
+/* Reject (Red) */
+.btn-reject {
+  background-color: #dc3545; /* or your preferred red */
+  border-color: #dc3545;
+  color: #fff;
+  margin-right: 0.5rem;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-reject:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+  transform: translateY(-1px);
+}
+
+/* Back to List (Gray or another neutral color) */
+.btn-back {
+  background-color: #6c757d;
+  border-color: #6c757d;
+  color: #fff;
+  margin-right: 0.5rem;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-back:hover {
+  background-color: #5a6268;
+  border-color: #545b62;
+  transform: translateY(-1px);
+}
+
+/* OPTIONAL: If you want them side by side with consistent spacing */
+.btn-group-custom {
+  display: flex;
+  gap: 1rem; /* space between buttons */
+  justify-content: start; /* or center */
+  flex-wrap: wrap;
+}
+
   
   .status-cards {
     margin-bottom: 20px;
@@ -328,7 +373,7 @@
 
 /* "Export All Contracts" button styling */
 .export-all-btn {
-  background-color: #28a745;
+  background-color: #343a40;
   color: #fff;
   border: none;
   padding: 8px 16px;
@@ -339,7 +384,7 @@
   transition: background-color 0.3s ease, transform 0.2s ease;
 
   &:hover {
-    background-color: #218838;
+    background-color: #323633;
     transform: translateY(-2px);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
   }

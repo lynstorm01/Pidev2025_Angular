@@ -47,74 +47,96 @@
     </div>
   </div>
 
-  <!-- Card Container for the Table -->
-  <div class="table-card mt-3">
-    <div class="card-header">
-      <h5 class="text-center">List of Contracts</h5>
-    </div>
-    <div class="card-body">
-      <!-- Loading Indicator -->
-      <div *ngIf="isLoading" class="text-center">
-        <p>Loading contracts...</p>
+  <!-- Conditional view: If a contract is selected, show details; else show list -->
+  <div *ngIf="selectedContract; else listView">
+    <!-- Contract Details View -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <h3>Contract Details</h3>
       </div>
-      <div class="export-all-container">
-      <button class="export-all-btn" (click)="exportAllContracts()">Export All Contracts</button>
+      <div class="card-body">
+        <p><strong>Contract Number:</strong> {{ selectedContract.contractNumber }}</p>
+        <p><strong>Type:</strong> {{ selectedContract.type }}</p>
+        <p><strong>Status:</strong> {{ selectedContract.status }}</p>
+        <p><strong>Start Date:</strong> {{ selectedContract.startDate }}</p>
+        <p><strong>End Date:</strong> {{ selectedContract.endDate }}</p>
+        <p><strong>Address:</strong> {{ selectedContract.property?.address }}</p>
+        <!-- Add additional details as needed -->
+        <button class="btn btn-approve" (click)="onApproveSignature(); $event.stopPropagation()">Approve Signature</button>
+        <button class="btn btn-reject" (click)="onRejectSignature(); $event.stopPropagation()">Reject Signature</button>
+        <button class="btn btn-back" (click)="backToList()">Back to List</button>
       </div>
-      <div class="user-filter d-flex align-items-center">
-        <input type="number" class="form-control" placeholder="User ID" [(ngModel)]="userIdFilter" />
-        <button class="btn btn-info ml-2" (click)="onFilterByUserId()">Filter</button>
-      </div>
-
-      <!-- Table of Contracts -->
-      <table *ngIf="!isLoading" class="table table-striped">
-        <thead>
-          <tr>
-            <th>Contract #</th>
-            <th>Type</th>
-            <th>Status</th>
-            <th>Address</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            *ngFor="let contract of pagedContracts"
-            [ngClass]="{ 'archived-row': contract.status?.toUpperCase() === 'ARCHIVED' }"
-          >
-            <td>{{ contract.contractNumber }}</td>
-            <td>{{ contract.type }}</td>
-            <!-- Use optional chaining for status -->
-            <td>{{ contract.status?.toUpperCase() }}</td>
-            <td>{{ contract.property?.address }}</td>
-            <td>
-              <div class="action-buttons d-flex flex-wrap">
-                <button class="btn btn-edit mr-1" (click)="onEdit(contract)">Edit</button>
-                <button class="btn btn-delete mr-1" (click)="onDelete(contract)">Delete</button>
-                <button class="btn btn-export-contract" (click)="exportContract(contract)">Export Contract</button>
-                <button class="btn btn-pdf mr-1" (click)="downloadPDF(contract)">PDF</button>
-                <button class="btn btn-archive" (click)="onToggleArchive(contract)">
-                  
-                  <!-- Also optional chain here, just in case -->
-                  {{ contract.status?.toUpperCase() === 'ARCHIVED' ? 'Unarchive' : 'Archive' }}
-                  
-                </button>
-              </div>
-            </td>
-          </tr>
-          <tr *ngIf="filteredContracts.length === 0">
-            <td colspan="5" class="text-center">No contracts found.</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <!-- Angular Material Paginator -->
-      <mat-paginator
-        [length]="totalContracts"
-        [pageSize]="pageSize"
-        [pageSizeOptions]="[5, 10, 25]"
-        (page)="onPageChange($event)"
-      >
-      </mat-paginator>
     </div>
   </div>
+
+  <ng-template #listView>
+    <!-- Card Container for the Table -->
+    <div class="table-card mt-3">
+      <div class="card-header">
+        <h5 class="text-center">List of Contracts</h5>
+      </div>
+      <div class="card-body">
+        <!-- Loading Indicator -->
+        <div *ngIf="isLoading" class="text-center">
+          <p>Loading contracts...</p>
+        </div>
+        <div class="export-all-container">
+          <button class="export-all-btn" (click)="exportAllContracts()">Export All Contracts</button>
+        </div>
+        <div class="user-filter d-flex align-items-center">
+          <input type="number" class="form-control" placeholder="User ID" [(ngModel)]="userIdFilter" />
+          <button class="btn btn-info ml-2" (click)="onFilterByUserId()">Filter</button>
+        </div>
+
+        <!-- Table of Contracts -->
+        <table *ngIf="!isLoading" class="table table-striped">
+          <thead>
+            <tr>
+              <th>Contract #</th>
+              <th>Type</th>
+              <th>Status</th>
+              <th>Address</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let contract of pagedContracts"
+              [ngClass]="{ 'archived-row': contract.status?.toUpperCase() === 'ARCHIVED' }"
+              (click)="onSelect(contract)"
+              style="cursor: pointer;"
+            >
+              <td>{{ contract.contractNumber }}</td>
+              <td>{{ contract.type }}</td>
+              <td>{{ contract.status?.toUpperCase() }}</td>
+              <td>{{ contract.property?.address }}</td>
+              <td>
+                <div class="action-buttons d-flex flex-wrap">
+                  <button class="btn btn-edit mr-1" (click)="onEdit(contract); $event.stopPropagation()">Edit</button>
+                  <button class="btn btn-edit mr-1" (click)="onDelete(contract); $event.stopPropagation()">Delete</button>
+                  <button class="btn btn-edit mr-1" (click)="exportContract(contract); $event.stopPropagation()">Export Contract</button>
+                  <button class="btn btn-edit mr-1" (click)="downloadPDF(contract); $event.stopPropagation()">PDF</button>
+                  <button class="btn btn-edit mr-1" (click)="onArchive(contract); $event.stopPropagation()">
+                    Archive
+                  </button>
+                  
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="filteredContracts.length === 0">
+              <td colspan="5" class="text-center">No contracts found.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Angular Material Paginator -->
+        <mat-paginator
+          [length]="totalContracts"
+          [pageSize]="pageSize"
+          [pageSizeOptions]="[5, 10, 25]"
+          (page)="onPageChange($event)">
+        </mat-paginator>
+      </div>
+    </div>
+  </ng-template>
 </div>

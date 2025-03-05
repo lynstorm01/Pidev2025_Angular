@@ -5,6 +5,10 @@ import { ContractService, Contract } from '../../../services/contract.service';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 (pdfMake as any).vfs = pdfFonts.vfs;
+import { ThemeService } from 'src/app/services/theme.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+
 
 @Component({
   selector: 'app-list-contract',
@@ -31,10 +35,13 @@ export class ListContractComponent implements OnInit {
   totalArchived = 0;
 
   searchTerm = '';
+// When a contract is selected, its details will be shown
+selectedContract: Contract | null = null;
 
   constructor(
     private contractService: ContractService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -141,25 +148,26 @@ export class ListContractComponent implements OnInit {
     });
   }
 
-  onToggleArchive(contract: Contract): void {
-    const currentStatus = contract.status?.toUpperCase();
-    const newStatus = currentStatus === 'ARCHIVED' ? 'ACTIVE' : 'ARCHIVED';
-    const updatePayload = { ...contract, status: newStatus };
-
+  onArchive(contract: Contract): void {
+    // Set the contract's status to "ARCHIVED"
+    const updatePayload = { ...contract, status: 'ARCHIVED' };
+    
     this.contractService.updateContract(contract.id!, updatePayload).subscribe({
       next: () => {
-        // Update the local array so the UI changes
-        contract.status = newStatus;
-        this.message = `Contract ${
-          newStatus === 'ARCHIVED' ? 'archived' : 'unarchived'
-        } successfully!`;
+        // Remove the contract from the local arrays so it disappears immediately
+        this.contracts = this.contracts.filter(c => c.id !== contract.id);
+        this.filteredContracts = this.filteredContracts.filter(c => c.id !== contract.id);
+        this.setPagedContracts();
+        this.message = 'Contract archived successfully!';
       },
       error: (err: any) => {
         console.error(err);
-        this.message = 'Error updating contract status.';
+        this.message = 'Error archiving contract.';
       }
     });
   }
+  
+  
 
   downloadPDF(contract: Contract): void {
     const docDefinition: any = {
@@ -320,6 +328,76 @@ exportContract(contract: Contract): void {
     }
   });
 }
+// Called when a user clicks on a contract row
+onSelect(contract: Contract): void {
+  this.selectedContract = contract;
+}
+
+ // Go back to the list view
+ backToList(): void {
+  this.selectedContract = null;
+  this.message = '';
+}
+
+onVerifySignature(status: string): void {
+  if (!this.selectedContract?.id) {
+    this.message = "No contract selected.";
+    return;
+  }
+
+  this.contractService.verifySignature(this.selectedContract.id, status).subscribe({
+    next: (updatedContract) => {
+      if (this.selectedContract && updatedContract.signatureVerificationStatus) {
+        this.selectedContract.signatureVerificationStatus = updatedContract.signatureVerificationStatus;
+        this.message = `Signature has been ${updatedContract.signatureVerificationStatus.toLowerCase()}.`;
+      } else {
+        this.message = "Signature verification status not returned.";
+      }
+    },
+    error: (error) => {
+      console.error("Error verifying signature:", error);
+      this.message = "Failed to verify signature.";
+    }
+  });
+}
+onApproveSignature(): void {
+  if (!this.selectedContract?.id) {
+    this.snackBar.open("No contract selected.", "Close", { duration: 3000 });
+    return;
+  }
+  this.contractService.verifySignature(this.selectedContract.id, 'VERIFIED').subscribe({
+    next: (updatedContract) => {
+      if (this.selectedContract) {
+        this.selectedContract.signatureVerificationStatus = updatedContract.signatureVerificationStatus;
+        this.snackBar.open("Signature approved successfully.", "Close", { duration: 3000 });
+      }
+    },
+    error: (error) => {
+      console.error("Error approving signature:", error);
+      this.snackBar.open("Failed to approve signature.", "Close", { duration: 3000 });
+    }
+  });
+}
+
+onRejectSignature(): void {
+  if (!this.selectedContract?.id) {
+    this.snackBar.open("No contract selected.", "Close", { duration: 3000 });
+    return;
+  }
+  this.contractService.verifySignature(this.selectedContract.id, 'INVALID').subscribe({
+    next: (updatedContract) => {
+      if (this.selectedContract) {
+        this.selectedContract.signatureVerificationStatus = updatedContract.signatureVerificationStatus;
+        this.snackBar.open("Signature rejected.", "Close", { duration: 3000 });
+      }
+    },
+    error: (error) => {
+      console.error("Error rejecting signature:", error);
+      this.snackBar.open("Failed to reject signature.", "Close", { duration: 3000 });
+    }
+  });
+}
+
 
   
 }

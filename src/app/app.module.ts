@@ -43,6 +43,7 @@ import { ListContractComponent } from './admin/contract-crud/list-contract/list-
 import { ContractUpdateComponent } from './admin/contract-crud/update-contract/update-contract.component';
 import * as Papa from 'papaparse';
 import { ClientContractsComponent } from './front/contract/client-contracts/client-contracts.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -55,7 +56,6 @@ import { ClientContractsComponent } from './front/contract/client-contracts/clie
     HistorComponent,
     CreateSinComponent,
     SinisterADComponent,
-
     AppointmentListComponent,
     AppointmentFormComponent,
     ClaimsListComponent,
@@ -88,7 +88,8 @@ import { ClientContractsComponent } from './front/contract/client-contracts/clie
     MatSelectModule,
     MatOptionModule,
     MatPaginatorModule,
-    RouterModule // Ajout du RouterModule pour RouterLink
+    RouterModule,
+    MatSnackBarModule, // Ajout du RouterModule pour RouterLink
   ],
   providers: [],
   bootstrap: [AppComponent]

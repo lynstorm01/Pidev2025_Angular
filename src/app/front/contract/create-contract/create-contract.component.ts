@@ -16,10 +16,12 @@ export class CreateContractComponent implements OnInit {
   contractForm!: FormGroup;
   message: string = '';
   isLoading: boolean = false;
-
+  verificationMessage: string = '';
   // For two-step process:
   createdContract?: Contract;
   signatureFile?: File;
+  showExtraFields: boolean = false;
+
 
   constructor(private fb: FormBuilder, private contractService: ContractService) {}
 
@@ -72,6 +74,8 @@ export class CreateContractComponent implements OnInit {
         this.createdContract = created;
         // Optionally, do not reset the form so the user can see the data or sign
         // this.resetForm();
+        this.showExtraFields = true;
+
       },
       error: (err) => {
         this.handleError(err, 'creating contract');
@@ -141,28 +145,34 @@ onSignatureFileChange(event: any): void {
     this.signatureFile = event.target.files[0];
   }
 }
-  signContract(): void {
-    console.log('signContract() method called');
 
-    if (!this.createdContract || !this.signatureFile) {
-      this.message = 'Please select a signature file.';
-      return;
-    }
-    this.isLoading = true;
-    this.contractService.signeContract(this.createdContract.id!, this.signatureFile).subscribe({
-      next: (signedContract) => {
-        this.message = 'Contract signed successfully!';
-        // Optionally update createdContract with the new data:
-        this.createdContract = signedContract;
-      },
-      error: (err) => {
-        this.handleError(err, 'signing contract');
-      },
-      complete: () => {
-        this.isLoading = false;
-      }
-    });
+signContract(): void {
+  if (!this.createdContract || !this.signatureFile) {
+    this.message = 'Please select a signature file.';
+    return;
   }
+  this.isLoading = true;
+  this.contractService.signeContract(this.createdContract.id!, this.signatureFile).subscribe({
+    next: (signedContract) => {
+      this.createdContract = signedContract;
+      // Check the signatureVerificationStatus
+      if (signedContract.signatureVerificationStatus?.toUpperCase() === 'PENDING') {
+        this.message = 'Signature submitted. Your signature is pending admin approval.';
+      } else if (signedContract.signatureVerificationStatus?.toUpperCase() === 'VERIFIED') {
+        this.message = 'Signature Verified!';
+      } else if (signedContract.signatureVerificationStatus?.toUpperCase() === 'INVALID') {
+        this.message = 'Signature Invalid. Please try again.';
+      }
+    },
+    error: (err) => {
+      this.handleError(err, 'signing contract');
+    },
+    complete: () => {
+      this.isLoading = false;
+    }
+  });
+}
+
 
 
   

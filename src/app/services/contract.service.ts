@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { HttpParams } from '@angular/common/http';
+
 
 export interface Contract {
   id?: number;
@@ -15,7 +17,8 @@ export interface Contract {
     area: number;
     propertyType: string;
     value: number;
-  }
+  };
+  signatureVerificationStatus?: string;
   //userid: number;
 }
 
@@ -124,6 +127,21 @@ getContractsByUserId(userId: number): Observable<Contract[]> {
   return this.http.get<Contract[]>(`${this.baseUrl}/user/${userId}`, { headers: this.getHeaders() })
     .pipe(catchError(this.handleError));
 }
+
+verifySignature(contractId: number, status: string): Observable<Contract> {
+  // Create an HttpParams object with the "status" parameter
+  const params = new HttpParams().set('status', status);
+  
+  // No request body is needed, so we pass null
+  return this.http.put<Contract>(
+    `${this.baseUrl}/${contractId}/verify-signature`,
+    null,
+    { params, headers: this.getHeaders() }
+  ).pipe(
+    catchError(this.handleError)
+  );
+}
+
 
 
 

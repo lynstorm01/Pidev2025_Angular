@@ -90,7 +90,7 @@ export class ContractUpdateComponent implements OnInit {
       next: () => {
         this.message = 'Contract updated successfully!';
         // Navigate back to the list after update
-        this.router.navigate(['/contract-crud/list']);
+        this.router.navigate(['/admin/contract-crud/list']);
       },
       error: (err) => {
         console.error(err);
