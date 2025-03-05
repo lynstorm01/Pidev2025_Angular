@@ -2,10 +2,85 @@
     <h2 class="text-center mb-2">📢 Blog Posts</h2>
     <p class="text-center text-muted">Total Posts: {{ posts.length }}</p>
   
-   <!-- Search bar -->
+<!-- Search bar -->
 <div class="mb-3 search-container">
-    <input type="text" [(ngModel)]="searchQuery" (input)="filterPosts()" class="search-input" placeholder="Search by title, username, category or content">
+  <input 
+    type="text" 
+    [(ngModel)]="searchQuery" 
+    (input)="applySearchFilter()" 
+    class="search-input" 
+    placeholder="Search posts..."
+  >
+</div>
+
+<div class="d-flex gap-3 mb-3">
+  <!-- Filters Section (Left Side) -->
+  <div class="d-flex gap-3">
+    
+    <!-- Category Filter -->
+    <div class="dropdown">
+      <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+        Category: {{ filterByCategory === undefined ? 'All' : filterByCategory }}
+      </button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" (click)="setCategoryFilter(undefined)">All</a></li>
+        <li *ngFor="let category of categories" (click)="setCategoryFilter(category)">
+          <a class="dropdown-item">{{ category }}</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Status Filter -->
+    <div class="dropdown">
+      <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+        Status: {{ filterByStatus === undefined ? 'All' : filterByStatus }}
+      </button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" (click)="setStatusFilter(undefined)">All</a></li>
+        <li *ngFor="let status of statuses" (click)="setStatusFilter(status)">
+          <a class="dropdown-item">{{ status }}</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Year Filter -->
+    <div class="dropdown">
+      <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+        Year: {{ selectedYear === undefined ? 'All' : selectedYear }}
+      </button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" (click)="setYearFilter(undefined)">All</a></li>
+        <li *ngFor="let year of yearsList" (click)="setYearFilter(year)">
+          <a class="dropdown-item">{{ year }}</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Month Filter -->
+    <div class="dropdown">
+      <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+        Month: {{ selectedMonth === undefined ? 'All' : months[selectedMonth] }}
+      </button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" (click)="setMonthFilter(undefined)">All</a></li>
+        <li *ngFor="let month of months; let i = index" (click)="setMonthFilter(i)">
+          <a class="dropdown-item">{{ month }}</a>
+        </li>
+      </ul>
+    </div>
+
   </div>
+
+  <!-- Reset Filters Button (Right Side) -->
+  <button class="btn btn-outline-secondary" 
+    [disabled]="isFiltersReset()" 
+    (click)="resetFilters()" 
+    title="Reset Filters">
+    <i class="fa-solid fa-filter-circle-xmark"></i>
+  </button>
+</div>
+
+  
 
     <div class="table-responsive">
         <table class="table table-hover table-bordered text-center custom-table">

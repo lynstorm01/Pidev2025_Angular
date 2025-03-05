@@ -1,69 +1,168 @@
 <div class="container mt-4">
-    <h2 class="text-center">Comments Management</h2>
+  <h2 class="text-center">Comments Management</h2>
+  <!-- Total Comments -->
+  <p class="text-center text-muted">
+    <i class="fas fa-comments"></i> Total Comments: {{ comments.length }}
+</p>
+
+   <!-- Search bar -->
+   <div class="mb-3 search-container">
+    <input type="text" [(ngModel)]="searchText" (input)="applySearchFilter()" class="search-input" placeholder="Search comments...">
+  </div>
+
   
-    <!-- Search Bar -->
-    <div class="search-container">
-      <input 
-        type="text" 
-        class="search-input" 
-        [(ngModel)]="searchText" 
-        placeholder="Search comments..."
-      />
+  <div class="d-flex gap-3 mb-3">
+    <!-- Filters Section (Left Side) -->
+    <div class="d-flex gap-3">
+      <!-- Edited Filter -->
+      <div class="dropdown">
+        <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+          Edited: {{ filterByEdited === undefined ? 'All' : (filterByEdited ? 'Yes' : 'No') }}
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" (click)="setFilter('edited', undefined)">All</a></li>
+          <li><a class="dropdown-item" (click)="setFilter('edited', true)">Edited</a></li>
+          <li><a class="dropdown-item" (click)="setFilter('edited', false)">Not Edited</a></li>
+        </ul>
+      </div>
+  
+      <!-- Replies Filter -->
+      <div class="dropdown">
+        <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+          Replies: {{ filterByReplies === undefined ? 'All' : (filterByReplies ? 'With Replies' : 'Without Replies') }}
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" (click)="setFilter('replies', undefined)">All</a></li>
+          <li><a class="dropdown-item" (click)="setFilter('replies', true)">With Replies</a></li>
+          <li><a class="dropdown-item" (click)="setFilter('replies', false)">Without Replies</a></li>
+        </ul>
+      </div>
+  
+      <!-- Year Filter -->
+      <div class="dropdown">
+        <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+          Year: {{ selectedYear === undefined ? 'All' : selectedYear }}
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" (click)="setYearFilter(undefined)">All</a></li>
+          <li *ngFor="let year of yearsList" (click)="setYearFilter(year)">
+            <a class="dropdown-item">{{ year }}</a>
+          </li>
+        </ul>
+      </div>
+  
+      <!-- Month Filter -->
+      <div class="dropdown">
+        <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+          Month: {{ selectedMonth === undefined ? 'All' : months[selectedMonth] }}
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" (click)="setMonthFilter(undefined)">All</a></li>
+          <li *ngFor="let month of ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; let i = index" (click)="setMonthFilter(i)">
+            <a class="dropdown-item">{{ month }}</a>
+          </li>
+        </ul>
+      </div>
     </div>
   
-    <!-- Comments Table -->
-    <div class="table-responsive">
+<!-- Reset Filters Button (Right Side) -->
+<button class="btn btn-outline-secondary" 
+[disabled]="isFiltersReset()" 
+(click)="resetFilters()" 
+title="Reset Filters">
+<i class="fa-solid fa-filter-circle-xmark"></i>
+</button>
+  </div>
+  
+
+  
+  
+  
+
+
+
+
+
+  <!-- Comments Table -->
+  <div class="table-responsive">
       <table class="table table-bordered custom-table">
-        <thead>
+        <thead class="table-dark">
           <tr>
-            <th>ID</th>
-            <th>Content</th>
-            <th>Created At</th>
-            <th>Last Updated</th>
-            <th>Edited</th>
-            <th>Post ID</th>
-            <th>User ID</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let comment of filteredComments">
-            <td>{{ comment.id }}</td>
-            <td class="content-column">{{ comment.content }}</td>
-            <td>{{ comment.createdAt }}</td>
-            <td>{{ comment.lastUpdatedAt || 'N/A' }}</td>
-            <td>
-              <span class="badge" [class.bg-success]="comment.isEdited" [class.bg-secondary]="!comment.isEdited">
-                {{ comment.isEdited ? 'Yes' : 'No' }}
-              </span>
-            </td>
-            <td>{{ comment.postId }}</td>
-            <td>{{ comment.userId }}</td>
-            <td>
-              <button class="btn btn-primary btn-sm" (click)="openUpdateModal(comment)">
-                <i class="fas fa-edit"></i>
-              </button>
-              <button class="btn btn-danger btn-sm" (click)="confirmDelete(comment.id)">
-                <i class="fas fa-trash"></i>
-              </button>
-            </td>
-          </tr>
-        </tbody>
+                  <th>Content</th>
+                  <th>Username</th>
+                  <th>Post Title</th>
+                  <th>Edited</th>
+                  <th>Replies Count</th>
+                  <th>Actions</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let comment of filteredComments">
+                  <td class="content-column">{{ comment.content }}</td>
+                  <td>{{ comment.username }}</td>
+                  <td>{{ comment.postTitle }}</td>
+                  <td>
+                      <span class="badge" [class.bg-success]="comment.isEdited" [class.bg-secondary]="!comment.isEdited">
+                          {{ comment.isEdited ? 'Yes' : 'No' }}
+                      </span>
+                  </td>
+                  <td>
+                      <span class="badge bg-info">{{ comment.repliesId?.length || 0 }}</span>
+                  </td>
+                  <td>
+                    <button class="btn btn-sm" (click)="openReadModal(comment.id)">
+                      <i class="fas fa-eye"></i>
+                  </button>
+                      <button class="btn btn-sm" (click)="openUpdateModal(comment)">
+                          <i class="fas fa-edit"></i>
+                      </button>
+                      <button class="btn btn-sm" (click)="confirmDelete(comment.id)">
+                          <i class="fas fa-trash"></i>
+                      </button>
+                  </td>
+              </tr>
+          </tbody>
       </table>
-    </div>
-  
-    <!-- Pagination Controls -->
+  </div>
+
+  <!-- Pagination Controls -->
     <div class="pagination-container">
-      <button class="btn btn-secondary btn-sm" (click)="previousPage()" [disabled]="currentPage === 1">
-        Previous
-      </button>
-      <span class="page-info">Page {{ currentPage }} of {{ totalPages }}</span>
-      <button class="btn btn-secondary btn-sm" (click)="nextPage()" [disabled]="currentPage === totalPages">
-        Next
-      </button>
+        <button (click)="previousPage()" [disabled]="currentPage === 1" class="btn btn-sm btn-outline-primary">
+            ⬅ Previous
+        </button>
+        <span class="page-info">Page {{ currentPage }} of {{ totalPages }}</span>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="btn btn-sm btn-outline-primary">
+            Next ➡
+        </button>
     </div>
+
   
-    <!-- Update Comment Modal -->
+
+  <!-- Read Comment Modal -->
+  <div class="modal fade" id="readCommentModal" tabindex="-1" aria-labelledby="readCommentModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h2 class="modal-title" id="readCommentModalLabel">Comment Details</h2>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <p><strong>Content : </strong> {{ selectedComment?.content }}</p>
+                  <p><strong>Username : </strong> {{ selectedComment?.username }}</p>
+                  <p><strong>Post Title : </strong> {{ selectedComment?.postTitle }}</p>
+                  <p><strong>Created At : </strong> {{ selectedComment?.createdAt | date: 'medium' }}</p>
+                  <p><strong>Last Updated : </strong> {{ selectedComment?.lastUpdatedAt | date: 'medium' || ' Never Updated ! ' }}</p>
+                  <p><strong>Edited : </strong> 
+                      <span class="badge" [class.bg-success]="selectedComment?.isEdited" [class.bg-secondary]="!selectedComment?.isEdited">
+                          {{ selectedComment?.isEdited ? 'Yes' : 'No' }}
+                      </span>
+                  </p>
+                  <p><strong>Replies Count : </strong> <span class="badge bg-info">{{ selectedComment?.replies?.length || 0 }}</span></p>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- Update Comment Modal -->
     <div class="modal fade" id="updateCommentModal" tabindex="-1" aria-labelledby="updateCommentModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -83,5 +182,4 @@
         </div>
       </div>
     </div>
-  </div>
-  
+</div>

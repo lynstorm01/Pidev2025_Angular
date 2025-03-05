@@ -1,1 +1,160 @@
-<p>reply works!</p>
+<div class="container mt-4">
+    <h2 class="text-center">Replies Management</h2>
+    
+    <!-- Total Replies -->
+    <p class="text-center text-muted">
+      <i class="fas fa-comments"></i> Total Replies: {{ replies.length }}
+    </p>
+  
+    <!-- Search bar -->
+    <div class="mb-3 search-container">
+      <input type="text" [(ngModel)]="searchText" (input)="applySearchFilter()" class="search-input" placeholder="Search replies...">
+    </div>
+  
+    <div class="d-flex gap-3 mb-3">
+      <!-- Filters Section (Left Side) -->
+      <div class="d-flex gap-3">
+        <!-- Edited Filter -->
+        <div class="dropdown">
+          <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+            Edited: {{ filterByEdited === undefined ? 'All' : (filterByEdited ? 'Yes' : 'No') }}
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" (click)="setFilter('edited', undefined)">All</a></li>
+            <li><a class="dropdown-item" (click)="setFilter('edited', true)">Edited</a></li>
+            <li><a class="dropdown-item" (click)="setFilter('edited', false)">Not Edited</a></li>
+          </ul>
+        </div>
+    
+        <!-- Year Filter -->
+        <div class="dropdown">
+          <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+            Year: {{ selectedYear === undefined ? 'All' : selectedYear }}
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" (click)="setYearFilter(undefined)">All</a></li>
+            <li *ngFor="let year of yearsList" (click)="setYearFilter(year)">
+              <a class="dropdown-item">{{ year }}</a>
+            </li>
+          </ul>
+        </div>
+    
+        <!-- Month Filter -->
+        <div class="dropdown">
+          <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+            Month: {{ selectedMonth === undefined ? 'All' : months[selectedMonth] }}
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" (click)="setMonthFilter(undefined)">All</a></li>
+            <li *ngFor="let month of ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; let i = index" (click)="setMonthFilter(i)">
+              <a class="dropdown-item">{{ month }}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    
+      <!-- Reset Filters Button (Right Side) -->
+      <button class="btn btn-outline-secondary" 
+      [disabled]="isFiltersReset()" 
+      (click)="resetFilters()" 
+      title="Reset Filters">
+        <i class="fa-solid fa-filter-circle-xmark"></i>
+      </button>
+    </div>
+    
+  
+    <!-- Replies Table -->
+    <div class="table-responsive">
+      <table class="table table-bordered custom-table">
+        <thead class="table-dark">
+          <tr>
+            <th>Content</th>
+            <th>Username</th>
+            <th>Comment Content</th>
+            <th>Edited</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let reply of pagedReplies">
+            <td class="content-column">{{ reply.content }}</td>
+            <td>{{ reply.username }}</td>
+            <td>{{ reply.commentContent }}</td>
+            <td>
+              <span class="badge" [class.bg-success]="reply.isEdited" [class.bg-secondary]="!reply.isEdited">
+                {{ reply.isEdited ? 'Yes' : 'No' }}
+              </span>
+            </td>
+            <td>
+              <button class="btn btn-sm" (click)="openReadModal(reply.id)">
+                <i class="fas fa-eye"></i>
+              </button>
+              <button class="btn btn-sm" (click)="openUpdateModal(reply)">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn btn-sm" (click)="confirmDelete(reply.id)">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <!-- Pagination Controls -->
+<div class="pagination-container">
+  <button (click)="previousPage()" [disabled]="currentPage === 1" class="btn btn-sm btn-outline-primary">
+    ⬅ Previous
+  </button>
+  <span class="page-info">Page {{ currentPage }} of {{ totalPages }}</span> 
+  <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="btn btn-sm btn-outline-primary">
+    Next ➡
+  </button>
+</div>
+  
+    <!-- Read Reply Modal -->
+    <div class="modal fade" id="readReplyModal" tabindex="-1" aria-labelledby="readReplyModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title" id="readReplyModalLabel">Reply Details</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p><strong>Content : </strong> {{ selectedReply?.content }}</p>
+            <p><strong>Username : </strong> {{ selectedReply?.username }}</p>
+            <p><strong>Comment Content : </strong> {{ selectedReply?.commentContent }}</p>
+            <p><strong>Created At : </strong> {{ selectedReply?.createdAt | date: 'medium' }}</p>
+            <p><strong>Last Updated : </strong> {{ selectedReply?.lastUpdatedAt | date: 'short' || ' Never Updated ! ' }}</p>
+            <p><strong>Edited : </strong> 
+              <span class="badge" [class.bg-success]="selectedReply?.isEdited" [class.bg-secondary]="!selectedReply?.isEdited">
+                {{ selectedReply?.isEdited ? 'Yes' : 'No' }}
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Update Reply Modal -->
+    <div class="modal fade" id="updateReplyModal" tabindex="-1" aria-labelledby="updateReplyModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="updateReplyModalLabel">Update Reply</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form (submit)="updateReply()">
+              <div class="mb-3">
+                <label for="replyContent" class="form-label">Content</label>
+                <textarea class="form-control" id="replyContent" [(ngModel)]="selectedReplyUpdate.content" name="content" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

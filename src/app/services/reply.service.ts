@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class ReplyService {
 
-  private baseUrl = 'http://localhost:8069/api/reply'; // Your backend URL for Replies
+  private baseUrl = 'http://localhost:8069/api/Reply'; // Your backend URL for Replies
 
   constructor(private http: HttpClient) {}
 

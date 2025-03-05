@@ -1,5 +1,5 @@
 /* Adjust table size and styling */
-.custom-table {
+.table-responsive .table {
     max-width: 95%;
     margin: auto;
     border-radius: 8px;
@@ -10,24 +10,24 @@
 }
 
 /* Table Header Styling */
-.custom-table thead {
+.table thead {
     background-color: #343a40;
     color: #ffffff;
     font-weight: bold;
 }
 
 /* Row Styling */
-.custom-table tbody tr {
+.table tbody tr {
     background-color: #f8f9fa;
     transition: all 0.3s ease-in-out;
 }
 
-.custom-table tbody tr:hover {
+.table tbody tr:hover {
     background-color: #e9ecef;
 }
 
 /* Column text center and padding */
-.custom-table td, .custom-table th {
+.table td, .table th {
     vertical-align: middle;
     text-align: center;
     padding: 12px;
@@ -54,6 +54,21 @@
     border-radius: 5px;
 }
 
+.bg-success {
+    background-color: #28a745 !important;
+    color: white;
+}
+
+.bg-secondary {
+    background-color: #6c757d !important;
+    color: white;
+}
+
+.bg-info {
+    background-color: #17a2b8 !important;
+    color: white;
+}
+
 /* Post Count Styling */
 .text-muted {
     font-size: 16px;
@@ -75,10 +90,10 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .custom-table {
+    .table {
         font-size: 12px;
     }
-    .custom-table td, .custom-table th {
+    .table td, .table th {
         min-width: 80px; /* Smaller width for mobile */
     }
     .content-column {
@@ -88,7 +103,11 @@
         flex-direction: column;
         gap: 10px;
     }
+    .search-input {
+        width: 80%;
+    }
 }
+
 
 
   /* Styling for the search bar container */
@@ -97,6 +116,7 @@
     justify-content: center;
     align-items: center;
     margin-top: 20px;
+    margin-bottom: 20px;
     gap: 10px;
   }
   

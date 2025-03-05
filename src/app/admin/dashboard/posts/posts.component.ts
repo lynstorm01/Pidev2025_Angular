@@ -28,6 +28,24 @@ export class PostsComponent {
     userId: null
   };
 
+  //---------------------Filter --------------------
+
+  
+  filterByStatus?: string;
+  filterByCategory?: string;
+
+  categories: string[] = ['HEALTH', 'BUSINESS', 'TECHNOLOGY', 'EDUCATION', 'ENTERTAINMENT'];
+  statuses: string[] = ['REJECTED', 'PENDING', 'APPROVED'];
+
+  // New filter variables
+  selectedYear?: number;
+  selectedMonth?: number;
+  yearsList: number[] = [];
+  months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+
+  //-------------------------------
+
 
 
   @ViewChild('postDetailsModal') postDetailsModal!: ElementRef;
@@ -38,6 +56,7 @@ export class PostsComponent {
 
   ngOnInit(): void {
     this.loadPosts();
+    this.generateYearsList();
   }
 
   ngAfterViewInit() {
@@ -61,6 +80,109 @@ export class PostsComponent {
       this.updatePagination();
     });
   }
+
+// Filter -------------------------------------------------------------------
+
+  // Generate the last 5 years for the dropdown
+  generateYearsList(): void {
+    const currentYear = new Date().getFullYear();
+    this.yearsList = [];
+    for (let i = 0; i < 5; i++) {
+      this.yearsList.push(currentYear - i);
+    }
+  }
+
+  // Apply search and filter conditions
+  applySearchFilter(): void {
+    let filtered = [...this.posts];
+
+    // Apply search text filter
+    if (this.searchQuery) {
+      const search = this.searchQuery.toLowerCase();
+      filtered = filtered.filter(post =>
+        post.title?.toLowerCase().includes(search) ||
+        post.content?.toLowerCase().includes(search) ||
+        post.username?.toLowerCase().includes(search)
+      );
+    }
+
+    // Apply Category filter
+    if (this.filterByCategory !== undefined) {
+      filtered = filtered.filter(post => post.category === this.filterByCategory);
+    }
+
+    // Apply Status filter
+    if (this.filterByStatus !== undefined) {
+      filtered = filtered.filter(post => post.status === this.filterByStatus);
+    }
+
+    // Apply Year filter
+    if (this.selectedYear !== undefined) {
+      filtered = filtered.filter(post => {
+        const postYear = new Date(post.createdAt).getFullYear();
+        return postYear === this.selectedYear;
+      });
+    }
+
+    // Apply Month filter
+    if (this.selectedMonth !== undefined) {
+      filtered = filtered.filter(post => {
+        const postDate = new Date(post.createdAt);
+        return postDate.getMonth() === this.selectedMonth;
+      });
+    }
+
+    this.paginatedPosts = filtered;
+    // Update pagination after filtering
+  this.totalPages = Math.ceil(filtered.length / this.postsPerPage);
+  
+  }
+
+  // Set Category filter
+  setCategoryFilter(category: string | undefined): void {
+    this.filterByCategory = category;
+    this.applySearchFilter();
+  }
+
+  // Set Status filter
+  setStatusFilter(status: string | undefined): void {
+    this.filterByStatus = status;
+    this.applySearchFilter();
+  }
+
+  // Set Year filter
+  setYearFilter(year: number | undefined): void {
+    this.selectedYear = year;
+    this.applySearchFilter();
+  }
+
+  // Set Month filter
+  setMonthFilter(month: number | undefined): void {
+    this.selectedMonth = month;
+    this.applySearchFilter();
+  }
+
+  // Reset all filters
+  resetFilters(): void {
+    this.filterByCategory = undefined;
+    this.filterByStatus = undefined;
+    this.selectedYear = undefined;
+    this.selectedMonth = undefined;
+    this.searchQuery = '';
+    this.applySearchFilter();
+  }
+
+  // Check if filters are reset
+  isFiltersReset(): boolean {
+    return this.filterByCategory === undefined &&
+           this.filterByStatus === undefined &&
+           this.selectedYear === undefined &&
+           this.selectedMonth === undefined &&
+           !this.searchQuery;
+  }
+
+// Filter -------------------------------------------------------------------
+
 
   // Update post status
   updateStatus(postId: number, newStatus: string): void {
@@ -91,20 +213,20 @@ export class PostsComponent {
     }
   }
 
-  // Filter posts based on the search query
-filterPosts(): void {
-  if (this.searchQuery) {
-    this.paginatedPosts = this.posts.filter(post => 
-      post.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-      post.username.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-      post.category.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-      post.content.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-      post.status.toLowerCase().includes(this.searchQuery.toLowerCase()) // Add search by status
-    );
-  } else {
-    this.updatePagination(); // Reset to paginated posts if search is cleared
-  }
-}
+//   // Filter posts based on the search query
+// filterPosts(): void {
+//   if (this.searchQuery) {
+//     this.paginatedPosts = this.posts.filter(post => 
+//       post.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+//       post.username.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+//       post.category.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+//       post.content.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+//       post.status.toLowerCase().includes(this.searchQuery.toLowerCase()) // Add search by status
+//     );
+//   } else {
+//     this.updatePagination(); // Reset to paginated posts if search is cleared
+//   }
+// }
 
   
   // Method to confirm and delete a post

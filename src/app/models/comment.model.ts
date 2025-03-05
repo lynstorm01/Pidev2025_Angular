@@ -8,6 +8,8 @@ export interface Comment {
     isEdited: boolean;  // True if the comment was edited
     postId: number;  // Link to the associated post
     userId: number;  // Link to the user who created the comment
-    replies?: Reply[];  // Optional replies, can be populated later
+    repliesId?: Reply[];  // Optional replies, can be populated later
+    username:string;
+    postTitle:string;
   }
   
