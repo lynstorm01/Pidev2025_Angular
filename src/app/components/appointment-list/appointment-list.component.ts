@@ -43,7 +43,7 @@ export class AppointmentListComponent implements OnInit {
   }
 
   getAppointmentsForUser(): void {
-    const userId = 5; // Spécifie l'ID de l'utilisateur ici
+    const userId = 6; // Spécifie l'ID de l'utilisateur ici
     this.appointementService.getAppointmentsByUser(userId).subscribe(
       data => {
         this.appointments = data;

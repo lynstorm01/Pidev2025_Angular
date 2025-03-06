@@ -32,7 +32,7 @@ export class ClaimFormComponent implements OnInit {
     // Définit la date d'aujourd'hui au format "YYYY-MM-DD"
     this.today = new Date().toISOString().split('T')[0];
 
-    // Affectation manuelle de l'ID utilisateur (ici 5)
+    // Affectation manuelle de l'ID utilisateur 
     this.claim.userId = 5;
 
     // Si un ID est présent dans l'URL, charger la réclamation pour édition

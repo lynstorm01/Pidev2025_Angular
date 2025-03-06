@@ -8,4 +8,5 @@ export interface Claim {
   status?: 'ENREGISTREE' | 'EN_COURS' | 'TRAITEE';
   userId: number;  // ID de l'utilisateur auquel la réclamation est affectée
   user?: User;     // Objet utilisateur (optionnel)
+
 }

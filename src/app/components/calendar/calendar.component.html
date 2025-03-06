@@ -1,17 +1,26 @@
 <link rel="stylesheet" href="/assets/css/style55.css">
 
+
+
+<!-- Bouton pour afficher tous les rendez-vous 
+<button class="btn btn-secondary mb-3" (click)="showAllAppointments()">
+  Afficher tous les rendez-vous
+</button>-->
+
+<!-- Calendrier avec les événements -->
 <div class="custom-calendar-container">
-  <full-calendar [options]="calendarOptions"></full-calendar>
+  <full-calendar [options]="calendarOptions"> 
+    
+  </full-calendar>
+<button type="submit" routerLink="/appointment/add" >Add Appointment</button>
+
 </div>
 
-<!-- Affichage conditionnel des détails (exemple simple) -->
-<div *ngIf="selectedAppointment" class="appointment-details">
+<div *ngIf="selectedAppointment" class="appointment-details" 
+     [ngClass]="{'confirmed': selectedAppointment.status === 'CONFIRMED', 'pending': selectedAppointment.status !== 'CONFIRMED'}">
   <h2>Détails du rendez-vous</h2>
-  <p><strong>Description :</strong> {{ selectedAppointment.description }}</p>
-  <p><strong>Date :</strong> {{ selectedAppointment.dateSubmitted | date }}</p>
-  <p><strong>Statut :</strong> {{ selectedAppointment.status }}</p>
-  <!-- Ajoutez d'autres informations au besoin -->
+  <p>Description : {{ selectedAppointment.description }}</p>
+  <p>Date : {{ selectedAppointment.dateSubmitted | date }}</p>
+  <p>Statut : {{ selectedAppointment.status }}</p>
 </div>
 
-  
-  

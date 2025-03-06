@@ -49,11 +49,56 @@
     background-color: #003366 !important; /* Bleu foncé */
   }
   .custom-calendar-container {
-    max-width: 900px;
+    max-width: 1150px;
     margin: auto;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
     border-radius: 10px;
 
   }
+
+  /* Style général des boutons */
+button {
+  padding: 10px 15px;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Bouton pour afficher tous les rendez-vous */
+.btn-secondary {
+  background-color: #004b8d; /* Bleu */
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #003366; /* Bleu plus foncé */
+}
+
+/* Bouton pour ajouter un rendez-vous */
+.custom-calendar-container button {
+  background-color: #f38f1d; /* Orange */
+  color: white;
+  padding: 12px 20px;
+  margin-top: 15px;
+  display: block;
+  width: 100%;
+  text-align: center;
+  border-radius: 8px;
+}
+
+.custom-calendar-container button:hover {
+  background-color: #d97800; /* Orange plus foncé */
+}
+
+/* Ajoute une ombre pour un effet plus dynamique */
+button:focus, button:hover {
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+  
   

@@ -1,7 +1,7 @@
 /* Conteneur du formulaire */
 .form-container {
     padding: 20px;
-    background-color: #333; /* Fond blanc pour un look propre */
+    background-color: rgba(255, 255, 255, 0.753); /* Fond blanc pour un look propre */
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre douce */
     max-width: 600px;

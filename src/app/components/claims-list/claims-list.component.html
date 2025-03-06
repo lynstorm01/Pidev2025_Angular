@@ -61,6 +61,10 @@
   <button *ngIf="claim.status === 'TRAITEE'" class="btn btn-secondary btn-sm" [disabled]="true">
     Done
   </button>
+    <!-- New "Send Email" button -->
+    <button *ngIf="claim.status === 'TRAITEE'" class="btn btn-primary btn-sm" (click)="sendEmail(claim)">
+      Send Email
+    </button>
         </td>
       </tr>
     </tbody>

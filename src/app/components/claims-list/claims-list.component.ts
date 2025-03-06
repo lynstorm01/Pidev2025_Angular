@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ClaimsService } from '../../services/claims.service';
 import { Claim } from '../../models/claim.model';
-
+import { EmailService } from '../../services/EmailService';  // Import the email service
 @Component({
   selector: 'app-claims-list',
   templateUrl: './claims-list.component.html',
@@ -17,7 +17,7 @@ export class ClaimsListComponent implements OnInit {
   totalPages: number = 1;
   totalPagesArray: number[] = [];
 
-  constructor(private claimsService: ClaimsService) {}
+  constructor(private claimsService: ClaimsService, private emailService: EmailService) {}
 
   ngOnInit(): void {
     this.loadClaims();
@@ -87,4 +87,28 @@ export class ClaimsListComponent implements OnInit {
       error => console.error('Erreur lors de la mise à jour du statut', error)
     );
   }
+
+    // Method to send email for a specific claim
+    sendEmail(claim: Claim): void {
+      // Email par défaut
+      const defaultEmail = 'twilotwilo461@gmail.com';
+    
+      const emailSubject = `Claim ${claim.idClaim} Processed`;
+      const emailBody = `Dear User,\n\nYour claim with ID ${claim.idClaim} has been processed.\n\nThank you.
+      Pour participer à la visioconférence, cliquez sur ce lien : https://meet.google.com/gus-ntjt-yig
+Pour participer par téléphone, composez le +1 208-715-5660 et saisissez ce code : 381 391 918#`;
+    
+      // Utilisation de l'email par défaut directement
+      this.emailService.sendEmail(defaultEmail, emailSubject, emailBody).subscribe(
+        response => {
+          console.log('Email sent successfully:', response);
+          alert('Email sent successfully!');
+        },
+        error => {
+          console.error('Error sending email:', error);
+          alert('Failed to send email. Please try again later.');
+        }
+      );
+    }
+    
 }
