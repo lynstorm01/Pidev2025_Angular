@@ -35,4 +35,8 @@ export class ReplyService {
   deleteReply(id: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${id}`);
   }
+
+  getRepliesForComment(commentId: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/${commentId}/replies`);
+  }
 }

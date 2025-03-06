@@ -26,6 +26,7 @@ import { CommentsComponent } from './admin/dashboard/comments/comments.component
 import { UsersComponent } from './admin/dashboard/users/users.component';
 import { ReplyComponent } from './admin/dashboard/reply/reply.component';
 import { PostsComponent } from './admin/dashboard/posts/posts.component';
+import { BlogFrontOfficeComponent } from './components/blog-front-office/blog-front-office.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { PostsComponent } from './admin/dashboard/posts/posts.component';
     PostsComponent,
     CommentsComponent,
     UsersComponent,
-    ReplyComponent
+    ReplyComponent,
+    BlogFrontOfficeComponent
 
   ],
   imports: [

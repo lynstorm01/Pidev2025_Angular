@@ -39,5 +39,10 @@ export class PostService {
   updatePostStatus(postId: number, status: string): Observable<any> {
     return this.http.put(`${this.baseUrl}/update-status/${postId}`, { status });
   }
+
+  // Method to fetch comments by post ID
+  getCommentsByPost(postId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/${postId}/comments`);
+  }
 }
 

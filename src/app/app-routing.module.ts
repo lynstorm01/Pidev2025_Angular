@@ -5,6 +5,7 @@ import { HomeComponent } from './front/home/home.component';
 import { PostsComponent } from './admin/dashboard/posts/posts.component';
 import { CommentsComponent } from './admin/dashboard/comments/comments.component';
 import { ReplyComponent } from './admin/dashboard/reply/reply.component';
+import { BlogFrontOfficeComponent } from './components/blog-front-office/blog-front-office.component';
 
 
 const routes: Routes = [
@@ -26,6 +27,7 @@ const routes: Routes = [
 { path: 'home', component: HomeComponent, children: [
   // Ajoute d'autres routes pour les autres composants CRUD ici
 ]},
+{path: 'blogs', component:BlogFrontOfficeComponent},
 
 { path: '', redirectTo: '/home', pathMatch: 'full' },
 { path: '**', redirectTo: '/home' }, // Fallback route

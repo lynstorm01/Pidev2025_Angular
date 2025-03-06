@@ -35,4 +35,5 @@ export class CommentService {
   deleteComment(id: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${id}`);
   }
+  
 }

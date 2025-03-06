@@ -19,7 +19,7 @@ export class CommentsComponent {
   
   // Pagination
   currentPage: number = 1;
-  itemsPerPage: number = 15;
+  itemsPerPage: number = 20;
   totalPages: number = 1;
 
   selectedComment!: any;
