@@ -2,6 +2,7 @@
 .table {
     background: #fff;
     border: 1px solid #ddd;
+    
   }
   
   .thead-dark {
@@ -21,12 +22,19 @@
   .btn-info {
     background-color: #17a2b8;
     border-color: #17a2b8;
+    
   }
   
   .btn-success {
     background-color: #28a745;
     border-color: #28a745;
+
   }
+  /* Espacement entre les boutons */
+.action-buttons button {
+  margin-right: 5px; /* Ajuste l'espace entre les boutons */
+}
+
   
   /* Style de la pagination */
   .pagination {

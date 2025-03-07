@@ -50,22 +50,21 @@
         <td>{{ claim.reclamationDate | date }}</td>
         <td>{{ claim.description }}</td>
         <td>{{ claim.status }}</td>
-        <td>
+        <td class="action-buttons">
           <button *ngIf="claim.status === 'ENREGISTREE'" class="btn btn-info btn-sm" (click)="confirmClaim(claim)">
             Confirm
           </button>
           <button *ngIf="claim.status === 'EN_COURS'" class="btn btn-success btn-sm" (click)="markClaimAsTreated(claim)">
             Mark as Processed
           </button>
-            <!-- Nouvelle section pour le bouton "Done" -->
-  <button *ngIf="claim.status === 'TRAITEE'" class="btn btn-secondary btn-sm" [disabled]="true">
-    Done
-  </button>
-    <!-- New "Send Email" button -->
-    <button *ngIf="claim.status === 'TRAITEE'" class="btn btn-primary btn-sm" (click)="sendEmail(claim)">
-      Send Email
-    </button>
+          <button *ngIf="claim.status === 'TRAITEE'" class="btn btn-secondary btn-sm" [disabled]="true">
+            Done
+          </button>
+          <button *ngIf="claim.status === 'TRAITEE'" class="btn btn-primary btn-sm" (click)="sendEmail(claim)">
+            Send Email
+          </button>
         </td>
+        
       </tr>
     </tbody>
   </table>

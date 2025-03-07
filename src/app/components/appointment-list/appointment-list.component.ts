@@ -43,7 +43,7 @@ export class AppointmentListComponent implements OnInit {
   }
 
   getAppointmentsForUser(): void {
-    const userId = 6; // Spécifie l'ID de l'utilisateur ici
+    const userId = 5; // Spécifie l'ID de l'utilisateur ici
     this.appointementService.getAppointmentsByUser(userId).subscribe(
       data => {
         this.appointments = data;
@@ -116,10 +116,12 @@ export class AppointmentListComponent implements OnInit {
   }
 
   archiveAppointment(appointment: Appointement): void {
-    appointment.archiver = false;
+    appointment.archiver = false; // Marquer comme archivé
     this.appointementService.updateAppointment(appointment.idAppointment, appointment).subscribe(
       () => {
+        // Retirer de la liste des rendez-vous actifs
         this.appointments = this.appointments.filter(app => app.idAppointment !== appointment.idAppointment);
+        // Ajouter à la liste des archivés
         this.archivedAppointments.push(appointment);
         this.calculatePages();
       },
@@ -128,12 +130,15 @@ export class AppointmentListComponent implements OnInit {
       }
     );
   }
+  
 
   unarchiveAppointment(appointment: Appointement): void {
-    appointment.archiver = true;
+    appointment.archiver = true; // Désarchiver
     this.appointementService.updateAppointment(appointment.idAppointment, appointment).subscribe(
       () => {
+        // Retirer de la liste des archivés
         this.archivedAppointments = this.archivedAppointments.filter(app => app.idAppointment !== appointment.idAppointment);
+        // Ajouter à la liste des rendez-vous actifs
         this.appointments.push(appointment);
         this.calculatePages();
       },
@@ -142,6 +147,7 @@ export class AppointmentListComponent implements OnInit {
       }
     );
   }
+  
 
   // Filtrage des rendez-vous selon l'utilisateur sélectionné
   get displayedAppointments(): Appointement[] {
