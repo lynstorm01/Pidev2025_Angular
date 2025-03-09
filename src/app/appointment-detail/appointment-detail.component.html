@@ -1,17 +1,18 @@
 <link rel="stylesheet" href="/assets/css/style55.css">
-<div *ngIf="loading">
-    <p>Chargement des détails du rendez-vous...</p>
-  </div>
+<div *ngIf="loading" class="appointment-details-container">
+  <p class="loading-message">Chargement des détails du rendez-vous...</p>
+</div>
   
-  <div *ngIf="!loading && appointment; else errorTpl">
-    <h2>Détails du Rendez-vous</h2>
-    <p><strong>Description :</strong> {{ appointment.description }}</p>
-    <p><strong>Date :</strong> {{ appointment.dateSubmitted | date:'short' }}</p>
-    <p><strong>Status :</strong> {{ appointment.status }}</p>
-    <!-- Ajoutez d'autres informations selon vos besoins -->
-  </div>
+<div *ngIf="!loading && appointment; else errorTpl" class="appointment-details-container">
+  <h2>Détails du Rendez-vous</h2>
+  <p><strong>Description :</strong> {{ appointment.description }}</p>
+  <p><strong>Date :</strong> {{ appointment.dateSubmitted | date:'short' }}</p>
+  <p><strong>Status :</strong> {{ appointment.status }}</p>
+  <!-- Ajoutez d'autres informations selon vos besoins -->
+</div>
   
-  <ng-template #errorTpl>
-    <p *ngIf="errorMessage">{{ errorMessage }}</p>
-  </ng-template>
+<ng-template #errorTpl>
+  <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+</ng-template>
+
   

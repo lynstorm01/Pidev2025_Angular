@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CalendarOptions } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import { Router } from '@angular/router';
 import { AppointementService } from '../../services/appointement.service';
 import { Appointement } from '../../models/appointement.model';
-import { Router } from '@angular/router';
-import dayGridPlugin from '@fullcalendar/daygrid';
+import { ClaimsService } from '../../services/claims.service';
+import { Claim } from '../../models/claim.model';
 
 @Component({
   selector: 'app-calendar',
@@ -11,9 +13,8 @@ import dayGridPlugin from '@fullcalendar/daygrid';
   styleUrls: ['./calendar.component.css']
 })
 export class CalendarComponent implements OnInit {
-  userId: number = 6;  // ID utilisateur par défaut
-
-  // Options du calendrier
+  // --- Partie Calendrier ---
+  userId: number = 6;  // ID pour les rendez-vous (par défaut)
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
     plugins: [dayGridPlugin],
@@ -23,31 +24,38 @@ export class CalendarComponent implements OnInit {
     eventClick: this.handleEventClick.bind(this),
     events: [] // Initialement vide
   };
-
   selectedAppointment: Appointement | null = null;
-  allAppointments: Appointement[] = []; // Stocke tous les rendez-vous
+  allAppointments: Appointement[] = [];
 
-  constructor(private appointementService: AppointementService, private router: Router) {}
+  // --- Partie Réclamations ---
+  claimsUserId: number = 5;  // ID pour les réclamations (par défaut)
+  isLoading: boolean = false;
+  claims: Claim[] = [];
+  errorMessage: string = '';
+
+  constructor(
+    private appointementService: AppointementService,
+    private claimsService: ClaimsService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    // Charge tous les rendez-vous de l'utilisateur avec l'ID 6 par défaut
     this.loadAppointments();
+    this.loadClaims();
   }
 
-  // Chargement des rendez-vous pour l'utilisateur avec l'ID par défaut (6)
+  // Méthodes liées aux rendez-vous
   loadAppointments(): void {
     this.appointementService.getAppointmentsByUser(this.userId).subscribe(
       (data: Appointement[]) => {
         console.log('Données reçues:', data);
         this.allAppointments = data;
-        // Affiche les rendez-vous dans le calendrier
         this.calendarOptions.events = this.mapAppointmentsToEvents(data);
       },
       error => console.error('Erreur lors du chargement des rendez-vous', error)
     );
   }
 
-  // Transformation des rendez-vous en format événement pour FullCalendar
   mapAppointmentsToEvents(appointments: Appointement[]): any[] {
     return appointments.map(appointment => ({
       title: appointment.description,
@@ -60,26 +68,30 @@ export class CalendarComponent implements OnInit {
     }));
   }
 
-  // Filtrer les rendez-vous pour l'utilisateur avec l'ID par défaut
-  filterByUser(): void {
-    const filteredAppointments = this.allAppointments.filter(app => app.user?.id === this.userId);
-    this.calendarOptions.events = this.mapAppointmentsToEvents(filteredAppointments);
-  }
-
-    // Afficher tous les rendez-vous sans filtre
-    showAllAppointments(): void {
-      this.calendarOptions.events = this.mapAppointmentsToEvents(this.allAppointments);
-    }
-
-  // Gestion du clic sur un événement
   handleEventClick(clickInfo: any): void {
     const appointmentId = clickInfo.event.extendedProps.idAppointment;
     this.router.navigate(['/appointment-detail'], { queryParams: { id: appointmentId } });
   }
 
-  // Gestion de la sélection d'une date
   handleDateSelect(selection: any): void {
     console.log('Date sélectionnée:', selection.startStr);
-    this.router.navigate(['/add-appointment'], { queryParams: { date: selection.startStr } });
+    this.router.navigate(['/appointment/add'], { queryParams: { date: selection.startStr } });
+  }
+
+  // Méthodes liées aux réclamations
+  loadClaims(): void {
+    this.isLoading = true;
+    this.claimsService.getClaimsByUser(this.claimsUserId).subscribe({
+      next: (data: Claim[]) => {
+        console.log('Réclamations reçues:', data);
+        this.claims = data;
+        this.isLoading = false;
+      },
+      error: (err: any) => {
+        console.error('Erreur lors du chargement des réclamations:', err);
+        this.errorMessage = "Erreur lors de la récupération des réclamations.";
+        this.isLoading = false;
+      }
+    });
   }
 }

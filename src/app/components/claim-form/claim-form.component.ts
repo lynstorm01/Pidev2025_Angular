@@ -57,7 +57,7 @@ export class ClaimFormComponent implements OnInit {
     // Assurez-vous que le statut est correctement défini
     this.claim.status = 'ENREGISTREE';
     this.claimsService.createClaim(this.claim, this.userPhoneNumber).subscribe(
-      () => this.router.navigate(['/home']),
+      () => this.router.navigate(['/calendar']),
       (error: any) => {
         console.error('Error during claim creation', error);
         alert('Une erreur est survenue lors de la création de la réclamation.');

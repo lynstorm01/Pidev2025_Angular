@@ -16,11 +16,18 @@ import { AppointmentDetailComponent } from './appointment-detail/appointment-det
 
 const routes: Routes = [
 
+  { path: 'user-claims', component: ClaimsListComponent },
   { path: 'profiluser', component: ProfiluserComponent },
   // Routes liées aux sinistres et à l'administration
   {  path: 'create', component: CreateSinComponent },
   { path: 'claim/add', component: ClaimFormComponent },
+
+
+
+
   { path: 'calendar', component: CalendarComponent },
+
+
   { path: 'appointment-detail', component: AppointmentDetailComponent },
 
   { path: 'appointment/add', component: AppointmentFormComponent },

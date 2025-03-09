@@ -20,8 +20,14 @@ export class ClaimsListComponent implements OnInit {
   constructor(private claimsService: ClaimsService, private emailService: EmailService) {}
 
   ngOnInit(): void {
-    this.loadClaims();
+    // Vérifie si l'URL actuelle correspond à l'affichage des claims de l'utilisateur 5
+    if (window.location.pathname === '/claims/user/5') {
+      this.getClaimsForUser();
+    } else {
+      this.loadClaims();
+    }
   }
+  
 
     // Méthode pour charger les réclamations pour un utilisateur spécifique (ID=5)
     getClaimsForUser(): void {

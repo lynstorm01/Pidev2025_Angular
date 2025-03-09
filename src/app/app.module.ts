@@ -33,7 +33,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ProfiluserComponent } from './profiluser/profiluser.component'; // Pour utiliser RouterLink
 import { CalendarComponent } from './components/calendar/calendar.component';
-import { AppointmentDetailComponent } from './appointment-detail/appointment-detail.component'; // Import du module
+import { AppointmentDetailComponent } from './appointment-detail/appointment-detail.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +51,7 @@ import { AppointmentDetailComponent } from './appointment-detail/appointment-det
     ClaimFormComponent,
     ProfiluserComponent,
     CalendarComponent,
-    AppointmentDetailComponent
+    AppointmentDetailComponent,
   ],
   imports: [
     BrowserModule,

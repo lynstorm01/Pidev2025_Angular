@@ -99,6 +99,105 @@ button {
 button:focus, button:hover {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
+/* Style pour la section Réclamations de l'utilisateur */
+/* Container général pour la section */
+.claims-container {
+  background-color: #ffffff93; /* Fond blanc épuré */
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 30px;
+  margin-bottom: 30px;
+  border: 1px solid #ffffff93;
+  width: 75%;
+}
+
+/* Titre de la section */
+.claims-container h2 {
+  color: #333333;
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Style général du tableau */
+.claims-container .table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px; /* espace entre les lignes */
+}
+
+/* En-têtes du tableau */
+.claims-container .table th {
+  background: linear-gradient(135deg, #ffffff2f, #ffffff2f);
+  color: #ffffff93;
+  padding: 15px;
+  font-size: 16px;
+  text-align: left;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+/* Cellules du tableau */
+.claims-container .table td {
+  background-color: #ffffff93;
+  padding: 15px;
+  font-size: 15px;
+  color: #555;
+  border-bottom: 1px solid #ffffff93;
+}
+
+/* Lignes du tableau avec hover pour moderniser l'interaction */
+.claims-container .table tbody tr {
+  transition: background-color 0.3s ease;
+}
+.claims-container .table tbody tr:hover {
+  background-color: #ffffff93;
+}
+
+/* Badges de statut modernisés */
+.claims-container .badge {
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+/* Couleurs personnalisées pour les statuts */
+.claims-container .badge.bg-warning {
+  background-color: #f39c12;
+  color: #ffffff;
+}
+
+.claims-container .badge.bg-primary {
+  background-color: #cddb34;
+  color: #ffffff;
+}
+
+.claims-container .badge.bg-success {
+  background-color: #27ae60;
+  color: #ffffff;
+}
+
+/* Style des paragraphes */
+.claims-container p {
+  text-align: center;
+  font-size: 16px;
+  color: #777777;
+}
+
+/* Style pour les messages d'erreur */
+.claims-container .text-danger {
+  color: #e74c3c;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 20px;
+}
+
+
 
   
   
