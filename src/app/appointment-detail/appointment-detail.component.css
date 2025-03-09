@@ -52,3 +52,19 @@
     font-weight: bold;
   }
   
+  /* Styles de statut */
+  .pending {
+    color: #f39c12; /* Orange pour PENDING */
+    font-weight: bold;
+  }
+  
+  .confirmed {
+    color: #27ae60; /* Vert pour CONFIRMED */
+    font-weight: bold;
+  }
+  
+  .canceled {
+    color: #e74c3c; /* Rouge pour CANCELED */
+    font-weight: bold;
+  }
+  
