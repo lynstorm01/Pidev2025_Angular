@@ -16,6 +16,8 @@ export class AppointmentFormComponent implements OnInit {
   users: User[] = [];  // Liste des utilisateurs récupérée depuis le backend
   today: string = '';
   userPhoneNumber: string = '+21693323188'; // Remplacez par le numéro de l'utilisateur
+  optimalDate: string | null = null; // Stocke la date optimale suggérée
+  optimalDateAvailable: boolean = false; // Ajoutez cette ligne
 
   constructor(
     private appointementService: AppointementService,
@@ -55,11 +57,18 @@ export class AppointmentFormComponent implements OnInit {
   }
 
   saveAppointment(): void {
-    // Convertir la date au format Date si nécessaire
     if (this.appointement.dateSubmitted) {
-      // Attention : si vous utilisez <input type="date">, la valeur est un string "YYYY-MM-DD".
-      // Pour ajouter une heure par défaut (ex. 00:00), vous pouvez faire :
-      this.appointement.dateSubmitted = new Date(this.appointement.dateSubmitted + 'T00:00:00');
+      // Extraire la partie date au format "yyyy-MM-dd"
+      const selectedDateStr = new Date(this.appointement.dateSubmitted).toISOString().split('T')[0];
+      const todayStr = new Date().toISOString().split('T')[0];
+  
+      if (selectedDateStr === todayStr) {
+        // Si la date sélectionnée est aujourd'hui, utiliser l'heure actuelle
+        this.appointement.dateSubmitted = new Date();
+      } else {
+        // Pour une date future, fixer l'heure à minuit
+        this.appointement.dateSubmitted = new Date(selectedDateStr + '');
+      }
     }
     
     // ASSIGNATION de l'utilisateur : le backend attend une propriété "user" non nulle.
@@ -67,7 +76,7 @@ export class AppointmentFormComponent implements OnInit {
       // Créez un objet User partiel (seul l'id est nécessaire)
       this.appointement.user = new User(this.appointement.userId);
     }
-
+  
     if (this.appointement.idAppointment) {
       this.appointementService.updateAppointment(this.appointement.idAppointment, this.appointement).subscribe(
         () => {
@@ -91,4 +100,48 @@ export class AppointmentFormComponent implements OnInit {
       );
     }
   }
+  
+
+    // Méthode pour proposer une date optimale
+    suggestOptimalDate(): void {
+      const clientId = this.appointement.userId?.toString();
+      if (clientId) {
+        this.appointementService.getOptimalAppointment(clientId).subscribe(
+          (response: string) => {
+            this.optimalDate = response;
+            if (this.optimalDate) {
+              const parts = this.optimalDate.split('-');
+              this.appointement.dateSubmitted = new Date(+parts[0], +parts[1] - 1, +parts[2]);
+              this.optimalDateAvailable = true; // Changez cette ligne pour mettre à jour la disponibilité de la date
+            } else {
+              this.optimalDateAvailable = false;
+              this.appointement.dateSubmitted = new Date();
+            }
+          },
+          (error) => {
+            console.error('Erreur lors de la récupération de la date optimale', error);
+            alert('Impossible de proposer une date optimale.');
+          }
+        );
+      } else {
+        alert('Veuillez sélectionner un utilisateur avant de proposer une date.');
+      }
+    }
+  
+  suggestAnotherDate(): void {
+    // Implémentez ici une logique pour générer une autre date possible
+    // Par exemple, vous pouvez ajouter un jour à la date actuelle et vérifier si cette nouvelle date est disponible.
+    const nextDay = new Date();
+    nextDay.setDate(nextDay.getDate() + 1); // Ajouter un jour
+    this.appointement.dateSubmitted = nextDay;
+    this.optimalDate = nextDay.toISOString().split('T')[0];
+  }
+  
+
+
+    
+    
+    
+    
+    
 }

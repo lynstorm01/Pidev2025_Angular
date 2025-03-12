@@ -11,6 +11,7 @@ import { ClaimFormComponent } from './components/claim-form/claim-form.component
 import { ProfiluserComponent } from './profiluser/profiluser.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { AppointmentDetailComponent } from './appointment-detail/appointment-detail.component';
+import { SatisfactionSurveyComponent } from './satisfaction-survey/satisfaction-survey.component';
 
 
 
@@ -26,6 +27,8 @@ const routes: Routes = [
 
 
   { path: 'calendar', component: CalendarComponent },
+  { path: 'satisfaction-survey/:claimId/:userId', component: SatisfactionSurveyComponent },
+  { path: 'home', component: HomeComponent },
 
 
   { path: 'appointment-detail', component: AppointmentDetailComponent },

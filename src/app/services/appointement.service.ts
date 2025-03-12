@@ -5,6 +5,7 @@ import { Appointement } from '../models/appointement.model'; // Assurez-vous de 
 import { tap } from 'rxjs/operators';
 import { TwilioService } from './TwilioService';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -52,6 +53,15 @@ getArchivedAppointments(): Observable<Appointement[]> {
 getAppointmentsByUser(userId: number): Observable<Appointement[]> {
   return this.http.get<Appointement[]>(`${this.baseUrl}/user/${userId}`);
 }
+
+getOptimalAppointment(clientId: string): Observable<string> {
+  return this.http.get<string>(`${this.baseUrl}/suggest/${clientId}`, { responseType: 'text' as 'json' });
+}
+
+checkDateAvailability(date: string): Observable<boolean> {
+  return this.http.get<boolean>(`${this.baseUrl}/check-availability/${date}`);
+}
+
 
 
 

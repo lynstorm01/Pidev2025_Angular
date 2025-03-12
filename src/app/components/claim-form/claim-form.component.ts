@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ClaimsService } from '../../services/claims.service';
 import { Claim } from '../../models/claim.model';
 import { User } from '../../models/user.model';
+import { SatisfactionSurveyService } from '../../services/satisfaction-survey.service'; 
 
 @Component({
   selector: 'app-claim-form',
@@ -25,6 +26,7 @@ export class ClaimFormComponent implements OnInit {
   constructor(
     private claimsService: ClaimsService,
     private route: ActivatedRoute,
+    private satisfactionSurveyService: SatisfactionSurveyService, 
     private router: Router
   ) { }
 
@@ -50,20 +52,45 @@ export class ClaimFormComponent implements OnInit {
   }
 
   createClaim(): void {
-    // Avant de créer la réclamation, affecter l'objet User partiel basé sur userId
     if (this.claim.userId) {
       this.claim.user = new User(this.claim.userId);
     }
-    // Assurez-vous que le statut est correctement défini
-    this.claim.status = 'ENREGISTREE';
+    this.claim.status = 'ENREGISTREE';  // Assurez-vous que le statut est correctement défini
+  
+    // Créer la réclamation
     this.claimsService.createClaim(this.claim, this.userPhoneNumber).subscribe(
-      () => this.router.navigate(['/calendar']),
+      (createdClaim) => {
+        // Si l'ID de la réclamation est défini, rediriger vers l'enquête de satisfaction
+        if (createdClaim.idClaim !== undefined) {
+          this.router.navigate(['/satisfaction-survey', createdClaim.idClaim, this.claim.userId]);
+        } else {
+          alert('Erreur : L\'ID de la réclamation n\'est pas défini.');
+        }
+      },
       (error: any) => {
-        console.error('Error during claim creation', error);
+        console.error('Erreur lors de la création de la réclamation', error);
         alert('Une erreur est survenue lors de la création de la réclamation.');
       }
     );
   }
+  
+    
+  
+//  createClaim(): void {
+    // Avant de créer la réclamation, affecter l'objet User partiel basé sur userId
+  //  if (this.claim.userId) {
+//      this.claim.user = new User(this.claim.userId);
+ //   }
+    // Assurez-vous que le statut est correctement défini
+  //  this.claim.status = 'ENREGISTREE';
+  //  this.claimsService.createClaim(this.claim, this.userPhoneNumber).subscribe(
+   //   () => this.router.navigate(['/SatisfactionSurvey']),
+   //   (error: any) => {
+   //     console.error('Error during claim creation', error);
+   //     alert('Une erreur est survenue lors de la création de la réclamation.');
+   //   }
+  //  );
+ // }
 
   updateClaim(): void {
     if (this.claim.idClaim != null) {

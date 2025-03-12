@@ -30,10 +30,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule} from '@angular/router';
 import { ProfiluserComponent } from './profiluser/profiluser.component'; // Pour utiliser RouterLink
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { AppointmentDetailComponent } from './appointment-detail/appointment-detail.component';
+import { SatisfactionSurveyComponent } from './satisfaction-survey/satisfaction-survey.component';
+
+
+
 
 @NgModule({
   declarations: [
@@ -52,6 +56,7 @@ import { AppointmentDetailComponent } from './appointment-detail/appointment-det
     ProfiluserComponent,
     CalendarComponent,
     AppointmentDetailComponent,
+    SatisfactionSurveyComponent,
   ],
   imports: [
     BrowserModule,
@@ -69,6 +74,7 @@ import { AppointmentDetailComponent } from './appointment-detail/appointment-det
     MatSelectModule,
     MatOptionModule,
     RouterModule ,// Ajout du RouterModule pour RouterLink
+  
     FullCalendarModule
   ],
   providers: [UserService],

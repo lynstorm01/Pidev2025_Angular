@@ -46,11 +46,14 @@
         [min]="today"
         #dateSubmitted="ngModel"
       />
-      <div *ngIf="dateSubmitted.invalid && (dateSubmitted.dirty || dateSubmitted.touched)" class="error">
-        <div *ngIf="dateSubmitted.errors?.['required']">The date is required.</div>
-        <div *ngIf="dateSubmitted.errors?.['min']">The date cannot be in the past.</div>
+      <button type="button" (click)="suggestOptimalDate()" class="btn btn-primary">Suggest an optimal date</button>
+      <div *ngIf="optimalDate">
+        <p>Suggested date : <strong>{{ optimalDate | date:'fullDate' }}</strong></p>
+        <p *ngIf="!optimalDateAvailable">Cette date est déjà complète, une autre sera suggérée.</p>
       </div>
     </div>
+    
+
 
     <!-- Status (read-only) -->
     <div class="form-group">
