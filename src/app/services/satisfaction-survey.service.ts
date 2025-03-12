@@ -12,6 +12,7 @@ export class SatisfactionSurveyService {
   constructor(private http: HttpClient) { }
 
   submitSurvey(survey: SatisfactionSurvey): Observable<any> {
-    return this.http.post(this.apiUrl, survey);
+    return this.http.post(this.apiUrl, survey, { responseType: 'text' });
   }
+  
 }
