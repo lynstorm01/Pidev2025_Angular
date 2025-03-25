@@ -40,8 +40,7 @@ import { BlogFrontOfficeComponent } from './components/blog-front-office/blog-fr
     CommentsComponent,
     UsersComponent,
     ReplyComponent,
-    BlogFrontOfficeComponent
-
+    BlogFrontOfficeComponent,
   ],
   imports: [
     BrowserModule,

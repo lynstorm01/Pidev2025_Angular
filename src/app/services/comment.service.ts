@@ -8,6 +8,8 @@ import { Observable } from 'rxjs';
 export class CommentService {
 
   private baseUrl = 'http://localhost:8069/api/Comment'; // Your backend URL for Comments
+  private gifUrl = 'http://localhost:8069/api/gifs';
+
 
   constructor(private http: HttpClient) {}
 
@@ -35,5 +37,12 @@ export class CommentService {
   deleteComment(id: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${id}`);
   }
+
+  getAvailableGifs(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.gifUrl}`);
+  }
   
+  getGifUrl(gifName: string): string {
+    return `${this.gifUrl}/${gifName}`;
+  }
 }

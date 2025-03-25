@@ -11,5 +11,6 @@ export interface Comment {
     repliesId?: Reply[];  // Optional replies, can be populated later
     username:string;
     postTitle:string;
+    gifUrl:string;
   }
   
