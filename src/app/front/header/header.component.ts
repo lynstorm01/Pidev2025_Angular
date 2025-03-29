@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-
+import { Inject } from '@angular/core';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -12,7 +12,7 @@ export class HeaderComponent implements OnInit {
   admin: boolean = false; 
  
 
-  constructor(private router: Router,private cookieService: CookieService ) { }
+  constructor(private router: Router,@Inject(CookieService) private cookieService: CookieService ) { }
   async logout():  Promise<void> {
     // Method to handle user logout
     // Clear the token from cookies

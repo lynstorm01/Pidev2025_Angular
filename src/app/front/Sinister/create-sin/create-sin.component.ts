@@ -10,6 +10,7 @@ import { StepperSelectionEvent } from '@angular/cdk/stepper';
   styleUrls: ['./create-sin.component.css']
 })
 export class CreateSinComponent implements AfterViewInit {
+  estimatedTime: string = ''; // To store estimated time
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
@@ -82,6 +83,24 @@ export class CreateSinComponent implements AfterViewInit {
       if (this.selectedFile) {
         this.fifthFormGroup.get('document')?.setValue(this.selectedFile.name);
       }
+    }
+  }
+
+  // Fetch estimated time when the insurance type changes
+  onInsuranceTypeChange(event: any) {
+    const selectedType = event.value;
+    if (selectedType) {
+      this.claimService.getEstimatedProcessingTime(selectedType).subscribe({
+        next: (response) => {
+          this.estimatedTime = response;
+        },
+        error: (error) => {
+          console.error('Error fetching estimated processing time', error);
+          this.estimatedTime = 'Error retrieving estimated time.';
+        }
+      });
+    } else {
+      this.estimatedTime = '';
     }
   }
 

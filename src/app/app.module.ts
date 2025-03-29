@@ -39,6 +39,12 @@ import { FileViewerComponent } from './admin/sinister-ad/file-viewer/file-viewer
 import { provideOAuthClient, AuthConfig,OAuthService } from 'angular-oauth2-oidc';
 import { SignUpComponent } from './front/sign-up/sign-up.component';
 import { SignInComponent } from './front/sign-in/sign-in.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { ArchivedComponent } from './admin/sinister-ad/archived/archived.component';
+import { SinisterDetailsComponent } from './front/Sinister/sinister-details/sinister-details.component';
+import { CookieService } from 'ngx-cookie-service';
+
+
 /*
 export const authCodeFlowConfig: AuthConfig = {
   issuer: 'http://localhost:9090/realms/testPI',
@@ -81,7 +87,9 @@ function initializeOAuth(oauthService: OAuthService): Promise<void> {
     SinisterchartComponent,
     FileViewerComponent,
     SignUpComponent,
-    SignInComponent
+    SignInComponent,
+    ArchivedComponent,
+    SinisterDetailsComponent
   ],
   imports: [
     FormsModule, 
@@ -108,6 +116,7 @@ function initializeOAuth(oauthService: OAuthService): Promise<void> {
     MatDatepickerModule,
     MatNativeDateModule,
     FullCalendarModule,
+    MatPaginatorModule,
     HttpClientModule
     
   ],

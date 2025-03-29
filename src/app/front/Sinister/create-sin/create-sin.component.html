@@ -9,7 +9,7 @@
         <ng-template matStepLabel>Select insurance</ng-template>
         <mat-form-field appearance="fill">
           <mat-label>Select Insurance</mat-label>
-          <mat-select formControlName="typeAssurance">
+          <mat-select formControlName="typeAssurance" (selectionChange)="onInsuranceTypeChange($event)">
             <mat-option value="car">Car</mat-option>
             <mat-option value="residence">Residence</mat-option>
             <mat-option value="health">Health</mat-option>
@@ -18,6 +18,12 @@
             <mat-option value="savings_plan">Savings Plan</mat-option>
           </mat-select>
         </mat-form-field>
+        
+        <!-- Display the estimated processing time -->
+        <div *ngIf="estimatedTime" class="estimated-time">
+          <p>{{ estimatedTime }}</p>
+        </div>
+        
         <div>
           <button mat-button matStepperNext [disabled]="!firstFormGroup.valid">Next</button>
         </div>

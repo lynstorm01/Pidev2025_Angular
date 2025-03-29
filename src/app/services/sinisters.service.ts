@@ -136,5 +136,48 @@ export class SinistersService {
     });
     return this.http.put<Sinister>(`http://localhost:8069/api/admin/sinisters/${id}/toggle-archive`, {}, { headers });
   }
+  getEstimatedProcessingTime(typeInsurance: string): Observable<string> {
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic YWRtaW46YWRtaW4xMjM='
+    });
+  
+    return this.http.get<string>(
+      `http://localhost:8069/api/admin/sinisters/estimated-time?typeInsurance=${typeInsurance}`,
+      { headers, responseType: 'text' as 'json' }
+    );
+  }
+
+  
+
+
+  extractTextFromDocument(file: File): Observable<string> {
+    const formData = new FormData();
+    formData.append('document', file);
+  
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic YWRtaW46YWRtaW4xMjM='
+    });
+  
+    return this.http.post(`${this.apiUrl}/extract-text`, formData, { headers, responseType: 'text' });
+  }
+  
+  sendNotification(userId: number, message: string): Observable<string> {
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic YWRtaW46YWRtaW4xMjM=',
+      'Content-Type': 'application/x-www-form-urlencoded' // Ensures form data format
+    });
+  
+    const body = new URLSearchParams();
+    body.set('userId', userId.toString());
+    body.set('message', message);
+  
+    return this.http.post(`${this.apiUrl}/send-notification`, body.toString(), { headers, responseType: 'text' });
+  }
+  getTimeSpentInEachStatus(sinisterId: number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic YWRtaW46YWRtaW4xMjM='
+    });
+    return this.http.get(`${this.apiUrl}/${sinisterId}/time-spent`,{ headers});
+  }
   
 }

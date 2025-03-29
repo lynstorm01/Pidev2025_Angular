@@ -29,29 +29,85 @@
     </div>
 
     <!-- Custom Search Box -->
-    <input type="text" id="search" class="form-control mb-3" placeholder="Search & enter">
+    <div class="form-group">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">
+            <i class="fa fa-search"></i>
+          </span>
+        </div>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search by Username"
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="onSearchChange()"
+        />
+      </div>
+    </div>
+    <!-- Export Buttons -->
+    <div class="mb-3 button-container">
+      <div class="left-buttons">
+        <button class="btn custom-grey-btn" (click)="exportToCopy()">Copy</button>
+        <button class="btn custom-grey-btn" (click)="exportToCSV()">CSV</button>
+        <button class="btn custom-grey-btn" (click)="exportToExcel()">Excel</button>
+        <button class="btn custom-grey-btn" (click)="exportToPDF()">PDF</button>
+        <button class="btn custom-grey-btn" (click)="exportToPrint()">Print</button>
+      </div>
+      <div class="right-buttons">
+        <button class="btn custom-grey-btn" (click)="navigateToArchivedSinisters()">View Archived</button>
+        <button class="btn custom-grey-btn" (click)="toggleHideAcceptedDeclined()">
+          {{ hideAcceptedDeclined ? 'Show All' : 'Hide Accepted/Declined' }}
+        </button>
+      </div>
+    </div>
 
     <!-- Flex container for table and pie chart -->
     <div class="d-flex">
       <!-- Data Table -->
       <div class="table-responsive flex-grow-1">
-        <table #example23 id="example23" class="display nowrap table table-hover table-striped table-bordered">
-          <thead>
+        <table id="sinisterTable" class="table table-striped">
+          <thead class="black-header">
             <tr>
-              <th>Date of Incident</th>
-              <th>Description</th>
-              <th>Status</th>
-              <th>Location</th>
-              <th>Type Insurance</th>
-              <th>Date of Creation</th>
-              <th>Client Name</th>
+              <th (click)="sort('dateOfIncident')">Date of Incident</th>
+              <th (click)="sort('description')">Description</th>
+              <th (click)="sort('status')">Status</th>
+              <th (click)="sort('location')">Location</th>
+              <th (click)="sort('typeInsurance')">Type Insurance</th>
+              <th (click)="sort('dateofcreation')">Date of Creation</th>
+              <th (click)="sort('user.username')">Client Name</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            <!-- Data will be populated by DataTables -->
+            <tr *ngFor="let sinister of filteredSinisters | slice: (pageIndex * pageSize):((pageIndex + 1) * pageSize)">
+              <td>{{ sinister.dateOfIncident | date }}</td>
+              <td>{{ sinister.description }}</td>
+              <td>
+                {{ sinister.status }}
+                <div *ngIf="timeSpentData[sinister.id] && timeSpentData[sinister.id][sinister.status]" 
+                     class="small text-muted">
+                  Time spent from last status update: {{ timeSpentData[sinister.id][sinister.status] }}
+                </div>
+              </td>
+              <td>{{ sinister.location }}</td>
+              <td>{{ sinister.typeInsurance }}</td>
+              <td>{{ sinister.dateofcreation | date }}</td>
+              <td>{{ sinister.user?.username || 'N/A' }}</td>
+              <td>
+                <button class="btn btn-sm custom-grey-btn btn-display" (click)="displaySinister(sinister.id)">Display</button>
+                <button class="btn btn-sm custom-grey-btn btn-update" (click)="updateSinister(sinister.id)">Update</button>
+                <button class="btn btn-sm custom-grey-btn btn-delete" (click)="deleteSinister(sinister.id)">Delete</button>
+                <button class="btn btn-sm custom-grey-btn btn-archive" (click)="archiveSinister(sinister.id)">{{ sinister.status === 'ARCHIVED' ? 'Unarchive' : 'Archive' }}</button>
+              </td>
+            </tr>
+            <tr *ngIf="filteredSinisters.length === 0">
+              <td colspan="8" class="text-center">No sinisters found.</td>
+            </tr>
           </tbody>
         </table>
+        <mat-paginator [length]="filteredSinisters.length" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100]" (page)="onPageChange($event)">
+        </mat-paginator>
       </div>
 
       <!-- Pie Chart -->

@@ -110,3 +110,11 @@ body {
 .card-button:hover {
     background-color: #218838;
 }
+/* Center the QR code container */
+.qr-code-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+
+  }
+  

@@ -14,6 +14,9 @@ import { FileViewerComponent } from './admin/sinister-ad/file-viewer/file-viewer
 import { SignInComponent } from './front/sign-in/sign-in.component';
 import { AuthGuard } from './services/AuthGuard';
 import { SignUpComponent } from './front/sign-up/sign-up.component';
+import { HistorComponent } from './front/Sinister/histor/histor.component';
+import { ArchivedComponent } from './admin/sinister-ad/archived/archived.component';
+import { SinisterDetailsComponent } from './front/Sinister/sinister-details/sinister-details.component';
 
 
 const routes: Routes = [
@@ -23,6 +26,8 @@ const routes: Routes = [
   { path: 'signup', component: SignUpComponent },
 
   { path: 'create', component: CreateSinComponent, canActivate: [AuthGuard],data: {roles: ['ROLE_USER']}},
+  { path: 'track', component: HistorComponent, canActivate: [AuthGuard],data: {roles: ['ROLE_USER']}},
+  { path: 'sinisterdetails/:id', component: SinisterDetailsComponent, canActivate: [AuthGuard],data: {roles: ['ROLE_USER']}},
   { path: 'sinister', component: SinisterComponent },
   { path: 'admin', component: DashboardComponent, canActivate: [AuthGuard],data: {roles: ['ROLE_ADMIN']}, children: [
     { path: 'sinister', component: SinisterADComponent},
@@ -31,6 +36,7 @@ const routes: Routes = [
     { path: 'sinister/display/:id', component: SinisterdisplayComponent },
     { path: 'sinister/calendar', component: SinistercalComponent },
     { path: 'sinister/chart', component: SinisterchartComponent },
+    { path: 'sinister/archived', component: ArchivedComponent },
 
     // Ajoute d'autres routes pour les autres composants CRUD ici
 ]},

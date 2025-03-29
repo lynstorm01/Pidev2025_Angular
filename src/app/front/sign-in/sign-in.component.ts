@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { CookieService } from 'ngx-cookie-service';
-
+import { Inject } from '@angular/core';
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
@@ -12,7 +12,7 @@ export class SignInComponent {
   email: string = '';
   password: string = '';
 
-  constructor(private authService: AuthService, private cookieService: CookieService) { }
+  constructor(private authService: AuthService,@Inject(CookieService) private cookieService: CookieService) { }
 
   login(): void {
     if(this.email===''){
