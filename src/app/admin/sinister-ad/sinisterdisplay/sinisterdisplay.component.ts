@@ -44,6 +44,36 @@ export class SinisterdisplayComponent {
     });
   }
 
+  updateSinisterStatus(newStatus: string) {
+    const id = this.sinister.id;
+    if (id) {
+      this.sinister.status = newStatus;
+      this.sinistersService.updateSinister(id, this.sinister).subscribe({
+        next: (updatedSinister) => {
+          this.sinister = updatedSinister;
+          this.loadSinisterDetails(id); // Reload details after update
+        },
+        error: (error) => {
+          console.error('Error updating sinister:', error);
+        }
+      });
+    }
+  }
+  openFile(filePath: string) {
+    this.router.navigate(['/view-file'], { queryParams: { file: filePath } });
+  }
+  downloadFile(sinisterDetailId: number) {
+    // Construct the URL to the Spring endpoint
+    const downloadUrl = `http://localhost:8069/api/admin/sinisters/details/files/${sinisterDetailId}`;
+  
+    // Create a temporary anchor element
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.download = 'file.pdf'; // Set a default file name for download
+    document.body.appendChild(link);
+    link.click(); // Trigger the download
+    document.body.removeChild(link); // Clean up
+  }
   goBack() {
     this.router.navigate(['/sinister-ad']);
   }
