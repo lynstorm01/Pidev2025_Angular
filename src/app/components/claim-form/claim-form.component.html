@@ -1,33 +1,41 @@
-<div class="form-container">
-    <h2>{{ claim.idClaim ? 'Modifier' : 'Ajouter' }} une Réclamation</h2>
-    <form>
-      <div class="form-group">
-        <label for="reclamationType">Type de Réclamation</label>
-        <select id="reclamationType" [(ngModel)]="claim.reclamationType" name="reclamationType" required>
-          <option value="SERVICE">Service</option>
-          <option value="QUALITY">Qualité</option>
-          <option value="DELAY">Retard</option>
-          <option value="OTHER">Autre</option>
-        </select>
+
+<link rel="stylesheet" href="/assets/css/style55.css">
+<div class="claim-form-container">
+  <h2>{{ claim.idClaim ? 'Edit' : 'Add' }} a Claim</h2>
+  <form>
+    <div class="claim-columns">
+      <!-- Colonne gauche pour les deux premiers champs -->
+      <div class="claim-left">
+        <div class="claim-group">
+          <label for="reclamationType">Claim Type</label>
+          <select id="reclamationType" [(ngModel)]="claim.reclamationType" name="reclamationType" required>
+            <option value="SERVICE">Service</option>
+            <option value="QUALITY">Quality</option>
+            <option value="DELAY">Delay</option>
+            <option value="OTHER">Other</option>
+          </select>
+        </div>
+        <div class="claim-group">
+          <label for="reclamationDate">Claim Date</label>
+          <input type="date" id="reclamationDate" [(ngModel)]="claim.reclamationDate" name="reclamationDate" [min]="today" required />
+        </div>
       </div>
-      <div class="form-group">
-        <label for="reclamationDate">Date de Réclamation</label>
-        <input type="date" id="reclamationDate" [(ngModel)]="claim.reclamationDate" name="reclamationDate" required />
+      <br><br><br><br>
+
+      <!-- Colonne droite pour le champ Description -->
+      <br><br><br><br>
+      <br><br><br><br>
+      <div class="claim-right">
+        <div class="claim-group">
+          <label for="description">Description</label>
+          <textarea id="description" [(ngModel)]="claim.description" name="description" rows="6" required></textarea>
+        </div>
       </div>
-      <div class="form-group">
-        <label for="description">Description</label>
-        <textarea id="description" [(ngModel)]="claim.description" name="description" rows="3" required></textarea>
-      </div>
-      <div class="button-container">
-        <!-- Bouton de création affiché uniquement si aucun id n'est présent -->
-        <button *ngIf="!claim.idClaim" type="button" class="btn btn-success" (click)="createClaim()">
-          Créer
-        </button>
-        <!-- Bouton de mise à jour affiché uniquement si un id est présent -->
-        <button *ngIf="claim.idClaim" type="button" class="btn btn-success" (click)="updateClaim()">
-          Mettre à jour
-        </button>
-      </div>
-    </form>
-  </div>
-  
+    </div>
+
+    <div class="claim-buttons">
+      <button *ngIf="!claim.idClaim" type="button" class="btn btn-success" (click)="createClaim()">Create</button>
+      <button *ngIf="claim.idClaim" type="button" class="btn btn-success" (click)="updateClaim()">Update</button>
+    </div>
+  </form>
+</div>

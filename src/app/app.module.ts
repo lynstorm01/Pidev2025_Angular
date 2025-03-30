@@ -2,6 +2,7 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { FullCalendarModule } from '@fullcalendar/angular'; // Import du module FullCalendar  
 
 // Composants
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
@@ -11,6 +12,13 @@ import { HomeComponent } from './front/home/home.component';
 import { CreateSinComponent } from './front/Sinister/create-sin/create-sin.component';
 import { HistorComponent } from './front/Sinister/histor/histor.component';
 import { SinisterADComponent } from './admin/sinister-ad/sinister-ad.component';
+
+import { AppointmentListComponent } from './components/appointment-list/appointment-list.component';
+import { AppointmentFormComponent } from './components/appointment-form/appointment-form.component';
+import { UserService } from './services/UserService'; // Importation de UserService
+import { ClaimsListComponent } from './components/claims-list/claims-list.component';
+import { ClaimFormComponent } from './components/claim-form/claim-form.component';
+
 import { SinistercreateComponent } from './admin/sinister-ad/sinistercreate/sinistercreate.component';
 import { SinisterupdateComponent } from './admin/sinister-ad/sinisterupdate/sinisterupdate.component';
 import { SinisterdisplayComponent } from './admin/sinister-ad/sinisterdisplay/sinisterdisplay.component';
@@ -23,6 +31,7 @@ import { SignInComponent } from './front/sign-in/sign-in.component';
 import { ArchivedComponent } from './admin/sinister-ad/archived/archived.component';
 import { SinisterDetailsComponent } from './front/Sinister/sinister-details/sinister-details.component';
 
+
 // Modules Angular & Angular Material
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -34,12 +43,21 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
+
+import { CommonModule } from '@angular/common';
+import { RouterModule} from '@angular/router';
+import { ProfiluserComponent } from './profiluser/profiluser.component'; // Pour utiliser RouterLink
+import { CalendarComponent } from './components/calendar/calendar.component';
+import { AppointmentDetailComponent } from './appointment-detail/appointment-detail.component';
+import { SatisfactionSurveyComponent } from './satisfaction-survey/satisfaction-survey.component';
+
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { provideOAuthClient, OAuthService } from 'angular-oauth2-oidc';
 import { CookieService } from 'ngx-cookie-service';
+
 
 @NgModule({
   declarations: [
@@ -51,6 +69,16 @@ import { CookieService } from 'ngx-cookie-service';
     HistorComponent,
     CreateSinComponent,
     SinisterADComponent,
+
+    AppointmentListComponent,
+    AppointmentFormComponent,
+    ClaimsListComponent,
+    ClaimFormComponent,
+    ProfiluserComponent,
+    CalendarComponent,
+    AppointmentDetailComponent,
+    SatisfactionSurveyComponent,
+
     SinistercreateComponent,
     SinisterupdateComponent,
     SinisterdisplayComponent,
@@ -62,6 +90,7 @@ import { CookieService } from 'ngx-cookie-service';
     SignInComponent,
     ArchivedComponent,
     SinisterDetailsComponent
+
   ],
   imports: [
     FormsModule,
@@ -77,12 +106,15 @@ import { CookieService } from 'ngx-cookie-service';
     MatIconModule,
     MatSelectModule,
     MatOptionModule,
+
     MatDatepickerModule,
     MatNativeDateModule,
     FullCalendarModule,
+    RouterModule ,// Ajout du RouterModule pour RouterLink
     MatPaginatorModule
   ],
   providers: [
+          UserService,
     provideOAuthClient(),
     provideHttpClient(),
     CookieService,

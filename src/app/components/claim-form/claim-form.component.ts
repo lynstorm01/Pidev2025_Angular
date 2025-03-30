@@ -1,7 +1,10 @@
+// src/app/components/claim-form/claim-form.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClaimsService } from '../../services/claims.service';
 import { Claim } from '../../models/claim.model';
+import { User } from '../../models/user.model';
+import { SatisfactionSurveyService } from '../../services/satisfaction-survey.service'; 
 
 @Component({
   selector: 'app-claim-form',
@@ -9,39 +12,98 @@ import { Claim } from '../../models/claim.model';
   styleUrls: ['./claim-form.component.css']
 })
 export class ClaimFormComponent implements OnInit {
-  // Définir idClaim comme optionnel dans l'interface (ou l'omettre pour une création)
-  claim: Claim = { reclamationType: 'SERVICE', reclamationDate: '', description: '' };
+  // Initialisation de la réclamation avec des valeurs par défaut et userId fixé à 5
+  claim: Claim = { 
+    reclamationType: 'SERVICE', 
+    reclamationDate: '', 
+    description: '', 
+    status: 'ENREGISTREE',
+    userId: 5
+  };
+  today: string = '';
+  userPhoneNumber: string = '+21693323188'; // Numéro de téléphone fixe (à adapter si besoin)
 
   constructor(
     private claimsService: ClaimsService,
     private route: ActivatedRoute,
+    private satisfactionSurveyService: SatisfactionSurveyService, 
     private router: Router
   ) { }
 
   ngOnInit(): void {
+    // Définit la date d'aujourd'hui au format "YYYY-MM-DD"
+    this.today = new Date().toISOString().split('T')[0];
+
+    // Affectation manuelle de l'ID utilisateur 
+    this.claim.userId = 5;
+
+    // Si un ID est présent dans l'URL, charger la réclamation pour édition
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.claimsService.getClaimById(+id).subscribe(
-        data => this.claim = data,
-        error => console.error('Erreur lors du chargement de la réclamation', error)
+        (data: Claim) => {
+          this.claim = data;
+        },
+        (error: any) => {
+          console.error('Erreur lors du chargement de la réclamation', error);
+        }
       );
     }
   }
 
-  // Méthode de création
   createClaim(): void {
-    this.claimsService.createClaim(this.claim).subscribe(
-      () => this.router.navigate(['/admin/claims']),
-      error => console.error('Erreur lors de la création', error)
+    if (this.claim.userId) {
+      this.claim.user = new User(this.claim.userId);
+    }
+    this.claim.status = 'ENREGISTREE';  // Assurez-vous que le statut est correctement défini
+  
+    // Créer la réclamation
+    this.claimsService.createClaim(this.claim, this.userPhoneNumber).subscribe(
+      (createdClaim) => {
+        // Si l'ID de la réclamation est défini, rediriger vers l'enquête de satisfaction
+        if (createdClaim.idClaim !== undefined) {
+          this.router.navigate(['/satisfaction-survey', createdClaim.idClaim, this.claim.userId]);
+        } else {
+          alert('Erreur : L\'ID de la réclamation n\'est pas défini.');
+        }
+      },
+      (error: any) => {
+        console.error('Erreur lors de la création de la réclamation', error);
+        alert('Une erreur est survenue lors de la création de la réclamation.');
+      }
     );
   }
+  
+    
+  
+//  createClaim(): void {
+    // Avant de créer la réclamation, affecter l'objet User partiel basé sur userId
+  //  if (this.claim.userId) {
+//      this.claim.user = new User(this.claim.userId);
+ //   }
+    // Assurez-vous que le statut est correctement défini
+  //  this.claim.status = 'ENREGISTREE';
+  //  this.claimsService.createClaim(this.claim, this.userPhoneNumber).subscribe(
+   //   () => this.router.navigate(['/SatisfactionSurvey']),
+   //   (error: any) => {
+   //     console.error('Error during claim creation', error);
+   //     alert('Une erreur est survenue lors de la création de la réclamation.');
+   //   }
+  //  );
+ // }
 
-  // Méthode de mise à jour
   updateClaim(): void {
     if (this.claim.idClaim != null) {
+      // Affecter l'objet User partiel si nécessaire
+      if (this.claim.userId) {
+        this.claim.user = new User(this.claim.userId);
+      }
       this.claimsService.updateClaim(this.claim.idClaim, this.claim).subscribe(
         () => this.router.navigate(['/admin/claims']),
-        error => console.error('Erreur lors de la mise à jour', error)
+        (error: any) => {
+          console.error('Error during claim update', error);
+          alert('Une erreur est survenue lors de la mise à jour de la réclamation.');
+        }
       );
     }
   }
