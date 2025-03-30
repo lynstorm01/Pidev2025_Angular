@@ -6,7 +6,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre douce */
   max-width: 600px;
   margin: 0 auto;
-  margin-top: 5%;
+  margin-top: 2%;
   margin-bottom: 5%;
   font-family: Arial, sans-serif;
 }
@@ -17,6 +17,7 @@
   font-weight: bold;
   color: #f38f1d; /* Orange de la charte graphique */
   margin-bottom: 20px;
+  margin-left: 30%;
 }
 
 /* Groupes de champs de formulaire */
