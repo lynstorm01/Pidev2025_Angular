@@ -1,54 +1,128 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import * as L from 'leaflet';
 import { SinistersService } from 'src/app/services/sinisters.service';
-
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
 
 @Component({
   selector: 'app-create-sin',
   templateUrl: './create-sin.component.html',
   styleUrls: ['./create-sin.component.css']
 })
-export class CreateSinComponent {
+export class CreateSinComponent implements AfterViewInit {
+  estimatedTime: string = ''; // To store estimated time
   firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup; // Declare the form group
+  secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
-  selectedFile: File | null = null; // Store the selected file
-
+  fourthFormGroup: FormGroup;
+  fifthFormGroup: FormGroup;
+  selectedFile: File | null = null;
+  minDate: Date;
+  maxDate: Date;
+  map: any;
+  marker: any;
+  selectedLocation: string = '';
+  mapInitialized: boolean = false;
   constructor(
     private _formBuilder: FormBuilder,
     private claimService: SinistersService
   ) {
-    // Initialize the form groups
+    const currentDate = new Date();
+    this.maxDate = currentDate;
+    this.minDate = this.subtractMonths(currentDate, 3);
+
     this.firstFormGroup = this._formBuilder.group({
-      typeAssurance: ['', Validators.required],
+      typeAssurance: ['', Validators.required]
+    });
+
+    this.secondFormGroup = this._formBuilder.group({
       description: ['', Validators.required]
     });
-    this.secondFormGroup = this._formBuilder.group({
+
+    this.thirdFormGroup = this._formBuilder.group({
+      incidentDate: ['', Validators.required]
+    });
+
+    this.fourthFormGroup = this._formBuilder.group({
       location: ['', Validators.required]
     });
-    this.thirdFormGroup = this._formBuilder.group({
+
+    this.fifthFormGroup = this._formBuilder.group({
       document: ['', Validators.required]
     });
   }
 
+  ngAfterViewInit(): void {
+    this.initializeMap();
+  }
+
+  initializeMap() {
+    this.map = L.map('map').setView([33.6844, 73.0479], 12); // Default location
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(this.map);
+
+    this.map.on('click', (event: any) => {
+      const lat = event.latlng.lat;
+      const lng = event.latlng.lng;
+      this.selectedLocation = `${lat}, ${lng}`;
+      this.fourthFormGroup.get('location')?.setValue(this.selectedLocation);
+
+      if (this.marker) {
+        this.marker.setLatLng(event.latlng);
+      } else {
+        this.marker = L.marker(event.latlng).addTo(this.map);
+      }
+    });
+  }
   onFileChange(event: any) {
     if (event.target.files.length > 0) {
-      this.selectedFile = event.target.files[0]; // Store the selected file
-      if (this.selectedFile) { // Add a null check
-        this.thirdFormGroup.get('document')?.setValue(this.selectedFile.name); // Update the form control with the file name
+      this.selectedFile = event.target.files[0];
+      if (this.selectedFile) {
+        this.fifthFormGroup.get('document')?.setValue(this.selectedFile.name);
       }
     }
   }
 
+  // Fetch estimated time when the insurance type changes
+  onInsuranceTypeChange(event: any) {
+    const selectedType = event.value;
+    if (selectedType) {
+      this.claimService.getEstimatedProcessingTime(selectedType).subscribe({
+        next: (response) => {
+          this.estimatedTime = response;
+        },
+        error: (error) => {
+          console.error('Error fetching estimated processing time', error);
+          this.estimatedTime = 'Error retrieving estimated time.';
+        }
+      });
+    } else {
+      this.estimatedTime = '';
+    }
+  }
+
+  private allFormsValid(): boolean {
+    return this.firstFormGroup.valid &&
+      this.secondFormGroup.valid &&
+      this.thirdFormGroup.valid &&
+      this.fourthFormGroup.valid &&
+      this.fifthFormGroup.valid &&
+      !!this.selectedFile;
+  }
+
   onSubmit() {
-    if (this.firstFormGroup.valid && this.secondFormGroup.valid && this.thirdFormGroup.valid && this.selectedFile) {
+    if (this.allFormsValid()) {
       const claimData = {
         typeAssurance: this.firstFormGroup.value.typeAssurance,
-        description: this.firstFormGroup.value.description,
-        location: this.secondFormGroup.value.location
+        description: this.secondFormGroup.value.description,
+        incidentDate: this.thirdFormGroup.value.incidentDate,
+        location: this.selectedLocation
       };
 
-      this.claimService.createClaim(claimData, this.selectedFile).subscribe({
+      this.claimService.createClaim(claimData, this.selectedFile!).subscribe({
         next: (response) => {
           console.log('Claim created successfully', response);
           alert('Claim submitted successfully!');
@@ -61,5 +135,16 @@ export class CreateSinComponent {
     } else {
       alert('Please fill out all fields and select a file.');
     }
+  }
+
+  private subtractMonths(date: Date, months: number): Date {
+    const d = new Date(date);
+    const originalDay = d.getDate();
+    d.setMonth(d.getMonth() - months);
+
+    if (d.getDate() !== originalDay) {
+      d.setDate(0);
+    }
+    return d;
   }
 }
