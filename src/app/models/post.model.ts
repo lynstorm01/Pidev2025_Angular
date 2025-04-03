@@ -16,4 +16,5 @@ export interface Post {
   userId: number;
   username:string;  // Assuming you need userId for linking the post to a user
   status: StatusType;
+  rejectionReason?:string;
 }

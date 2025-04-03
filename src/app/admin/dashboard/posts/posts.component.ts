@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { Post } from 'src/app/models/post.model';
 import { PostService } from 'src/app/services/post.service';
 
@@ -43,6 +43,14 @@ export class PostsComponent {
   yearsList: number[] = [];
   months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
+
+
+
+
+  //-------------------------------
+  
+// Add these to your component class
+@ViewChildren('tooltip') tooltips!: QueryList<ElementRef>;
 
   //-------------------------------
 
@@ -315,6 +323,9 @@ export class PostsComponent {
   }
   
   
+
+
+
 
 
 
