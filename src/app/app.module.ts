@@ -27,6 +27,7 @@ import { UsersComponent } from './admin/dashboard/users/users.component';
 import { ReplyComponent } from './admin/dashboard/reply/reply.component';
 import { PostsComponent } from './admin/dashboard/posts/posts.component';
 import { BlogFrontOfficeComponent } from './components/blog-front-office/blog-front-office.component';
+import { ReactionsComponent } from './components/reactions/reactions.component';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { BlogFrontOfficeComponent } from './components/blog-front-office/blog-fr
     UsersComponent,
     ReplyComponent,
     BlogFrontOfficeComponent,
+    ReactionsComponent,
   ],
   imports: [
     BrowserModule,
