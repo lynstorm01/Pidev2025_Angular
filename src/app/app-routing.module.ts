@@ -18,35 +18,30 @@ import { HistorComponent } from './front/Sinister/histor/histor.component';
 import { ArchivedComponent } from './admin/sinister-ad/archived/archived.component';
 import { SinisterDetailsComponent } from './front/Sinister/sinister-details/sinister-details.component';
 
-
 const routes: Routes = [
   { path: 'view-file', component: FileViewerComponent },
   { path: 'sinister/:id', component: SinisterdisplayComponent },
   { path: 'signin', component: SignInComponent },
   { path: 'signup', component: SignUpComponent },
 
+
   { path: 'create', component: CreateSinComponent},
   { path: 'track', component: HistorComponent},
   { path: 'sinisterdetails/:id', component: SinisterDetailsComponent},
+
   { path: 'sinister', component: SinisterComponent },
-  { path: 'admin', component: DashboardComponent, canActivate: [AuthGuard],data: {roles: ['ROLE_ADMIN']}, children: [
-    { path: 'sinister', component: SinisterADComponent},
+  { path: 'admin', component: DashboardComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_ADMIN'] }, children: [
+    { path: 'sinister', component: SinisterADComponent },
     { path: 'sinister/create', component: SinistercreateComponent },
     { path: 'sinister/update/:id', component: SinisterupdateComponent },
     { path: 'sinister/display/:id', component: SinisterdisplayComponent },
     { path: 'sinister/calendar', component: SinistercalComponent },
     { path: 'sinister/chart', component: SinisterchartComponent },
     { path: 'sinister/archived', component: ArchivedComponent },
-
-    // Ajoute d'autres routes pour les autres composants CRUD ici
-]},
-{ path: 'home', component: HomeComponent, children: [
-  // Ajoute d'autres routes pour les autres composants CRUD ici
-]},
-
-
-{ path: '', redirectTo: '/home', pathMatch: 'full' },
-{ path: '**', redirectTo: '/home' }, // Fallback route
+  ]},
+  { path: 'home', component: HomeComponent, children: [] },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '**', redirectTo: '/home' },
 ];
 
 @NgModule({

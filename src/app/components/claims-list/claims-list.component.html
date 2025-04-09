@@ -1,0 +1,32 @@
+<div class="container">
+  <h2 class="mb-4">Liste des Réclamations</h2>
+  <button routerLink="/admin/claim/add" class="btn btn-primary mb-3">
+    Ajouter une réclamation
+  </button>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Type</th>
+        <th>Date</th>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let claim of claims">
+        <td>{{ claim.idClaim }}</td>
+        <td>{{ claim.reclamationType }}</td>
+        <td>{{ claim.reclamationDate | date }}</td>
+        <td>{{ claim.description }}</td>
+        <td>
+          <button class="btn btn-warning btn-sm" [routerLink]="['/admin/claim/edit', claim.idClaim]">
+            Modifier
+          </button>
+    
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

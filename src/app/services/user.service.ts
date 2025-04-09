@@ -1,7 +1,8 @@
-// user.service.ts
+
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
 
 export interface User {
   id: number;
@@ -13,15 +14,18 @@ export interface User {
   // Add additional properties as needed
 }
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+
   private baseUrl = 'http://localhost:8081/config';
 
   constructor(private http: HttpClient) {}
 
   getUser(userId: number): Observable<User> {
     return this.http.get<User>(`${this.baseUrl}/id/${userId}`);
+
   }
 }
