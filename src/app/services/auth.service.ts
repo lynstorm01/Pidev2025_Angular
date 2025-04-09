@@ -1,40 +1,38 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CookieService } from 'ngx-cookie-service';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Inject } from '@angular/core';
+
 @Injectable({
   providedIn: 'root'
-  
 })
-
 export class AuthService {
-  private loggedInUser: any;
-  private baseUrl = 'http://localhost:8081/user';
+  private baseUrl = 'http://localhost:8069/user';
 
-  constructor(private http: HttpClient,@Inject(CookieService) private cookieService: CookieService) { }
+  constructor(private http: HttpClient) {}
 
   login(email: string, password: string): Observable<any> {
-    this.loggedInUser = this.http.post<any>(this.baseUrl + '/auth', { email, password });
     return this.http.post<any>(this.baseUrl + '/auth', { email, password });
-  }
-  getLoggedInUser(): any {
-    return this.loggedInUser;
   }
 
   signUp(userData: any): Observable<any> {
     return this.http.post<any>(this.baseUrl + '/Register', userData);
   }
 
+  getLoggedInUser(): any {
+    const user = localStorage.getItem('currentUser');
+    return user ? JSON.parse(user) : null;
+  }
 
+  setLoggedInUser(user: any) {
+    localStorage.setItem('currentUser', JSON.stringify(user));
+  }
 
   isLoggedIn(): boolean {
-    // Check if authentication token exists in cookies
-    return !!this.cookieService.get('token');
+    return !!localStorage.getItem('token');
   }
 
   getUserRole(): string | null {
-    const token = this.cookieService.get('token');
+    const token = localStorage.getItem('token');
     if (token) {
       const decodedToken = this.decodeToken(token);
       return decodedToken?.role || null;
