@@ -2,7 +2,8 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FullCalendarModule } from '@fullcalendar/angular'; // Import du module FullCalendar  
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './interceptors/token.interceptor';
 
 // Composants
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
@@ -11,6 +12,7 @@ import { HeaderComponent } from './front/header/header.component';
 import { HomeComponent } from './front/home/home.component';
 import { CreateSinComponent } from './front/Sinister/create-sin/create-sin.component';
 import { HistorComponent } from './front/Sinister/histor/histor.component';
+
 import { SinisterADComponent } from './admin/sinister-ad/sinister-ad.component';
 
 import { AppointmentListComponent } from './components/appointment-list/appointment-list.component';
@@ -66,9 +68,22 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { FullCalendarModule } from '@fullcalendar/angular';
-import { MatPaginatorModule } from '@angular/material/paginator';
 import { provideOAuthClient, OAuthService } from 'angular-oauth2-oidc';
 import { CookieService } from 'ngx-cookie-service';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { NgxStripeModule } from 'ngx-stripe';
+import { DevisBackOfficeComponent } from './admin/DevisBackoffice/devis-back-office/devis-back-office.component';
+import { DevisComponent } from './front/Devis/devis/devis.component';
+import { DevisListComponent } from './front/Devis/devis-list/devis-list.component';
+import { CreateDevisHabitationComponent } from './front/Devis/create-devis-habitation/create-devis-habitation/create-devis-habitation.component';
+import { DevisTypeComponent } from './front/Devis/devistypePage/devis-type/devis-type.component';
+import { PaiementDialogComponent } from './front/Devis/paiement-dialog/paiement-dialog.component';
+import { AdvancedSearchPipe } from './services/search.pipe';
+import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
+import { MatDialogModule } from '@angular/material/dialog';
+import { AngularSignaturePadModule } from '@almothafar/angular-signature-pad';
+import { ModifierDevisComponent } from './front/Devis/modifier-devis/modifier-devis.component';
+import { PaymentComponent } from './front/payment/payment/payment.component';
 
 
 
@@ -109,7 +124,17 @@ import { CookieService } from 'ngx-cookie-service';
     SignUpComponent,
     SignInComponent,
     ArchivedComponent,
-    SinisterDetailsComponent
+    SinisterDetailsComponent,
+    DevisBackOfficeComponent,
+    DevisComponent,
+    DevisListComponent,
+    CreateDevisHabitationComponent,
+    DevisTypeComponent,
+    PaiementDialogComponent,
+    AdvancedSearchPipe,
+    ModifierDevisComponent,
+    PaymentComponent
+    
 
 
   ],
@@ -123,7 +148,6 @@ import { CookieService } from 'ngx-cookie-service';
     MatStepperModule,
     MatInputModule,
     MatButtonModule,
-    MatFormFieldModule,
     MatIconModule,
     MatSelectModule,
     MatOptionModule,
@@ -131,11 +155,18 @@ import { CookieService } from 'ngx-cookie-service';
     MatNativeDateModule,
     FullCalendarModule,
     RouterModule ,// Ajout du RouterModule pour RouterLink
-     MatSnackBarModule, // Ajout du RouterModule pour RouterLink
-    MatPaginatorModule
+    MatSnackBarModule, // Ajout du RouterModule pour RouterLink
+    MatPaginatorModule,
+    AngularSignaturePadModule,
+    RecaptchaModule,
+    RecaptchaFormsModule,
+    MatFormFieldModule,
+    MatDialogModule,
+    NgxPaginationModule,
+    NgxStripeModule.forRoot('pk_test_51Qz0h5Q0ic8mbnmqhHpXMcHLA8ExJypPCIdLQvVleZNs5EuZRYRjcDZQF3f7LwPSAGO0byAWLZWnqzkmZSXCQ5Cm00NrTcLoYb') // Remplace par ta clé publique Stripe
   ],
   providers: [
-          UserService,
+    UserService,
     provideOAuthClient(),
     provideHttpClient(),
     CookieService,
@@ -148,9 +179,14 @@ import { CookieService } from 'ngx-cookie-service';
       },
       multi: true,
       deps: [OAuthService]
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
     }
-
   ],
+  
   bootstrap: [AppComponent]
 })
 export class AppModule { }

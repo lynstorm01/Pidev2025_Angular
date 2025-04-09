@@ -33,6 +33,12 @@ import { SignUpComponent } from './front/sign-up/sign-up.component';
 import { HistorComponent } from './front/Sinister/histor/histor.component';
 import { ArchivedComponent } from './admin/sinister-ad/archived/archived.component';
 import { SinisterDetailsComponent } from './front/Sinister/sinister-details/sinister-details.component';
+import { DevisBackOfficeComponent } from './admin/DevisBackoffice/devis-back-office/devis-back-office.component';
+import { DevisComponent } from './front/Devis/devis/devis.component';
+import { CreateDevisHabitationComponent } from './front/Devis/create-devis-habitation/create-devis-habitation/create-devis-habitation.component';
+import { DevisListComponent } from './front/Devis/devis-list/devis-list.component';
+import { DevisTypeComponent } from './front/Devis/devistypePage/devis-type/devis-type.component';
+import { PaymentComponent } from './front/payment/payment/payment.component';
 
 
 const routes: Routes = [
@@ -50,10 +56,15 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'appointment-detail', component: AppointmentDetailComponent },
   { path: 'appointment/add', component: AppointmentFormComponent },
+  { path: 'pay', component: PaymentComponent },
 
   
   { path: 'view-file', component: FileViewerComponent },
   { path: 'sinister/:id', component: SinisterdisplayComponent },
+  { path: 'devis', component: DevisComponent },
+  { path: 'create-devis-habitation', component: CreateDevisHabitationComponent },
+  { path: 'devisList', component: DevisListComponent },
+  { path: 'devisType', component: DevisTypeComponent },
   { path: 'signin', component: SignInComponent },
   { path: 'signup', component: SignUpComponent },
   { path: 'create', component: CreateSinComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_USER'] } },
@@ -68,8 +79,9 @@ const routes: Routes = [
     { path: 'sinister/calendar', component: SinistercalComponent },
     { path: 'sinister/chart', component: SinisterchartComponent },
     { path: 'sinister/archived', component: ArchivedComponent },
-         { path: 'appointments', component: AppointmentListComponent },
-      { path: 'claims', component: ClaimsListComponent },
+    { path: 'appointments', component: AppointmentListComponent },
+    { path: 'claims', component: ClaimsListComponent },
+    { path: 'devis', component: DevisBackOfficeComponent},
       // Routes pour la gestion des rendez-vous
 
 

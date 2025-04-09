@@ -1,69 +1,67 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
-import { CookieService } from 'ngx-cookie-service';
-import { Inject } from '@angular/core';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.css']
 })
-export class SignInComponent {
-
+export class SignInComponent implements OnInit {
   email: string = '';
   password: string = '';
 
-  constructor(private authService: AuthService,@Inject(CookieService) private cookieService: CookieService) { }
+  constructor(private authService: AuthService, private router: Router) {}
+
+  ngOnInit(): void {}
 
   login(): void {
-    if(this.email===''){
-      alert("Please enter your email");
+    if (!this.email.trim()) {
+      alert('Please enter your email');
+      return;
     }
-  else if(this.password===''){
-      alert("Please enter your password");
+
+    if (!this.password.trim()) {
+      alert('Please enter your password');
+      return;
     }
-  else{
-    this.authService.login(this.email, this.password)
-      .subscribe(
-        response => {
-          // Handle successful login response
-          // Store the token in a cookie
-          this.cookieService.set('token', response.token);
-          
-          // Check if the role in the token is ROLE_TEACHER
-          const token = response.token;
-          const decodedToken = this.decodeToken(token);
-          console.log(decodedToken)
-          if (decodedToken && decodedToken.role === 'ROLE_ADMIN') {
-            // Redirect to the teacher page
-            window.location.href = '/admin';
-          } else if (decodedToken && decodedToken.role === 'ROLE_USER'){
-            // Redirect to the default page
-            window.location.href = '/create';
-          }
-          else{
-            window.location.href = '/signin';
-          }
-        },
-        error => {
-          // Handle error response
-          alert("Email Or Password Incorrect")
+
+    this.authService.login(this.email, this.password).subscribe(
+      (response) => {
+        // Save token and user in localStorage
+        localStorage.setItem('token', response.token);
+        if (response.refreshToken) {
+          localStorage.setItem('refreshToken', response.refreshToken);
         }
-      );
-    }
+        if (response.user) {
+          localStorage.setItem('currentUser', JSON.stringify(response.user));
+        }
+
+        // Decode and check role
+        const decodedToken = this.decodeToken(response.token);
+        if (decodedToken?.role === 'ROLE_ADMIN') {
+          this.router.navigate(['/admin']);
+        } else if (decodedToken?.role === 'ROLE_USER') {
+          this.router.navigate(['/dashboard']);
+        } else {
+          alert('Unknown role. Access denied.');
+          this.router.navigate(['/signin']);
+        }
+      },
+      (error) => {
+        alert('Email or Password Incorrect');
+        console.error('Login error:', error);
+      }
+    );
   }
 
   decodeToken(token: string): any {
     try {
       const tokenPayload = token.split('.')[1];
-      const decodedToken = JSON.parse(atob(tokenPayload));
-      return decodedToken;
+      return JSON.parse(atob(tokenPayload));
     } catch (error) {
       console.error('Error decoding token:', error);
       return null;
     }
   }
-
-  ngOnInit(): void {
-  }
-
 }
