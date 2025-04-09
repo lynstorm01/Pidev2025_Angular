@@ -24,7 +24,7 @@ export class HistorComponent {
     this.sinistersService.getSinisters().subscribe({
       next: (data) => {
         // Filter sinisters to only include those with user_id = 1
-        this.sinisters = data.filter(sinister => sinister.user.id === userId);
+        this.sinisters = data.filter(sinister => sinister.user === userId);
       },
       error: (error) => {
         console.error('Error fetching sinisters:', error);

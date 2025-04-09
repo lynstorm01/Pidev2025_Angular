@@ -25,9 +25,9 @@ const routes: Routes = [
   { path: 'signin', component: SignInComponent },
   { path: 'signup', component: SignUpComponent },
 
-  { path: 'create', component: CreateSinComponent, canActivate: [AuthGuard],data: {roles: ['ROLE_USER']}},
-  { path: 'track', component: HistorComponent, canActivate: [AuthGuard],data: {roles: ['ROLE_USER']}},
-  { path: 'sinisterdetails/:id', component: SinisterDetailsComponent, canActivate: [AuthGuard],data: {roles: ['ROLE_USER']}},
+  { path: 'create', component: CreateSinComponent},
+  { path: 'track', component: HistorComponent},
+  { path: 'sinisterdetails/:id', component: SinisterDetailsComponent},
   { path: 'sinister', component: SinisterComponent },
   { path: 'admin', component: DashboardComponent, canActivate: [AuthGuard],data: {roles: ['ROLE_ADMIN']}, children: [
     { path: 'sinister', component: SinisterADComponent},

@@ -14,6 +14,7 @@ import 'pdfmake/build/vfs_fonts';
 import * as XLSX from 'xlsx';
 import * as jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { UserService } from 'src/app/services/user.service';
 Chart.register(...registerables);
 
 @Component({
@@ -38,37 +39,44 @@ export class SinisterADComponent implements AfterViewInit {
   sortDirection: 'asc' | 'desc' = 'asc';
   dataTable: any;
   hideAcceptedDeclined: boolean = false; // Toggle state
-
-  constructor(private sinistersService: SinistersService, private router: Router) {}
+  usernames: { [key: string]: string } = {};
+ userr: any;
+  constructor(
+    private sinistersService: SinistersService, 
+    public userService: UserService,   // Make sure to import UserService appropriately
+    private router: Router
+  ) {}
 
   ngAfterViewInit() {
     this.loadSinisters();
   }
-// Add this method to fetch time spent data
-private loadTimeSpentData(sinisterId: number): void {
-  this.sinistersService.getTimeSpentInEachStatus(sinisterId).subscribe({
-    next: (data: { [status: string]: string }) => { // Change to expect string values
-      this.timeSpentData[sinisterId] = data; // Directly use the formatted strings
-    },
-    error: (error) => {
-      console.error('Error fetching time spent data:', error);
-    }
-  });
-}
 
   private loadSinisters() {
     this.sinistersService.getSinisters().subscribe({
       next: (data) => {
         this.sinisters = data;
-        this.applyFilters(); // Apply filters after loading data
+  
+        this.sinisters.forEach(sinister => {
+          this.userService.getUser(sinister.user).subscribe({
+            next: (userData) => {
+              const fullName = userData.firstName + ' ' + userData.lastName;
+              this.usernames[sinister.user] = fullName;
+            },
+            error: (error) => {
+              console.error('Error fetching user:', error);
+              this.usernames[sinister.user] = 'Unknown User'; // fallback
+            }
+          });
+        });
+  
+        this.applyFilters();
         this.totalSinisters = this.sinisters.length;
         this.totalAccepted = this.sinisters.filter(s => s.status.toUpperCase() === 'ACCEPTED').length;
         this.totalDeclined = this.sinisters.filter(s => s.status.toUpperCase() === 'DECLINED').length;
         this.totalPending = this.sinisters.filter(s => s.status.toUpperCase() === 'PENDING').length;
-  // Load time spent data for each sinister
-  this.sinisters.forEach(sinister => {
-    this.loadTimeSpentData(sinister.id);
-  });
+        this.sinisters.forEach(sinister => {
+          this.loadTimeSpentData(sinister.id);
+        });
         this.initializePieChart();
       },
       error: (error) => {
@@ -77,31 +85,44 @@ private loadTimeSpentData(sinisterId: number): void {
     });
   }
 
+  private loadTimeSpentData(sinisterId: number): void {
+    this.sinistersService.getTimeSpentInEachStatus(sinisterId).subscribe({
+      next: (data: { [status: string]: string }) => {
+        this.timeSpentData[sinisterId] = data;
+      },
+      error: (error) => {
+        console.error('Error fetching time spent data:', error);
+      }
+    });
+  }
+
   private applyFilters() {
     let filteredData = this.sinisters;
-
+  
     // Filter out archived sinisters
     filteredData = filteredData.filter(s => s.status.toUpperCase() !== 'ARCHIVED');
-
+  
     // Filter out ACCEPTED and DECLINED sinisters if hideAcceptedDeclined is true
     if (this.hideAcceptedDeclined) {
       filteredData = filteredData.filter(s =>
         s.status.toUpperCase() !== 'ACCEPTED' && s.status.toUpperCase() !== 'DECLINED'
       );
     }
-
-    // Apply search filter
+  
+    // Apply search filter using the username map
     if (this.searchTerm) {
       const lowerSearch = this.searchTerm.toLowerCase();
-      filteredData = filteredData.filter((sinister) =>
-        sinister.user?.username?.toLowerCase().includes(lowerSearch)
-      );
+      filteredData = filteredData.filter(sinister => {
+        const username = this.usernames[sinister.user];
+        return username && username.toLowerCase().includes(lowerSearch);
+      });
     }
-
+  
     this.filteredSinisters = filteredData;
     this.pageIndex = 0;
     this.paginator.firstPage();
   }
+  
 
   toggleHideAcceptedDeclined() {
     this.hideAcceptedDeclined = !this.hideAcceptedDeclined;
@@ -217,12 +238,14 @@ private loadTimeSpentData(sinisterId: number): void {
       sinister.location,
       sinister.typeInsurance,
       new Date(sinister.dateofcreation).toLocaleDateString(),
-      sinister.user?.username || 'N/A'
+      this.usernames[sinister.user] || 'N/A'
     ]);
-
+  
+    const csvHeader = ['Date of Incident', 'Description', 'Status', 'Location', 'Insurance Type', 'Date of Creation', 'User Name'];
+  
     const csvContent = 'data:text/csv;charset=utf-8,' 
-      + data.map(row => row.join(',')).join('\n');
-
+      + [csvHeader, ...data].map(row => row.join(',')).join('\n');
+  
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement('a');
     link.setAttribute('href', encodedUri);
@@ -239,27 +262,24 @@ private loadTimeSpentData(sinisterId: number): void {
       return;
     }
 
-    // Create a new table without the "Actions" column
     const newTable = document.createElement('table');
     newTable.className = 'table table-striped';
 
-    // Copy the header row (excluding the "Actions" column)
     const headerRow = table.getElementsByTagName('thead')[0].rows[0];
     const newHeaderRow = document.createElement('tr');
-    for (let i = 0; i < headerRow.cells.length - 1; i++) { // Exclude the last column
+    for (let i = 0; i < headerRow.cells.length - 1; i++) {
       const th = document.createElement('th');
       th.textContent = headerRow.cells[i].textContent;
       newHeaderRow.appendChild(th);
     }
     newTable.appendChild(newHeaderRow);
 
-    // Copy the data rows (excluding the "Actions" column)
     const tbody = table.getElementsByTagName('tbody')[0];
     const newTbody = document.createElement('tbody');
     for (let i = 0; i < tbody.rows.length; i++) {
       const row = tbody.rows[i];
       const newRow = document.createElement('tr');
-      for (let j = 0; j < row.cells.length - 1; j++) { // Exclude the last column
+      for (let j = 0; j < row.cells.length - 1; j++) {
         const td = document.createElement('td');
         td.textContent = row.cells[j].textContent;
         newRow.appendChild(td);
@@ -268,28 +288,24 @@ private loadTimeSpentData(sinisterId: number): void {
     }
     newTable.appendChild(newTbody);
 
-    // Temporarily add the new table to the DOM (required for html2canvas to render it)
     const tempDiv = document.createElement('div');
     tempDiv.style.position = 'absolute';
-    tempDiv.style.left = '-9999px'; // Move it off-screen
+    tempDiv.style.left = '-9999px';
     tempDiv.appendChild(newTable);
     document.body.appendChild(tempDiv);
 
-    // Use html2canvas to generate the PDF
     html2canvas(newTable).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF.jsPDF('p', 'mm', 'a4');
-      const imgWidth = 210; // A4 width in mm
+      const imgWidth = 210;
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
       pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
       pdf.save('sinisters.pdf');
 
-      // Clean up: Remove the temporary table from the DOM
       document.body.removeChild(tempDiv);
     }).catch((error) => {
       console.error('Error generating PDF:', error);
-      // Clean up: Remove the temporary table from the DOM
       document.body.removeChild(tempDiv);
     });
   }
@@ -301,25 +317,20 @@ private loadTimeSpentData(sinisterId: number): void {
       return;
     }
 
-    // Clone the table to avoid modifying the original
     const clonedTable = table.cloneNode(true) as HTMLTableElement;
-
-    // Remove the "Actions" column header (last <th> in the header row)
     const headerRow = clonedTable.getElementsByTagName('thead')[0].rows[0];
     if (headerRow.cells.length > 0) {
-      headerRow.deleteCell(headerRow.cells.length - 1); // Remove the last <th> (Actions column header)
+      headerRow.deleteCell(headerRow.cells.length - 1);
     }
 
-    // Remove the "Actions" column data (last <td> in each row)
     const rows = clonedTable.getElementsByTagName('tr');
     for (let i = 0; i < rows.length; i++) {
       const cells = rows[i].getElementsByTagName('td');
       if (cells.length > 0) {
-        rows[i].deleteCell(cells.length - 1); // Remove the last <td> (Actions column data)
+        rows[i].deleteCell(cells.length - 1);
       }
     }
 
-    // Create a new window for printing
     const printWindow = window.open('', '', 'height=500,width=800');
     if (!printWindow) {
       console.error('Failed to open print window!');
@@ -332,8 +343,6 @@ private loadTimeSpentData(sinisterId: number): void {
     printWindow.document.write(clonedTable.outerHTML);
     printWindow.document.write('</body></html>');
     printWindow.document.close();
-
-    // Print the table
     printWindow.print();
   }
 
@@ -345,18 +354,19 @@ private loadTimeSpentData(sinisterId: number): void {
       sinister.location,
       sinister.typeInsurance,
       new Date(sinister.dateofcreation).toLocaleDateString(),
-      sinister.user?.username || 'N/A'
+      this.usernames[sinister.user] || 'N/A'
     ]);
-
-    const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet([[
-      'Date of Incident', 'Description', 'Status', 'Location', 'Type Insurance', 'Date of Creation', 'Client Name'
-    ], ...data]);
-
+  
+    const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet([
+      ['Date of Incident', 'Description', 'Status', 'Location', 'Type Insurance', 'Date of Creation', 'Client Name'],
+      ...data
+    ]);
+  
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sinisters');
-
     XLSX.writeFile(wb, 'sinisters.xlsx');
   }
+  
 
   exportToCopy() {
     const table = document.getElementById('sinisterTable');
