@@ -1,0 +1,72 @@
+/* Style pour le conteneur du chat */
+.chat-container {
+    width: 350px;
+    height: 500px;
+    background-color: #f4f4f4;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+  }
+  
+  /* Style pour chaque message du bot */
+  .chat-container div {
+    background-color: #ffffff;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    word-wrap: break-word;
+  }
+  
+  /* Style pour les messages de l'utilisateur */
+  .chat-container p {
+    font-size: 14px;
+    margin: 5px 0;
+  }
+  
+  /* Style pour l'input de l'utilisateur */
+  .chat-container input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 10px;
+    box-sizing: border-box;
+    font-size: 14px;
+  }
+  
+  /* Style pour le bouton d'envoi */
+  .chat-container button {
+    width: 100%;
+    padding: 12px;
+    background-color: #004b8d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  /* Effet au survol du bouton */
+  .chat-container button:hover {
+    background-color: #f38f1d;
+  }
+  
+  /* Style pour le message d'utilisateur */
+  .chat-container .user-message {
+    background-color: #3a3b3d;
+    color: #fff;
+  }
+  
+  /* Style pour les messages du bot */
+  .chat-container .bot-message {
+    background-color: #9d9d9d;
+    color: #272727;
+  }
+  

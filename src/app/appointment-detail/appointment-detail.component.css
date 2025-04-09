@@ -67,4 +67,56 @@
     color: #e74c3c; /* Rouge pour CANCELED */
     font-weight: bold;
   }
-  
+  /* Section pour reporter le rendez-vous */
+.report-section {
+  background: rgba(255, 255, 255, 0.8); /* Fond blanc légèrement transparent */
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  text-align: center;
+}
+
+/* Boutons pour reporter le rendez-vous */
+.report-section button {
+  background-color: #f38f1d;  /* Orange Maghribia */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 0 10px;
+}
+
+/* Effet hover pour les boutons */
+.report-section button:hover {
+  background-color: #d47e19;  /* Teinte plus foncée de l'orange */
+}
+
+/* Message de succès après le report */
+.text-success {
+  font-size: 16px;
+  color: #27ae60; /* Vert de succès */
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* Bouton retour au calendrier */
+button[routerLink="/calendar"] {
+  background-color: #004b8d;  /* Bleu Maghribia */
+  color: white;
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+}
+
+/* Hover effect pour le bouton retour */
+button[routerLink="/calendar"]:hover {
+  background-color: #003366;
+}

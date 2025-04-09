@@ -3,8 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { AppointementService } from '../services/appointement.service';
 import { Appointement } from '../models/appointement.model';
 
-
-
 @Component({
   selector: 'app-appointment-detail',
   templateUrl: './appointment-detail.component.html',
@@ -14,6 +12,7 @@ export class AppointmentDetailComponent implements OnInit {
   appointment: Appointement | null = null;
   loading: boolean = true;
   errorMessage: string = '';
+  message: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -45,5 +44,23 @@ export class AppointmentDetailComponent implements OnInit {
         this.loading = false;
       }
     );
+  }
+
+  // Méthode pour reporter le rendez-vous
+  onReport(days: number): void {
+    if (this.appointment) {
+      this.appointementService.reportAppointment(this.appointment.idAppointment, days)
+        .subscribe(
+          updated => {
+            this.appointment = updated;
+            this.message = `✅ Rendez-vous reporté au ${new Date(updated.dateSubmitted).toLocaleDateString()}`;
+          },
+          error => {
+            this.message = error.error || '❌ Erreur lors du report, veuillez réessayer.';
+          }
+        );
+    } else {
+      this.message = '❗ Aucun rendez-vous chargé.';
+    }
   }
 }

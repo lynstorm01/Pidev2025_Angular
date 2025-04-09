@@ -53,10 +53,12 @@ import { SatisfactionSurveyComponent } from './satisfaction-survey/satisfaction-
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { FullCalendarModule } from '@fullcalendar/angular';
+
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { provideOAuthClient, OAuthService } from 'angular-oauth2-oidc';
 import { CookieService } from 'ngx-cookie-service';
+import { ChatbotComponent } from './chatbot/chatbot.component';
+
 
 
 @NgModule({
@@ -89,7 +91,8 @@ import { CookieService } from 'ngx-cookie-service';
     SignUpComponent,
     SignInComponent,
     ArchivedComponent,
-    SinisterDetailsComponent
+    SinisterDetailsComponent,
+    ChatbotComponent
 
   ],
   imports: [

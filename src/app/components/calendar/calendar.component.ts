@@ -25,6 +25,7 @@ export class CalendarComponent implements OnInit {
     events: [] // Initialement vide
   };
   selectedAppointment: Appointement | null = null;
+  message: string = '';
   allAppointments: Appointement[] = [];
 
   // --- Partie Réclamations ---
@@ -67,6 +68,7 @@ export class CalendarComponent implements OnInit {
       color: appointment.status === 'CONFIRMED' ? '#28a745' : '#dc3545'
     }));
   }
+  
 
   handleEventClick(clickInfo: any): void {
     const appointmentId = clickInfo.event.extendedProps.idAppointment;
@@ -93,5 +95,31 @@ export class CalendarComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+     // Méthode appelée lorsqu'un bouton de report est cliqué
+     onReport(days: number): void {
+      if (this.selectedAppointment) {
+        this.appointementService.reportAppointment(this.selectedAppointment.idAppointment, days)
+          .subscribe(
+            updated => {
+              this.selectedAppointment = updated;
+              this.message = `Rendez-vous reporté au ${new Date(updated.dateSubmitted).toLocaleDateString()}`;
+              this.loadAppointments(); // 🔁 Recharge le calendrier
+            },
+            error => {
+              this.message = error.error || 'Erreur lors du report, veuillez choisir d\'annuler.';
+            }
+          );
+      } else {
+        this.message = 'Aucun rendez-vous sélectionné.';
+      }
+    }
+    
+
+  // Pour l'exemple, vous pouvez ajouter une méthode pour sélectionner un rendez-vous
+  // (Cela dépend de votre logique applicative)
+  onSelectAppointment(appointment: Appointement): void {
+    this.selectedAppointment = appointment;
   }
 }

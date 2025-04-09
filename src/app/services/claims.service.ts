@@ -42,5 +42,19 @@ export class ClaimsService {
   getClaimsByUser(userId: number): Observable<Claim[]> {
     return this.http.get<Claim[]>(`${this.apiUrl}/user/${userId}`);
   }
+  getPredefinedDescriptions(type: string): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiUrl}/descriptions/${type}`);
+  }
+  getClaimAnalysis(id: number): Observable<string> {
+    return this.http.get(`${this.apiUrl}/analyze/${id}`, { responseType: 'text' });
+  }
+  getEstimatedProcessingTime(description: string): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/analyze-description`, {
+      params: { description }
+    });
+  }
+  
+  
+
   
 }

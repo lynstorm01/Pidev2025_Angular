@@ -124,3 +124,14 @@
       gap: 10px;
   }
 }
+
+.suggestions-box {
+  border: 1px solid #000; /* Bordure noire */
+  padding: 15px;
+  border-radius: 8px;
+  background-color: none; /* Optionnel : léger fond */
+  margin-top: 10px;
+}
+
+
+

@@ -28,10 +28,11 @@
       </div>
     </div>
   </div>
-    <!-- Bouton pour afficher les réclamations d'un utilisateur spécifique -->
-    <button class="btn btn-primary mb-3" (click)="getClaimsForUser()">
-      Afficher mes réclamations
-    </button>
+
+  <!-- Bouton pour afficher les réclamations d'un utilisateur spécifique -->
+  <button class="btn btn-primary mb-3" (click)="getClaimsForUser()">
+    Afficher mes réclamations
+  </button>
 
   <!-- Table -->
   <table class="table table-striped table-hover">
@@ -42,6 +43,7 @@
         <th>Description</th>
         <th>Status</th>
         <th>Actions</th>
+        <th>Analyze</th>
       </tr>
     </thead>
     <tbody>
@@ -60,14 +62,23 @@
           <button *ngIf="claim.status === 'TRAITEE'" class="btn btn-secondary btn-sm" [disabled]="true">
             Done
           </button>
-          <button *ngIf="claim.status === 'TRAITEE'" class="btn btn-primary btn-sm" (click)="sendEmail(claim)">
+          <!-- Bouton Send Email : affiché uniquement si le statut est TRAITEE et le temps moyen est égal à 2 minutes -->
+          <button *ngIf="claim.status === 'EN_COURS' " class="btn btn-primary btn-sm" (click)="sendEmail(claim)">
             Send Email
           </button>
         </td>
-        
+        <td>
+          <button class="btn btn-outline-secondary btn-sm" (click)="showAnalysis(claim.idClaim!)">
+            Analyze
+          </button>
+        </td>
       </tr>
     </tbody>
   </table>
+
+  <div *ngIf="selectedAnalysis" class="alert alert-info mt-3">
+    {{ selectedAnalysis }}
+  </div>
 
   <!-- Pagination -->
   <nav aria-label="Page navigation">
@@ -87,4 +98,5 @@
       </li>
     </ul>
   </nav>
+  
 </div>

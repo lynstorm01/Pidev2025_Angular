@@ -62,7 +62,14 @@ checkDateAvailability(date: string): Observable<boolean> {
   return this.http.get<boolean>(`${this.baseUrl}/check-availability/${date}`);
 }
 
+  // --- Méthodes Reporter ---
 
+  // Appelle l’endpoint pour reporter le rendez-vous d’un nombre de jours donné.
+  reportAppointment(id: number, days: number): Observable<Appointement> {
+    return this.http.put<Appointement>(`${this.baseUrl}/${id}/report?days=${days}`, {});
+  }
+
+  // Appelle l’endpoint pour annuler (archiver) le rendez-vous.
 
 
 

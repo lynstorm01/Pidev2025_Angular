@@ -26,9 +26,12 @@ import { SignUpComponent } from './front/sign-up/sign-up.component';
 import { HistorComponent } from './front/Sinister/histor/histor.component';
 import { ArchivedComponent } from './admin/sinister-ad/archived/archived.component';
 import { SinisterDetailsComponent } from './front/Sinister/sinister-details/sinister-details.component';
+import { ChatbotComponent } from './chatbot/chatbot.component'; // Assure-toi que le chemin est correct
+
 
 
 const routes: Routes = [
+  { path: 'chat', component: ChatbotComponent },
   
   { path: 'user-claims', component: ClaimsListComponent },
   { path: 'profiluser', component: ProfiluserComponent },
@@ -67,6 +70,7 @@ const routes: Routes = [
       // Routes pour la gestion des réclamations
       { path: 'claim/add', component: ClaimFormComponent },
       { path: 'claim/edit/:id', component: ClaimFormComponent },
+
   ]},
   { path: 'home', component: HomeComponent, children: [
    { path: 'new-claim', component: ClaimFormComponent },

@@ -57,49 +57,52 @@ export class AppointmentFormComponent implements OnInit {
   }
 
   saveAppointment(): void {
-    if (this.appointement.dateSubmitted) {
-      // Extraire la partie date au format "yyyy-MM-dd"
-      const selectedDateStr = new Date(this.appointement.dateSubmitted).toISOString().split('T')[0];
-      const todayStr = new Date().toISOString().split('T')[0];
-  
-      if (selectedDateStr === todayStr) {
-        // Si la date sélectionnée est aujourd'hui, utiliser l'heure actuelle
-        this.appointement.dateSubmitted = new Date();
-      } else {
-        // Pour une date future, fixer l'heure à minuit
-        this.appointement.dateSubmitted = new Date(selectedDateStr + '');
-      }
-    }
-    
-    // ASSIGNATION de l'utilisateur : le backend attend une propriété "user" non nulle.
-    if (this.appointement.userId) {
-      // Créez un objet User partiel (seul l'id est nécessaire)
-      this.appointement.user = new User(this.appointement.userId);
-    }
-  
-    if (this.appointement.idAppointment) {
-      this.appointementService.updateAppointment(this.appointement.idAppointment, this.appointement).subscribe(
-        () => {
-          this.router.navigate(['/calendar']);
-        },
-        (error: any) => {
-          console.error('Error saving appointment', error);
-        }
-      );
-    } else {
-      this.appointement.status = 'PENDING';
-      this.appointement.archiver = true;
-      this.appointementService.createAppointment(this.appointement, this.userPhoneNumber).subscribe(
-        () => {
-          this.router.navigate(['calendar']);
-        },
-        (error: any) => {
-          console.error('Error creating appointment', error);
-          alert('Une erreur est survenue lors de la création du rendez-vous.');
-        }
-      );
-    }
+  if (this.appointement.dateSubmitted) {
+    // Convertir la date sélectionnée en objet Date
+    const selectedDate = new Date(this.appointement.dateSubmitted);
+    // Récupérer l'heure actuelle
+    const currentTime = new Date();
+    // Injecter l'heure actuelle dans la date sélectionnée
+    selectedDate.setHours(
+      currentTime.getHours(),
+      currentTime.getMinutes(),
+      currentTime.getSeconds(),
+      currentTime.getMilliseconds()
+    );
+    // Mettre à jour la date soumise avec la date sélectionnée + heure actuelle
+    this.appointement.dateSubmitted = selectedDate;
   }
+
+  // ASSIGNATION de l'utilisateur : le backend attend une propriété "user" non nulle.
+  if (this.appointement.userId) {
+    // Créez un objet User partiel (seul l'id est nécessaire)
+    this.appointement.user = new User(this.appointement.userId);
+  }
+
+  if (this.appointement.idAppointment) {
+    this.appointementService.updateAppointment(this.appointement.idAppointment, this.appointement).subscribe(
+      () => {
+        this.router.navigate(['/calendar']);
+      },
+      (error: any) => {
+        console.error('Error saving appointment', error);
+      }
+    );
+  } else {
+    this.appointement.status = 'PENDING';
+    this.appointement.archiver = true;
+    this.appointementService.createAppointment(this.appointement, this.userPhoneNumber).subscribe(
+      () => {
+        this.router.navigate(['calendar']);
+      },
+      (error: any) => {
+        console.error('Error creating appointment', error);
+        alert('Une erreur est survenue lors de la création du rendez-vous.');
+      }
+    );
+  }
+}
+
   
 
     // Méthode pour proposer une date optimale
