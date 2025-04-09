@@ -19,6 +19,7 @@ import { UserService } from './services/UserService'; // Importation de UserServ
 import { ClaimsListComponent } from './components/claims-list/claims-list.component';
 import { ClaimFormComponent } from './components/claim-form/claim-form.component';
 
+
 import { SinistercreateComponent } from './admin/sinister-ad/sinistercreate/sinistercreate.component';
 import { SinisterupdateComponent } from './admin/sinister-ad/sinisterupdate/sinisterupdate.component';
 import { SinisterdisplayComponent } from './admin/sinister-ad/sinisterdisplay/sinisterdisplay.component';
@@ -43,6 +44,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { CommonModule } from '@angular/common';
 import { RouterModule} from '@angular/router';
@@ -51,6 +53,16 @@ import { CalendarComponent } from './components/calendar/calendar.component';
 import { AppointmentDetailComponent } from './appointment-detail/appointment-detail.component';
 import { SatisfactionSurveyComponent } from './satisfaction-survey/satisfaction-survey.component';
 
+
+import { ContractCrudComponent } from './admin/contract-crud/contract-crud.component';
+import { ContractComponent } from './front/contract/contract.component';
+import { CreateContractComponent } from './front/contract/create-contract/create-contract.component';
+import { ListContractComponent } from './admin/contract-crud/list-contract/list-contract.component';
+import { ContractUpdateComponent } from './admin/contract-crud/update-contract/update-contract.component';
+import * as Papa from 'papaparse';
+import { ClientContractsComponent } from './front/contract/client-contracts/client-contracts.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 
@@ -58,6 +70,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { provideOAuthClient, OAuthService } from 'angular-oauth2-oidc';
 import { CookieService } from 'ngx-cookie-service';
 import { ChatbotComponent } from './chatbot/chatbot.component';
+
 
 
 
@@ -71,7 +84,6 @@ import { ChatbotComponent } from './chatbot/chatbot.component';
     HistorComponent,
     CreateSinComponent,
     SinisterADComponent,
-
     AppointmentListComponent,
     AppointmentFormComponent,
     ClaimsListComponent,
@@ -84,6 +96,14 @@ import { ChatbotComponent } from './chatbot/chatbot.component';
     SinistercreateComponent,
     SinisterupdateComponent,
     SinisterdisplayComponent,
+
+    ContractCrudComponent,
+    ContractComponent,
+    CreateContractComponent,
+    ListContractComponent,
+    ContractUpdateComponent,
+    ClientContractsComponent,
+
     SinisterComponent,
     SinistercalComponent,
     SinisterchartComponent,
@@ -93,6 +113,7 @@ import { ChatbotComponent } from './chatbot/chatbot.component';
     ArchivedComponent,
     SinisterDetailsComponent,
     ChatbotComponent
+
 
   ],
   imports: [
@@ -109,11 +130,11 @@ import { ChatbotComponent } from './chatbot/chatbot.component';
     MatIconModule,
     MatSelectModule,
     MatOptionModule,
-
     MatDatepickerModule,
     MatNativeDateModule,
     FullCalendarModule,
     RouterModule ,// Ajout du RouterModule pour RouterLink
+     MatSnackBarModule, // Ajout du RouterModule pour RouterLink
     MatPaginatorModule
   ],
   providers: [
@@ -131,6 +152,7 @@ import { ChatbotComponent } from './chatbot/chatbot.component';
       multi: true,
       deps: [OAuthService]
     }
+
   ],
   bootstrap: [AppComponent]
 })

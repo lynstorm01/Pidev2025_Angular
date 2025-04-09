@@ -9,6 +9,13 @@ import { AppointmentListComponent } from './components/appointment-list/appointm
 import { AppointmentFormComponent } from './components/appointment-form/appointment-form.component';
 import { ClaimsListComponent } from './components/claims-list/claims-list.component';
 import { ClaimFormComponent } from './components/claim-form/claim-form.component';
+import { ContractCrudComponent } from './admin/contract-crud/contract-crud.component';
+import { ContractComponent } from './front/contract/contract.component';
+import { CreateContractComponent } from './front/contract/create-contract/create-contract.component';
+import { ListContractComponent } from './admin/contract-crud/list-contract/list-contract.component';
+import { ContractUpdateComponent } from './admin/contract-crud/update-contract/update-contract.component';
+import { ClientContractsComponent } from './front/contract/client-contracts/client-contracts.component';
+
 import { ProfiluserComponent } from './profiluser/profiluser.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { AppointmentDetailComponent } from './appointment-detail/appointment-detail.component';
@@ -31,7 +38,13 @@ import { ChatbotComponent } from './chatbot/chatbot.component'; // Assure-toi qu
 
 
 const routes: Routes = [
+
   { path: 'chat', component: ChatbotComponent },
+
+    { path: 'contract', component: ContractComponent },
+  { path: 'contract/create', component: CreateContractComponent },
+  { path: 'contract/client-contracts', component: ClientContractsComponent },
+
   
   { path: 'user-claims', component: ClaimsListComponent },
   { path: 'profiluser', component: ProfiluserComponent },
@@ -65,11 +78,19 @@ const routes: Routes = [
       { path: 'claims', component: ClaimsListComponent },
       // Routes pour la gestion des rendez-vous
 
+
       { path: 'appointment/edit/:id', component: AppointmentFormComponent },
    
       // Routes pour la gestion des réclamations
       { path: 'claim/add', component: ClaimFormComponent },
       { path: 'claim/edit/:id', component: ClaimFormComponent },
+ 
+
+
+     { path: 'admin/contract-crud', component: ContractCrudComponent },
+      { path: 'contract-crud/list', component: ListContractComponent },
+      { path: 'contract-crud/Update/:id', component: ContractUpdateComponent },
+      { path: 'admin/contract-crud/create', component: CreateContractComponent },
 
   ]},
   { path: 'home', component: HomeComponent, children: [
