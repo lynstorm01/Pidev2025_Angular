@@ -76,7 +76,7 @@ const routes: Routes = [
   { path: 'sinisterdetails/:id', component: SinisterDetailsComponent},
 
   { path: 'sinister', component: SinisterComponent },
-  { path: 'admin', component: DashboardComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_ADMIN'] }, children: [
+  { path: 'admin', component: DashboardComponent,  children: [
     { path: 'sinister', component: SinisterADComponent },
     { path: 'sinister/create', component: SinistercreateComponent },
     { path: 'sinister/update/:id', component: SinisterupdateComponent },
