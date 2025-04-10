@@ -48,8 +48,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { MatPaginatorModule } from '@angular/material/paginator';
 
-import { CommonModule } from '@angular/common';
-import { RouterModule} from '@angular/router';
+
 import { ProfiluserComponent } from './profiluser/profiluser.component'; // Pour utiliser RouterLink
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { AppointmentDetailComponent } from './appointment-detail/appointment-detail.component';
@@ -86,6 +85,9 @@ import { ModifierDevisComponent } from './front/Devis/modifier-devis/modifier-de
 import { PaymentComponent } from './front/payment/payment/payment.component';
 
 
+
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router'; // Pour utiliser RouterLink
 
 @NgModule({
   declarations: [

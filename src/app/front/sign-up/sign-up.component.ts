@@ -49,7 +49,7 @@ export class SignUpComponent {
         error => {
           // Handle sign up error
           console.error('Sign up failed:', error);
-          // Optionally, display an error message to the user
+          // Optionally, display an error message to the userrrr
           alert("Credentials Must Be Valid")
         }
       );

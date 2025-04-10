@@ -22,7 +22,7 @@ export interface Sinister {
   location: string;
   evidenceFiles: string;
   typeInsurance: string;
-  user: User;
+  user: number;
   reportedDate: Date;
   dateofcreation: Date;
   
@@ -58,6 +58,7 @@ export class SinistersService {
 
   createClaim(claim: any, file: File): Observable<any> {
     const formData = new FormData();
+    formData.append('userId', claim.userId);
     formData.append('description', claim.description);
     formData.append('location', claim.location);
     formData.append('typeAssurance', claim.typeAssurance);
@@ -80,13 +81,13 @@ export class SinistersService {
     return this.http.get<Sinister>(`${this.apiUrl}/${id}`, { headers });
   }
 
-  updateSinister(id: number, sinister: Sinister): Observable<Sinister> {
+  updateSinister(id: number, userId: number, userEmail: string, sinister: Sinister): Observable<Sinister> {
     const headers = new HttpHeaders({
       'Authorization': 'Basic YWRtaW46YWRtaW4xMjM=',
-      'Content-Type': 'application/json' // Ensure JSON is sent
+      'Content-Type': 'application/json'
     });
-  
-    return this.http.put<Sinister>(`${this.apiUrl}/${id}`, sinister, { headers });
+    const url = `${this.apiUrl}/${id}?userId=${userId}&userEmail=${userEmail}`;
+    return this.http.put<Sinister>(url, sinister, { headers });
   }
   
 

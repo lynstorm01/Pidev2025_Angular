@@ -75,7 +75,7 @@
               <th (click)="sort('location')">Location</th>
               <th (click)="sort('typeInsurance')">Type Insurance</th>
               <th (click)="sort('dateofcreation')">Date of Creation</th>
-              <th (click)="sort('user.username')">Client Name</th>
+              <th (click)="sort('username')">Client Name</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -93,7 +93,8 @@
               <td>{{ sinister.location }}</td>
               <td>{{ sinister.typeInsurance }}</td>
               <td>{{ sinister.dateofcreation | date }}</td>
-              <td>{{ sinister.user?.username || 'N/A' }}</td>
+              
+              <td>{{ usernames[sinister.user] }}</td>
               <td>
                 <button class="btn btn-sm custom-grey-btn btn-display" (click)="displaySinister(sinister.id)">Display</button>
                 <button class="btn btn-sm custom-grey-btn btn-update" (click)="updateSinister(sinister.id)">Update</button>

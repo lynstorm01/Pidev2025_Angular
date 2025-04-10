@@ -3,13 +3,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as L from 'leaflet';
 import { SinistersService } from 'src/app/services/sinisters.service';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-create-sin',
   templateUrl: './create-sin.component.html',
   styleUrls: ['./create-sin.component.css']
 })
-export class CreateSinComponent implements AfterViewInit {
+export class CreateSinComponent implements AfterViewInit, OnInit {
   estimatedTime: string = ''; // To store estimated time
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
@@ -23,7 +24,9 @@ export class CreateSinComponent implements AfterViewInit {
   marker: any;
   selectedLocation: string = '';
   mapInitialized: boolean = false;
+  userId:any
   constructor(
+    private cookieService: CookieService,
     private _formBuilder: FormBuilder,
     private claimService: SinistersService
   ) {
@@ -51,9 +54,27 @@ export class CreateSinComponent implements AfterViewInit {
       document: ['', Validators.required]
     });
   }
+  ngOnInit(): void {
+    const token = this.cookieService.get('token');
+    if (token) {
+      const decodedToken = this.decodeToken(token);
+      return decodedToken?.role || null;
+    }
+  }
+
 
   ngAfterViewInit(): void {
     this.initializeMap();
+  }
+
+  decodeToken(token: string): any {
+    try {
+      const tokenPayload = token.split('.')[1];
+      return JSON.parse(atob(tokenPayload));
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return null;
+    }
   }
 
   initializeMap() {
@@ -114,27 +135,35 @@ export class CreateSinComponent implements AfterViewInit {
   }
 
   onSubmit() {
-    if (this.allFormsValid()) {
-      const claimData = {
-        typeAssurance: this.firstFormGroup.value.typeAssurance,
-        description: this.secondFormGroup.value.description,
-        incidentDate: this.thirdFormGroup.value.incidentDate,
-        location: this.selectedLocation
-      };
-
-      this.claimService.createClaim(claimData, this.selectedFile!).subscribe({
-        next: (response) => {
-          console.log('Claim created successfully', response);
-          alert('Claim submitted successfully!');
-        },
-        error: (error) => {
-          console.error('Error creating claim', error);
-          alert('Error submitting claim. Please try again.');
-        }
-      });
-    } else {
-      alert('Please fill out all fields and select a file.');
+    const token = this.cookieService.get('token');
+    if (token) {
+      const decodedToken = this.decodeToken(token);
+      this.userId = decodedToken?.id || null;
+      console.log(this.userId)
+      if (this.allFormsValid()) {
+        const claimData = {
+          userId: this.userId,
+          typeAssurance: this.firstFormGroup.value.typeAssurance,
+          description: this.secondFormGroup.value.description,
+          incidentDate: this.thirdFormGroup.value.incidentDate,
+          location: this.selectedLocation
+        };
+  
+        this.claimService.createClaim(claimData, this.selectedFile!).subscribe({
+          next: (response) => {
+            console.log('Claim created successfully', response);
+            alert('Claim submitted successfully!');
+          },
+          error: (error) => {
+            console.error('Error creating claim', error);
+            alert('Error submitting claim. Please try again.');
+          }
+        });
+      } else {
+        alert('Please fill out all fields and select a file.');
+      }
     }
+    
   }
 
   private subtractMonths(date: Date, months: number): Date {

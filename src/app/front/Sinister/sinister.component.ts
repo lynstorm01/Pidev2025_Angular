@@ -23,7 +23,7 @@ export class SinisterComponent implements OnInit {
         console.log('Fetched Sinisters:', data); // Log the fetched data
   
         // Filter sinisters to only include those with user_id = 1
-        const sinistersForUser = data.filter(sinister => sinister.user.id === userId);
+        const sinistersForUser = data.filter(sinister => sinister.user === userId);
         console.log('Filtered Sinisters:', sinistersForUser); // Log the filtered data
   
         // Format the data as a plain string

@@ -25,7 +25,7 @@
               <td>{{ sinister.location }}</td>
               <td>{{ sinister.typeInsurance }}</td>
               <td>{{ sinister.dateofcreation | date }}</td>
-              <td>{{ sinister.user?.username || 'N/A' }}</td>
+              <td>{{ username || 'N/A' }}</td>
               <td>
                 <button class="btn btn-sm custom-grey-btn" (click)="unarchiveSinister(sinister.id)">Unarchive</button>
               </td>

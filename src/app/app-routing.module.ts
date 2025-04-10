@@ -41,6 +41,7 @@ import { DevisTypeComponent } from './front/Devis/devistypePage/devis-type/devis
 import { PaymentComponent } from './front/payment/payment/payment.component';
 
 
+
 const routes: Routes = [
     { path: 'contract', component: ContractComponent },
   { path: 'contract/create', component: CreateContractComponent },
@@ -67,11 +68,15 @@ const routes: Routes = [
   { path: 'devisType', component: DevisTypeComponent },
   { path: 'signin', component: SignInComponent },
   { path: 'signup', component: SignUpComponent },
-  { path: 'create', component: CreateSinComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_USER'] } },
-  { path: 'track', component: HistorComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_USER'] } },
-  { path: 'sinisterdetails/:id', component: SinisterDetailsComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_USER'] } },
+
+
+
+  { path: 'create', component: CreateSinComponent},
+  { path: 'track', component: HistorComponent},
+  { path: 'sinisterdetails/:id', component: SinisterDetailsComponent},
+
   { path: 'sinister', component: SinisterComponent },
-  { path: 'admin', component: DashboardComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_ADMIN'] }, children: [
+  { path: 'admin', component: DashboardComponent,  children: [
     { path: 'sinister', component: SinisterADComponent },
     { path: 'sinister/create', component: SinistercreateComponent },
     { path: 'sinister/update/:id', component: SinisterupdateComponent },

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SinistersService, Sinister } from 'src/app/services/sinisters.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-archived',
@@ -9,8 +10,8 @@ import { SinistersService, Sinister } from 'src/app/services/sinisters.service';
 })
 export class ArchivedComponent {
   archivedSinisters: Sinister[] = [];
-
-  constructor(private sinistersService: SinistersService, private router: Router) {}
+  username: string = ''
+  constructor(private sinistersService: SinistersService, private router: Router, private userService: UserService) {}
 
   ngOnInit(): void {
     this.loadArchivedSinisters();
@@ -20,12 +21,24 @@ export class ArchivedComponent {
     this.sinistersService.getSinisters().subscribe({
       next: (data) => {
         this.archivedSinisters = data.filter(s => s.status.toUpperCase() === 'ARCHIVED');
+        this.archivedSinisters.forEach(sinister => {
+          this.userService.getUser(sinister.user).subscribe({
+            next: (userData) => {
+              // Replace the numeric user with the actual user's username
+              this.username = userData.firstName+' '+userData.lastName;
+            },
+            error: (error) => {
+              console.error('Error fetching user:', error);
+            }
+          });
+        });
       },
       error: (error) => {
         console.error('Error fetching archived sinisters:', error);
       }
     });
   }
+  
 
   unarchiveSinister(id: number) {
     this.sinistersService.toggleArchiveSinister(id).subscribe({

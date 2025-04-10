@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SinistersService, Sinister, SinisterDetail } from 'src/app/services/sinisters.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-sinisterdisplay',
@@ -14,7 +15,8 @@ export class SinisterdisplayComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private sinistersService: SinistersService
+    private sinistersService: SinistersService,
+    private userService: UserService
   ) {}
 
   ngOnInit() {
@@ -47,14 +49,22 @@ export class SinisterdisplayComponent {
   updateSinisterStatus(newStatus: string) {
     const id = this.sinister.id;
     if (id) {
-      this.sinister.status = newStatus;
-      this.sinistersService.updateSinister(id, this.sinister).subscribe({
-        next: (updatedSinister) => {
-          this.sinister = updatedSinister;
-          this.loadSinisterDetails(id); // Reload details after update
+      this.userService.getUser(this.sinister.user).subscribe({
+        next: (userData) => {
+          this.sinister.status = newStatus;
+          // Assuming userData contains the email property required by the backend
+          this.sinistersService.updateSinister(id, this.sinister.user, userData.email, this.sinister).subscribe({
+            next: (updatedSinister) => {
+              this.sinister = updatedSinister;
+              this.loadSinisterDetails(id);
+            },
+            error: (error) => {
+              console.error('Error updating sinister:', error);
+            }
+          });
         },
         error: (error) => {
-          console.error('Error updating sinister:', error);
+          console.error('Error fetching user:', error);
         }
       });
     }

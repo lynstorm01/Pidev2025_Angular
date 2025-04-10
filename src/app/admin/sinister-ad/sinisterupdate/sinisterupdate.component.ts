@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SinistersService, Sinister } from 'src/app/services/sinisters.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-sinisterupdate',
@@ -24,7 +25,8 @@ export class SinisterupdateComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private sinistersService: SinistersService
+    private sinistersService: SinistersService,
+    private userService: UserService
   ) {}
 
   ngOnInit() {
@@ -58,16 +60,25 @@ export class SinisterupdateComponent implements OnInit {
       };
   
       console.log("Sending update request:", updatedSinister); // ✅ Debugging log
-  
-      this.sinistersService.updateSinister(this.sinister.id, updatedSinister).subscribe({
-        next: () => {
-          this.router.navigate(['/admin/sinister']);
+      this.userService.getUser(this.sinister.user).subscribe({
+        next: (userData) => {
+          this.sinistersService.updateSinister(this.sinister.id,this.sinister.user, userData.email, updatedSinister
+            
+          ).subscribe({
+            next: () => {
+              this.router.navigate(['/admin/sinister']);
+            },
+            error: (error) => {
+              console.error("Error updating sinister:", error);
+              alert("Failed to update sinister. Please check your inputs.");
+            }
+          });
         },
         error: (error) => {
-          console.error("Error updating sinister:", error);
-          alert("Failed to update sinister. Please check your inputs.");
+          console.error('Error fetching user:', error);
         }
       });
+      
     }
   }
   
