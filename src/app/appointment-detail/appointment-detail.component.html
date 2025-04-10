@@ -1,0 +1,23 @@
+<link rel="stylesheet" href="/assets/css/style55.css">
+
+<div *ngIf="loading" class="appointment-details-container">
+  <p class="loading-message">Chargement des détails du rendez-vous...</p>
+</div>
+  
+<div *ngIf="!loading && appointment; else errorTpl" class="appointment-details-container">
+  <h2>Détails du Rendez-vous</h2>
+  <p><strong>Description :</strong> {{ appointment.description }}</p>
+  <p><strong>Date :</strong> {{ appointment.dateSubmitted | date:'short' }}</p>
+  <p>
+    <strong>Status :</strong>
+    <span [ngClass]="{'pending': appointment.status === 'PENDING', 'confirmed': appointment.status === 'CONFIRMED', 'canceled': appointment.status === 'CANCELED'}">
+      {{ appointment.status }}
+    </span>
+  </p>
+  <!-- Ajoutez d'autres informations selon vos besoins -->
+   
+</div>
+  
+<ng-template #errorTpl>
+  <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+</ng-template>

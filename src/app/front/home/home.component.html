@@ -124,7 +124,7 @@
           <p class="card-text">Compare in just a few clicks</p>
           <p class="card-text">Quick and secure subscription</p>
       
-          <a href="#" class="btn-link">
+          <a routerLink="/devisType" class="btn-link">
             <span class="span">Quotation</span>
           
           </a>
@@ -151,23 +151,20 @@
       
       <li>
         <div class="collection-card has-before hover:shine">
-        <br><br><br>
-
-          <h2 class="h2 card-title">Claims Reporting</h2>
-        
-          <p class="card-text">Manage your contracts online</p>
-        
-          <p class="card-text">Access your documents</p>
-        
-          <p class="card-text">Make payments securely</p>
-      
-          <a href="#" class="btn-link">
-            <span class="span">Claims Reporting</span>
-
+          <br><br><br>
+          <h2 class="h2 card-title">Add a Claim</h2>
+          <p class="card-text">Manage your claims online</p>
+          <p class="card-text">Fast, simple, and secure processing</p> <!-- New slogan -->
+          <p class="card-text">Your satisfaction is our priority</p> <!-- New slogan -->
+          <!-- Replacing href="#" with [routerLink] -->
+          <a routerLink="/claim/add" class="btn-link">
+            <span class="span">Add a Claim</span>
           </a>
           <div class="has-bg-image" style="background-image: url('assets/images/rr.jpg')"></div>
         </div>
       </li>
+      
+      
       
       <li>
         <div class="collection-card has-before hover:shine">
@@ -799,3 +796,57 @@
 
     </article>
   </main>
+<!-- CHATBOT COMPONENT -->
+<div class="chatbot-container" *ngIf="isChatOpen">
+  <div class="chatbot-header">
+    <span>Chat with Us</span>
+    <button class="chatbot-toggle-btn" (click)="toggleChat()">−</button>
+  </div>
+
+  <div class="chatbot-body">
+
+
+
+    <div class="chatbot-messages" #chatMessages >
+      <div
+        *ngFor="let msg of messages; trackBy: trackByIndex"
+        class="message-wrapper"
+        [ngClass]="msg.sender"
+      >
+        <ng-container *ngIf="msg.sender === 'user'">
+          <div class="message-content user">
+            <div class="message-text">{{ msg.text }}</div>
+            <img src="assets/images/user.jpg" class="avatar" alt="User" />
+          </div>
+        </ng-container>
+    
+        <ng-container *ngIf="msg.sender === 'bot'">
+          <div class="message-content bot">
+            <img src="assets/images/chatbot.jpg" class="avatar" alt="Bot" />
+            <div class="message-text">{{ msg.text }}</div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    
+
+    
+    
+    
+
+    <div class="chatbot-input-area">
+      <input
+        type="text"
+        [(ngModel)]="newMessage"
+        [disabled]="loading"
+        (keydown.enter)="sendMessage()"
+        placeholder="Type your message..."
+      />
+      <button (click)="sendMessage()" [disabled]="loading">Send</button>
+    </div>
+  </div>
+</div>
+
+<button class="chatbot-float-btn" *ngIf="!isChatOpen" (click)="toggleChat()">
+  💬
+</button>
