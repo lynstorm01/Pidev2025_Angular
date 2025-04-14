@@ -13,6 +13,8 @@ export interface Post {
   nbr_like?: number;         // Optional properties
   nbr_dislike?: number;     
   category: CategoryType;  // Use the CategoryType enum for the category field
+  mediaPath: string;  // Use the CategoryType enum for the category field
+  mediaType: string;  // Use the CategoryType enum for the category field
   userId: number;
   username:string;  // Assuming you need userId for linking the post to a user
   status: StatusType;

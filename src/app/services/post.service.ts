@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +43,19 @@ export class PostService {
   // Method to fetch comments by post ID
   getCommentsByPost(postId: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/${postId}/comments`);
+  }
+
+  getImageUrl(filename: string): string {
+    return `${this.baseUrl}/images/${filename}`;
+  }
+
+  // Optional: If you need to verify image existence
+  checkImageExists(filename: string): Observable<boolean> {
+    return this.http.head(`${this.baseUrl}/images/${filename}`, { observe: 'response' })
+      .pipe(
+        map(response => response.status === 200),
+        catchError(() => of(false))
+      );
   }
 }
 
