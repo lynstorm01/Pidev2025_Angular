@@ -21,3 +21,29 @@ Each feature is developed in angular and in its own branch:
 - `post` – Community forum & user posts
 - `payment` – Online payments and transaction history
 - `consulting` – Schedule consultations and expert services
+##📦Install & Run the Frontend
+Download the project 
+Extract
+open with editor like vs code 
+In terminal run npm install
+Then ng s
+The frontend server will typically run at: http://localhost:8080
+
+##🧪 Usage Instructions
+Once both servers are running:
+
+🔐 Authentication: Register or log in via the frontend interface.
+
+🧾 Claims (Sinistre): Create or manage insurance claims.
+
+📜 Contracts: View or manage insurance contracts.
+
+🧑‍💻 Chatbot: Access the AI assistant for help and navigation.
+
+📷 Damage Detection: Upload car photos and get AI predictions.
+
+📅 Appointments & Consulting: Book meetings with agents or consultants.
+
+🧑‍🤝‍🧑 Forum: Engage with other users via posts and discussions.
+
+💸 Payments: Simulate and view payment transactions.
