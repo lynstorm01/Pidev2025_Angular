@@ -13,7 +13,7 @@ This is a major upgrade of the Maghrebeya website to deliver a modern, AI-powere
 
 ## 🗂️ Keys (Branches)
 
-Each feature is developed in its own branch:
+Each feature is developed in angular and in its own branch:
 - `sinistre` – Manage claims and incident reports
 - `contract` – Manage user insurance contracts
 - `appointments` – Book and manage appointments
