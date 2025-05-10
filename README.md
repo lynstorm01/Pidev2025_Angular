@@ -22,12 +22,12 @@ Each feature is developed in angular and in its own branch:
 - `payment` – Online payments and transaction history
 - `consulting` – Schedule consultations and expert services
 ## 📦Install & Run the Frontend
-Download the project 
-Extract
-open with editor like vs code 
-In terminal run npm install
-Then ng s
-The frontend server will typically run at: http://localhost:8080
+- Download the project 
+- Extract
+- open with editor like vs code 
+- In terminal run npm install
+- Then ng s
+- The frontend server will typically run at: http://localhost:8080
 
 ## 🧪 Usage Instructions
 Once both servers are running:
